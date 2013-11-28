@@ -59,6 +59,7 @@ echo <<<HTML
 	 | <a href="?page=contexts">Contexts</a>
 	 | <a href="?page=screenshots">Screenshots</a>
 	 | <a href="?page=import">Import</a>
+	 | <a href="?page=help">Help</a>
 </div>
 <hr />
 HTML;
@@ -68,13 +69,17 @@ switch ($page) {
 	case 'contexts':
 	case 'screenshots':
 	case 'import':
-	case 'strings':
 	case 'translate':
 		include "pages/" . $page . ".php";
 		break;
 
+	case 'strings':
 	case null:
-		echo file_get_contents("pages/home.html");
+		include "pages/strings.php";
+		break;
+
+	case 'help':
+		echo file_get_contents("pages/help.html");
 		break;
 
 	default:
