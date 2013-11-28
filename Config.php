@@ -49,17 +49,13 @@ class Config extends DbAdapter {
 
 	protected function onUpgrade($oldVersion, $newVersion) {
 		if ($oldVersion < 1) {
-			try {
-				$statement = "CREATE TABLE " . DbAdapter::getTable(DbAdapter::TABLE_CONFIG)
-					. "( id INT(11) NOT NULL AUTO_INCREMENT"
-					. ", name VARCHAR(50) NOT NULL"
-					. ", value VARCHAR(250) NOT NULL"
-					. ", PRIMARY KEY (id)"
-					. ") ENGINE=MyISAM DEFAULT CHARSET=UTF8;";
-				$this->pdo->exec($statement);
-			} catch (PDOException $e) {
-				L("Unable to create table: ".DbAdapter::getTable(DbAdapter::TABLE_CONFIG), $e);
-			}
+			$statement = "CREATE TABLE " . DbAdapter::getTable(DbAdapter::TABLE_CONFIG)
+				. "( id INT(11) NOT NULL AUTO_INCREMENT"
+				. ", name VARCHAR(50) NOT NULL"
+				. ", value VARCHAR(250) NOT NULL"
+				. ", PRIMARY KEY (id)"
+				. ") ENGINE=MyISAM DEFAULT CHARSET=UTF8;";
+			$this->createTable($statement);
 		}
 	}
 }

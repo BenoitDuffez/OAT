@@ -24,14 +24,10 @@ class ContextDbAdapter extends DbAdapter {
 
 	protected function onUpgrade($oldVersion, $newVersion) {
 		if ($oldVersion < 1) {
-			try {
-				$statement  = "CREATE TABLE " . DbAdapter::getTable(DbAdapter::TABLE_CONTEXTS);
-				$statement .= " ( id INT(11) NOT NULL AUTO_INCREMENT" . ", name VARCHAR(50) NOT NULL" . ", PRIMARY KEY (id)" . ")";
-				$statement .= " ENGINE=MyISAM DEFAULT CHARSET=UTF8;";
-				$this->pdo->exec($statement);
-			} catch (PDOException $e) {
-				L("Unable to create table: ", $e);
-			}
+			$statement  = "CREATE TABLE " . DbAdapter::getTable(DbAdapter::TABLE_CONTEXTS);
+			$statement .= " ( id INT(11) NOT NULL AUTO_INCREMENT" . ", name VARCHAR(50) NOT NULL" . ", PRIMARY KEY (id)" . ")";
+			$statement .= " ENGINE=MyISAM DEFAULT CHARSET=UTF8;";
+			$this->createTable($statement);
 		}
 	}
 

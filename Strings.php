@@ -23,11 +23,7 @@ CREATE TABLE IF NOT EXISTS `oat_strings` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 SQL;
 
-			try {
-				$handle = $this->pdo->exec($statement);
-			} catch (PDOException $e) {
-				L("Unable to create strings table", $e);
-			}
+			$this->createTable($statement);
 		}
 	}
 

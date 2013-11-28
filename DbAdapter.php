@@ -29,7 +29,7 @@ abstract class DbAdapter {
 	protected function createTable($statement) {
 		$sql = str_replace("table", $this->tableName, $statement);	
 		try {
-			$handle = $this->pdo->exec($sql);
+			$this->pdo->exec($sql);
 		} catch (PDOException $e) {
 			L("Unable to create strings table", $e);
 		}
