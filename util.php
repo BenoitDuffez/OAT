@@ -1,7 +1,12 @@
 <?php
 
 function L($msg, $exception = null) {
-	echo "<div>$msg<br />Exception: " . print_r($exception, true) . "</div>";
+	echo "<div class=\"error\">Message: $msg";
+	echo "<br/>Stack trace:<ul>";
+	foreach (debug_backtrace() as $k => $v) {
+		echo "<li>$k: ". $v['file'].":".$v['line']."<br />";
+	}
+	echo "<br/>Exception: " . print_r($exception, true) . "</div>";
 }
 
 function utf8_fopen_read($fileName, $encoding) {
