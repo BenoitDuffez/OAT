@@ -30,5 +30,46 @@ SQL;
 			}
 		}
 	}
+
+	public function getLangs() {
+		try {
+			$handle = $this->pdo->prepare("SELECT lang FROM ". DbAdapter::getTable(DbAdapter::TABLE_STRINGS)." GROUP BY lang");
+			$handle->execute();
+			return $handle->fetchAll();
+		} catch (PDOException $e) {
+			L("Unable to retrieve available langs", $e);
+		}
+		return null;
+	}
+
+	public function saveAll($strings) {
+		global $_POST;
+
+		//insert into $table (field, value) values (:name, :value) on duplicate key update value=:value2
+		$statement  = "INSERT INTO ". DbAdapter::getTable(DbAdapter::TABLE_STRINGS)." (lang, name, text, formatted, date_created, date_updated) VALUES (?, ?, ?, ?, ?, ?)";
+		$statement .= " ON DUPLICATE KEY UPDATE name = ?, text = ?, formatted = ?, date_created = ?, date_updated = ?";
+
+		try {
+			$handle = $this->pdo->prepare($statement);
+			foreach ($strings as $string) {
+				$i = 1;
+				$handle->bindValue($i++, $_POST['language']);
+				$handle->bindValue($i++, $string['name']);
+				$handle->bindValue($i++, $string['text']);
+				$handle->bindValue($i++, $string['formatted']);
+				$handle->bindValue($i++, "now()");
+				$handle->bindValue($i++, "now()");
+				$handle->bindValue($i++, $string['name']);
+				$handle->bindValue($i++, $string['text']);
+				$handle->bindValue($i++, $string['formatted']);
+				$handle->bindValue($i++, "now()");
+				$handle->bindValue($i++, "now()");
+
+				$handle->execute();
+			}
+		} catch (PDOException $e) {
+			L("Unable to batch save strings!", $e);
+		}
+	}
 }
 

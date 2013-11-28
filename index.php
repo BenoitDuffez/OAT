@@ -46,10 +46,11 @@ $cfg = new Config($pdo);
 // Write page contents
 echo <<<HTML
 <div>
-	<a href=\".\">Home</a>
-	 | <a href=\"?page=contexts\">Contexts</a>
-	 | <a href=\"?page=screenshots\">Screenshots</a>
-	 | <a href=\"?page=import\">Import</a>
+	<a href=".">Home</a>
+	 | <a href="?page=strings">Strings</a>
+	 | <a href="?page=contexts">Contexts</a>
+	 | <a href="?page=screenshots">Screenshots</a>
+	 | <a href="?page=import">Import</a>
 </div>
 <hr />
 HTML;
@@ -59,6 +60,7 @@ switch ($page) {
 	case 'contexts':
 	case 'screenshots':
 	case 'import':
+	case 'strings':
 		include "pages/".$page.".php";
 		break;
 

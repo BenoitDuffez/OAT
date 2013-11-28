@@ -31,20 +31,40 @@ if (isset($_FILES['xmlimport'])) {
 		}
 		fclose($file);
 
-		$strings = simplexml_load_string($xml);
-		foreach ($strings as $string) {
+		$lang = $_POST['language'];
+		$xmlStrings = simplexml_load_string($xml);
+		$strings = array();
+		foreach ($xmlStrings as $string) {
+			$formatted = true;
+			$name = null;
+			$text = null;
+
 			echo "<ul>";
 			foreach ($string->attributes() as $attribute => $value) {
+				if ($attribute == 'formatted') {
+					$formatted = $value == 'true';
+				} else if ($attribute == 'name') {
+					$name = $value;
+				} else {
+					L("Unhandled attribute for string: $attribute; value=$value");
+				}
+
 				echo "<li>$attribute = $value</li>";
 			}
-			$rawData = preg_replace(array("#<string[^>]*>#", "#(</string>)#"), '', (string) $string->asXml());
-			echo "<li><textarea rows=5 cols=50>$rawData</textarea></li>";
+			$text = preg_replace(array("#<string[^>]*>#", "#(</string>)#"), '', (string) $string->asXml());
+			echo "<li><textarea rows=5 cols=50>$text</textarea></li>";
 			echo "</ul><hr />";
+
+			$strings[] = array('formatted' => $formatted, 'name' => $name, 'text' => $text);
 		}
+
+global $pdo;
+		$db = new StringsDbAdapter($pdo);
+		$db->saveAll($strings);
 	}
 }
 echo <<<HTML
-<form method="post" action="/OAT/" enctype="multipart/form-data">
+<form method="post" action="?page=import" enctype="multipart/form-data">
 XML file to import: <input type="file" name="xmlimport" />
 <select name="language">
 HTML;
@@ -53,6 +73,7 @@ foreach ($languages as $code => $name) {
 }
 echo <<<HTML
 </select>
+<input type="submit" value="Import XML" />
 </forum>
 HTML;
 
