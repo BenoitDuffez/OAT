@@ -31,6 +31,7 @@ include "DbAdapter.php";
 include "Config.php";
 include "Context.php";
 include "Strings.php";
+include "Screenshots.php";
 
 // Init DB connection
 try {
