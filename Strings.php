@@ -29,7 +29,7 @@ SQL;
 
 	public function getLangs() {
 		try {
-			$handle = $this->pdo->prepare("SELECT lang FROM " . DbAdapter::getTable(DbAdapter::TABLE_STRINGS) . " GROUP BY lang");
+			$handle = $this->pdo->prepare("SELECT lang, COUNT(*) as nb FROM " . DbAdapter::getTable(DbAdapter::TABLE_STRINGS) . " GROUP BY lang");
 			$handle->execute();
 			return $handle->fetchAll();
 		} catch (PDOException $e) {
