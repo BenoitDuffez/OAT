@@ -15,19 +15,23 @@ class Context {
 	}
 }
 
-class ContextDbAdapter {
-	private $pdo;
+class ContextDbAdapter extends DbAdapter {
+	const DB_VERSION = 1;
 
-	public function __construct(PDO $pdo, $db_version) {
-		$this->pdo = $pdo;
+	public function __construct(PDO $pdo) {
+		parent::__construct($pdo, DbAdapter::TABLE_CONTEXTS, ContextDbAdapter::DB_VERSION);
 	}
 
-	public function install() {
-		try {
-			$statement = "CREATE TABLE " . DbAdapter::getTable(DbAdapter::TABLE_CONTEXTS) . "( id INT(11) NOT NULL AUTO_INCREMENT" . ", name VARCHAR(50) NOT NULL" . ", PRIMARY KEY (id)" . ") ENGINE=MyISAM DEFAULT CHARSET=UTF8;";
-			$this->pdo->exec($statement);
-		} catch (PDOException $e) {
-			L("Unable to create config table: " . $e->getMessage());
+	protected function onUpgrade($oldVersion, $newVersion) {
+		if ($oldVersion < 1) {
+			try {
+				$statement  = "CREATE TABLE " . DbAdapter::getTable(DbAdapter::TABLE_CONTEXTS);
+				$statement .= " ( id INT(11) NOT NULL AUTO_INCREMENT" . ", name VARCHAR(50) NOT NULL" . ", PRIMARY KEY (id)" . ")";
+				$statement .= " ENGINE=MyISAM DEFAULT CHARSET=UTF8;";
+				$this->pdo->exec($statement);
+			} catch (PDOException $e) {
+				L("Unable to create table: ", $e);
+			}
 		}
 	}
 

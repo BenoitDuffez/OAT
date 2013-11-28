@@ -5,12 +5,11 @@
  * Time: 22:34
  */
 
-class Config {
-	private $pdo;
-	const DB_VERSION = "db_version";
+class Config extends DbAdapter {
+	const DB_VERSION = 1;
 
 	public function __construct(PDO $pdo) {
-		$this->pdo = $pdo;
+		parent::__construct($pdo, DbAdapter::TABLE_CONFIG, Config::DB_VERSION);
 	}
 
 	public function get($key) {
@@ -48,18 +47,19 @@ class Config {
 		}
 	}
 
-	public function install() {
-		try {
-			$statement = "CREATE TABLE " . DbAdapter::getTable(DbAdapter::TABLE_CONFIG)
-				. "( id INT(11) NOT NULL AUTO_INCREMENT"
-				. ", name VARCHAR(50) NOT NULL"
-				. ", value VARCHAR(250) NOT NULL"
-				. ", PRIMARY KEY (id)"
-				. ") ENGINE=MyISAM DEFAULT CHARSET=UTF8;";
-			$this->pdo->exec($statement);
-			$this->set(Config::DB_VERSION, 1);
-		} catch (PDOException $e) {
-			L("Unable to create config table: " . $e->getMessage());
+	protected function onUpgrade($oldVersion, $newVersion) {
+		if ($oldVersion < 1) {
+			try {
+				$statement = "CREATE TABLE " . DbAdapter::getTable(DbAdapter::TABLE_CONFIG)
+					. "( id INT(11) NOT NULL AUTO_INCREMENT"
+					. ", name VARCHAR(50) NOT NULL"
+					. ", value VARCHAR(250) NOT NULL"
+					. ", PRIMARY KEY (id)"
+					. ") ENGINE=MyISAM DEFAULT CHARSET=UTF8;";
+				$this->pdo->exec($statement);
+			} catch (PDOException $e) {
+				L("Unable to create table: ".DbAdapter::getTable(DbAdapter::TABLE_CONFIG), $e);
+			}
 		}
 	}
 }
