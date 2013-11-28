@@ -54,7 +54,6 @@ $cfg = new Config($pdo);
 echo <<<HTML
 <div>
 	<a href=".">Home</a>
-	 | <a href="?page=strings">Strings</a>
 	 | <a href="?page=translate">Translate</a>
 	 | <a href="?page=contexts">Contexts</a>
 	 | <a href="?page=screenshots">Screenshots</a>
