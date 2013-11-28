@@ -9,6 +9,11 @@
 	div.warning {
 		border: 1px dashed #CCC;
 	}
+
+	img.screenshot {
+		max-width: 250px;
+		height: auto;
+	}
 </style>
 <?php
 

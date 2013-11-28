@@ -25,6 +25,21 @@ class ScreenshotsDbAdapter extends DbAdapter {
 		return false;
 	}
 
+	public function getAll() {
+		try {
+			$sql  = "SELECT s.*, c.name as context";
+			$sql .= " FROM " . $this->getTable(DbAdapter::TABLE_SCREENSHOTS) . " s, " . $this->getTable(DbAdapter::TABLE_CONTEXTS) . " c";
+			$sql .= " WHERE c.id = s.context_id";
+			$sql .= " ORDER BY s.context_id ASC";
+			$handle = $this->pdo->prepare($sql);
+			$handle->execute();
+			return $handle->fetchAll();
+		} catch(PDOException $e){
+			L("Unable retrieve all screenshots", $e);
+		}
+		return null;
+	}
+
 	protected function onUpgrade($oldVersion, $newVersion) {
 		if ($oldVersion < 1) {
 			$statement = <<<SQL

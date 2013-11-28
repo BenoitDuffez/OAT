@@ -16,6 +16,8 @@ if (isset($_FILES['screenshot'])) {
 			move_uploaded_file($_FILES['screenshot']['tmp_name'], $destination);
 			if (!$db->add($_FILES['screenshot']['name'], $_POST['screenshot_context'])) {
 				unlink($destination);
+			} else {
+				echo "<p>Screenshot added</p>";
 			}
 			break;
 
@@ -41,3 +43,15 @@ HTML;
 	echo "<div>Before you can upload screenshots, you must create a context.</p>";
 }
 
+$screens = $db->getAll();
+$prevContext = -1;
+foreach ($screens as $screen) {
+	if ($prevContext != $screen['context_id']) {
+		if ($prevContext > 0) {
+			echo '</div>';
+		}
+		echo "<div><p>Screenshots related to <b>" . $screen['context'] . "</b></p>";
+	}
+	$prevContext = $screen['context_id'];
+	echo '<p><img class="screenshot" src="./screenshots/' . $screen['name'] . '" /></p>';
+}
