@@ -74,7 +74,7 @@ switch ($page) {
 		break;
 
 	case null:
-		echo "<div>Oh, hai!</div>";
+		echo file_get_contents("pages/home.html");
 		break;
 
 	default:
