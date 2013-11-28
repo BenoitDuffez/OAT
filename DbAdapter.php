@@ -2,6 +2,7 @@
 
 abstract class DbAdapter {
 	protected $pdo;
+	private $tableName;
 
 	const TABLE_CONFIG = "config";
 	const TABLE_CONTEXTS = "contexts";
@@ -16,11 +17,21 @@ abstract class DbAdapter {
 
 	public function __construct(PDO $pdo, $table, $version) {
 		$this->pdo = $pdo;
+		$this->tableName = $this->getTable($table);
 
 		$currentVersion = 0 + $this->getDbVersion($table);
 		if ($currentVersion < $version) {
 			$this->onUpgrade($currentVersion, $version);
 			$this->setDbVersion($table, $version);
+		}
+	}
+
+	protected function createTable($statement) {
+		$sql = str_replace("table", $this->tableName, $statement);	
+		try {
+			$handle = $this->pdo->exec($sql);
+		} catch (PDOException $e) {
+			L("Unable to create strings table", $e);
 		}
 	}
 
