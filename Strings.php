@@ -53,7 +53,7 @@ SQL;
 				$handle->bindValue($i++, $string['name']);
 				$handle->bindValue($i++, $string['text']);
 				$handle->bindValue($i++, $string['formatted']);
-				$handle->bindValue($i++, "now()");
+				$handle->bindValue($i++, "now()"); // TODO: doesn't work
 				$handle->bindValue($i++, "now()");
 				$handle->bindValue($i++, $string['name']);
 				$handle->bindValue($i++, $string['text']);
