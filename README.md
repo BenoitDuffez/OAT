@@ -12,6 +12,8 @@ It is aimed to do what others don't:
 
 It is not aimed to be pretty, nor with any professionnal support.
 
+Feel free to contribute. This is the goal of that tool.
+
 How does it work?
 -----------------
 
