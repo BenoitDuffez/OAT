@@ -5,6 +5,7 @@ abstract class DbAdapter {
 
 	const TABLE_CONFIG = "config";
 	const TABLE_CONTEXTS = "contexts";
+	const TABLE_STRINGS = "strings";
 
 	abstract protected function onUpgrade($oldVersion, $newVersion);
 
