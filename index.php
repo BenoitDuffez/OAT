@@ -100,7 +100,7 @@ if (isset($_FILES['xmlimport'])) {
 		}
 		fclose($file);
 
-		$strings = simplexml_load_string($xml);//, 'SimpleXMLElement', LIBXML_NOCDATA);//new SimpleXMLElement($xml);
+		$strings = simplexml_load_string($xml);
 		foreach ($strings as $string) {
 			echo "<ul>";
 			foreach ($string->attributes() as $attribute => $value) {
