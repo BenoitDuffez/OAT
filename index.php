@@ -32,11 +32,11 @@ include "lang.php";
 include "util.php";
 
 // Actual code that may need dumb includes
-include "DbAdapter.php";
-include "Config.php";
-include "Context.php";
-include "Strings.php";
-include "Screenshots.php";
+include "db/DbAdapter.php";
+include "db/Config.php";
+include "db/Context.php";
+include "db/Strings.php";
+include "db/Screenshots.php";
 
 // Init DB connection
 try {
