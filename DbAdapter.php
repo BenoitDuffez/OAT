@@ -15,7 +15,9 @@ abstract class DbAdapter {
 		return $_tprefix . $name;
 	}
 
-	public function __construct(PDO $pdo, $table, $version) {
+	public function __construct($table, $version) {
+		global $pdo;
+
 		$this->pdo = $pdo;
 		$this->tableName = $this->getTable($table);
 

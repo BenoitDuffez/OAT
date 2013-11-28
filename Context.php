@@ -18,8 +18,8 @@ class Context {
 class ContextDbAdapter extends DbAdapter {
 	const DB_VERSION = 1;
 
-	public function __construct(PDO $pdo) {
-		parent::__construct($pdo, DbAdapter::TABLE_CONTEXTS, ContextDbAdapter::DB_VERSION);
+	public function __construct() {
+		parent::__construct(DbAdapter::TABLE_CONTEXTS, ContextDbAdapter::DB_VERSION);
 	}
 
 	protected function onUpgrade($oldVersion, $newVersion) {
