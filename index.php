@@ -1,13 +1,14 @@
 <style>
-div.error {
-	background: #FAA;
-	border: 1px dashed red;
-	padding: 10px;
-	margin: 10px;
-}
-div.warning {
-	border: 1px dashed #CCC;
-}
+	div.error {
+		background: #FAA;
+		border: 1px dashed red;
+		padding: 10px;
+		margin: 10px;
+	}
+
+	div.warning {
+		border: 1px dashed #CCC;
+	}
 </style>
 <?php
 
@@ -61,7 +62,7 @@ switch ($page) {
 	case 'screenshots':
 	case 'import':
 	case 'strings':
-		include "pages/".$page.".php";
+		include "pages/" . $page . ".php";
 		break;
 
 	case null:

@@ -27,7 +27,7 @@ abstract class DbAdapter {
 	}
 
 	protected function createTable($statement) {
-		$sql = str_replace("table", $this->tableName, $statement);	
+		$sql = str_replace("table", $this->tableName, $statement);
 		try {
 			$this->pdo->exec($sql);
 		} catch (PDOException $e) {
@@ -35,32 +35,32 @@ abstract class DbAdapter {
 		}
 	}
 
-        public function getDbVersion($table) {
-                try {
-                        $handle = $this->pdo->prepare("SELECT value FROM " . DbAdapter::getTable(DbAdapter::TABLE_CONFIG). " WHERE name = ?");
-                        $handle->bindValue(1, $table."_db_version");
-                        $handle->execute();
-                        $result = $handle->fetch();
-                        return $result === false ? false : $result['value'];
-                } catch (PDOException $e) {
-                        L("Unable to retrieve DB version for $table", $e);
-                }
-                return null;
-        }
+	public function getDbVersion($table) {
+		try {
+			$handle = $this->pdo->prepare("SELECT value FROM " . DbAdapter::getTable(DbAdapter::TABLE_CONFIG) . " WHERE name = ?");
+			$handle->bindValue(1, $table . "_db_version");
+			$handle->execute();
+			$result = $handle->fetch();
+			return $result === false ? false : $result['value'];
+		} catch (PDOException $e) {
+			L("Unable to retrieve DB version for $table", $e);
+		}
+		return null;
+	}
 
-        public function setDbVersion($table, $version) {
-                try {
-                        $handle = $this->pdo->prepare("DELETE FROM " . DbAdapter::getTable(DbAdapter::TABLE_CONFIG) . " WHERE name = ?");
-                        $handle->bindValue(1, $table."_db_version");
-                        $handle->execute();
+	public function setDbVersion($table, $version) {
+		try {
+			$handle = $this->pdo->prepare("DELETE FROM " . DbAdapter::getTable(DbAdapter::TABLE_CONFIG) . " WHERE name = ?");
+			$handle->bindValue(1, $table . "_db_version");
+			$handle->execute();
 			$handle = $this->pdo->prepare("INSERT INTO " . DbAdapter::getTable(DbAdapter::TABLE_CONFIG) . " (name, value) VALUES (?, ?)");
-			$handle->bindValue(1, $table."_db_version");
+			$handle->bindValue(1, $table . "_db_version");
 			$handle->bindValue(2, $version);
 			$handle->execute();
-                } catch (PDOException $e) {
-                        L("Unable to set DB version to $version for $table", $e);
-                }
-                return null;
-        }
+		} catch (PDOException $e) {
+			L("Unable to set DB version to $version for $table", $e);
+		}
+		return null;
+	}
 }
 

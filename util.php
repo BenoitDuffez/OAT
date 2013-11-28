@@ -1,11 +1,11 @@
 <?php
 
 function L($msg, $exception = null) {
-	echo "<div class=\"".($exception == null ? "warning" : "error")."\">Message: $msg";
+	echo "<div class=\"" . ($exception == null ? "warning" : "error") . "\">Message: $msg";
 	if ($exception != null) {
 		echo "<br/>Stack trace:<ul>";
 		foreach (debug_backtrace() as $k => $v) {
-			echo "<li>$k: ". $v['file'].":".$v['line']."<br />";
+			echo "<li>$k: " . $v['file'] . ":" . $v['line'] . "<br />";
 		}
 		echo "<br/>Exception: " . $exception->getMessage();
 	}
