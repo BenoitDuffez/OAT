@@ -38,6 +38,33 @@ SQL;
 		return null;
 	}
 
+	public function getFirstLanguage() {
+		try {
+			$handle = $this->pdo->prepare("SELECT lang, COUNT(*) as n FROM " . DbAdapter::getTable(DbAdapter::TABLE_STRINGS) . " GROUP BY lang ORDER BY n DESC LIMIT 1");
+			$handle->execute();
+			return $handle->fetch()['lang'];
+		} catch (PDOException $e) {
+			L("Unable to retrieve best lang", $e);
+		}
+		return null;
+	}
+
+	public function getAll($lang) {
+		try {
+			$handle = $this->pdo->prepare("SELECT * FROM " . DbAdapter::getTable(DbAdapter::TABLE_STRINGS) . " WHERE lang = ?");
+			$handle->bindValue(1, $lang);
+			$handle->execute();
+			$strings = array();
+			foreach ($handle->fetchAll() as $item) {
+				$strings[$item['name']] = $item;
+			}
+			return $strings;
+		} catch (PDOException $e) {
+			L("Unable to retrieve strings for lang $lang", $e);
+		}
+		return null;
+	}
+
 	public function saveAll($strings) {
 		global $_POST;
 

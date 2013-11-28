@@ -7,6 +7,7 @@
 
 class Config extends DbAdapter {
 	const DB_VERSION = 1;
+	const DEFAULT_LANGUAGE = "default_language";
 
 	public function __construct() {
 		parent::__construct(DbAdapter::TABLE_CONFIG, Config::DB_VERSION);
@@ -45,6 +46,10 @@ class Config extends DbAdapter {
 		} catch (PDOException $e) {
 			L("Unable to set '$key'='$value': " . $e->getMessage());
 		}
+	}
+
+	public function getDefaultLanguage() {
+		return $this->get(Config::DEFAULT_LANGUAGE);
 	}
 
 	protected function onUpgrade($oldVersion, $newVersion) {

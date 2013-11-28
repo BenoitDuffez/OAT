@@ -1,6 +1,6 @@
 <?php
 
-$str = new StringsDbAdapter($pdo);
+$str = new StringsDbAdapter();
 
 echo "Languages:<br />";
 var_dump($str->getLangs());

@@ -58,8 +58,7 @@ if (isset($_FILES['xmlimport'])) {
 			$strings[] = array('formatted' => $formatted, 'name' => $name, 'text' => $text);
 		}
 
-global $pdo;
-		$db = new StringsDbAdapter($pdo);
+		$db = new StringsDbAdapter();
 		$db->saveAll($strings);
 	}
 }

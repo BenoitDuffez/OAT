@@ -1,7 +1,7 @@
 <?php
 
 // Context management
-$ctx = new ContextDbAdapter($pdo);
+$ctx = new ContextDbAdapter();
 $contexts = $ctx->loadAll();
 var_dump($contexts);
 
