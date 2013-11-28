@@ -6,7 +6,10 @@ function L($msg, $exception = null) {
 	foreach (debug_backtrace() as $k => $v) {
 		echo "<li>$k: ". $v['file'].":".$v['line']."<br />";
 	}
-	echo "<br/>Exception: " . $exception->getMessage() . "</div>";
+	if ($exception != null) {
+		echo "<br/>Exception: " . $exception->getMessage();
+	}
+	echo "</div>";
 }
 
 function utf8_fopen_read($fileName, $encoding) {
