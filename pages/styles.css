@@ -1,0 +1,51 @@
+div.error {
+	background: #FAA;
+	border: 1px dashed red;
+	padding: 10px;
+	margin: 10px;
+}
+
+div.warning {
+	border: 1px dashed #CCC;
+}
+
+img.screenshot {
+	max-width: 250px;
+	height: auto;
+}
+
+/* Generic pane rules */
+body{
+	margin: 0;
+}
+body, html, div#translator { height: 100%; }
+
+div#menu {
+	display: block;
+	width: 100%;
+	height: 5%;
+	background: #eee;
+}
+
+div#translator {
+	width: 100%;
+	height: 95%;
+}
+
+div#translator div#list_strings {
+	float: left;
+	width: 20%;
+        height: 100%;
+	overflow: scroll;
+}
+div#translator div#topForm {
+	float: left;
+	width: 80%;
+	height: 20%;
+}
+div#translator div#context {
+	float: right;
+	width: 80%;
+	height: 80%;
+	overflow: scroll;
+
