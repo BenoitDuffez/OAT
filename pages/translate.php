@@ -43,7 +43,32 @@ if (!isset($_GET['lang'])) {
 			}
 		}
 
+		echo '
+<div id="translator">
+	<div id="list_strings">
+		<h2>App strings</h2>
+		<ul>';
+		foreach ($defStrings as $k => $defString) {
+			echo '<li><a href="#">'.$defString['name'].'</a></li>';
+		}
 
+		echo '
+		</ul>
+	</div>
+	<div id="topForm">
+		<h2>Translation into '.$languages[$_GET['lang']].'</h2>
+		<textarea>fvkjdnfvkjnvfkjfn</textarea>
+	</div>
+	<div id="context">
+		<h2>String context</h2>
+        	<div class="scroll-x">
+        	   Here’s some content that can scroll vertically
+        	</div>
+		<div>Here should be listed the contexts and screenshots related to that string</div>
+';
+
+
+/*
 		echo '
 <form method="POST" action="' . $_SERVER['REQUEST_URI'] . '">
 <table style="border: 1px #CCC solid">
@@ -82,5 +107,12 @@ HTML;
 			$i++;
 		}
 		echo "</table></form>";
+*/
+
+		echo '
+	</div>';
 	}
+
+	echo '
+</div>'; // id=translator
 }

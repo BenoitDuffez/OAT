@@ -19,6 +19,42 @@ img.screenshot {
 	max-width: 250px;
 	height: auto;
 }
+
+/* Generic pane rules */
+body{
+	margin: 0;
+}
+body, html, div#translator { height: 100%; }
+
+div#menu {
+	display: block;
+	width: 100%;
+	height: 5%;
+	background: #eee;
+}
+
+div#translator {
+	width: 100%;
+	height: 95%;
+}
+
+div#translator div#list_strings {
+	float: left;
+	width: 20%;
+        height: 100%;
+	overflow: scroll;
+}
+div#translator div#topForm {
+	float: left;
+	width: 80%;
+	height: 20%;
+}
+div#translator div#context {
+	float: right;
+	width: 80%;
+	height: 80%;
+	overflow: scroll;
+}
 	</style>
 </head>
 <body>
@@ -59,7 +95,7 @@ $cfg = new Config($pdo);
 
 // Write page contents
 echo <<<HTML
-<div>
+<div id="menu">
 	<a href=".">Home</a>
 	 | <a href="?page=translate">Translate</a>
 	 | <a href="?page=contexts">Contexts</a>
@@ -67,7 +103,6 @@ echo <<<HTML
 	 | <a href="?page=import">Import</a>
 	 | <a href="?page=help">Help</a>
 </div>
-<hr />
 HTML;
 
 $page = isset($_GET['page']) ? $_GET['page'] : null;
