@@ -1,4 +1,6 @@
-screenshots/*
+screenshots/*.png
+screenshots/*.jpg
+screenshots/*.jpeg
 .idea
 config.db.php
 **/*.swp
