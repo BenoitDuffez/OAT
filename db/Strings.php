@@ -31,7 +31,11 @@ SQL;
 		try {
 			$handle = $this->pdo->prepare("SELECT lang, COUNT(*) as nb FROM " . DbAdapter::getTable(DbAdapter::TABLE_STRINGS) . " GROUP BY lang");
 			$handle->execute();
-			return $handle->fetchAll();
+			$langs = array();
+			foreach ($handle->fetchAll() as $lang) {
+				$langs[$lang['lang']] = $lang;
+			}
+			return $langs;
 		} catch (PDOException $e) {
 			L("Unable to retrieve available langs", $e);
 		}
