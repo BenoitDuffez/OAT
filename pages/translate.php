@@ -21,8 +21,29 @@ if (!isset($_GET['lang'])) {
 	if ($defaultLanguage == null) {
 		echo "<p>Please import strings first</p>";
 	} else {
-		$defStrings = $db->getAll($defaultLanguage);
-		$strings = $db->getAll($_GET['lang']);
+		$nb = $db->getNbStrings($_GET['lang']);
+
+		$rawDefStrings = $db->getAll($defaultLanguage);
+		$rawStrings = $db->getAll($_GET['lang']);
+
+		$strings = array();
+		$defStrings = array();
+		// Get all empty in target language first
+		foreach ($rawDefStrings as $k => $rawDefString) {
+			if (!isset($rawStrings[$k]) || strlen(trim($rawStrings[$k]['text'])) == 0) {
+				$strings[] = "";
+				$defStrings[] = $rawDefStrings[$k];
+			}
+		}
+		// Then add others
+		foreach ($rawDefStrings as $k => $rawDefString) {
+			if (isset($rawStrings[$k]) && strlen(trim($rawStrings[$k]['text'])) > 0) {
+				$strings[] = $rawStrings[$k];
+				$defStrings[] = $rawDefStrings[$k];
+			}
+		}
+
+
 		echo '
 <form method="POST" action="' . $_SERVER['REQUEST_URI'] . '">
 <table style="border: 1px #CCC solid">
@@ -42,15 +63,23 @@ HTML;
 	</tr>
 HTML;
 
+		$i = 0;
 		foreach ($defStrings as $k => $defString) {
 			echo "<tr>";
 			echo "<td>" . $defString['name'] . "</td>";
 			echo "<td><textarea cols=\"50\" rows=\"5\">" . $defString['text'] . "</textarea></td>";
-			$trString = isset($strings[$defString['name']]) ? $strings[$defString['name']]['text'] : "";
+			if (is_string($strings[$i])) {
+				$trString = $strings[$i];
+				$checked = "checked";
+			} else {
+				$trString = $strings[$i]['text'];
+				$checked = $defString['formatted'] ? "checked" : "";
+			}
 			echo "<td><textarea cols=\"50\" rows=\"5\">" . $trString . "</textarea></td>";
-			$checked = $defString['formatted'] ? "checked" : "";
-			echo "<td><input type=\"checkbox\" name=\"formatted_" . $k . "\" " . $checked . "/></td>";
+			echo "<td><input type=\"checkbox\" name=\"formatted_" . $defString['name'] . "\" " . $checked . "/></td>";
 			echo "</tr>";
+
+			$i++;
 		}
 		echo "</table></form>";
 	}

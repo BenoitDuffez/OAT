@@ -42,6 +42,19 @@ SQL;
 		return null;
 	}
 
+	public function getNbStrings($lang) {
+		try {
+			$handle = $this->pdo->prepare("SELECT COUNT(*) as nb FROM " . DbAdapter::getTable(DbAdapter::TABLE_STRINGS) . " WHERE lang = ?");
+			$handle->bindValue(1, $lang);
+			$handle->execute();
+			$result = $handle->fetch();
+			return $result['nb'];
+		} catch (PDOException $e) {
+			L("Unable to retrieve available langs", $e);
+		}
+		return 0;
+	}
+
 	public function getFirstLanguage() {
 		try {
 			$handle = $this->pdo->prepare("SELECT lang, COUNT(*) as n FROM " . DbAdapter::getTable(DbAdapter::TABLE_STRINGS) . " GROUP BY lang ORDER BY n DESC LIMIT 1");
@@ -55,7 +68,7 @@ SQL;
 
 	public function getAll($lang) {
 		try {
-			$handle = $this->pdo->prepare("SELECT * FROM " . DbAdapter::getTable(DbAdapter::TABLE_STRINGS) . " WHERE lang = ?");
+			$handle = $this->pdo->prepare("SELECT * FROM " . DbAdapter::getTable(DbAdapter::TABLE_STRINGS) . " WHERE lang = ? ORDER BY id ASC");
 			$handle->bindValue(1, $lang);
 			$handle->execute();
 			$strings = array();
