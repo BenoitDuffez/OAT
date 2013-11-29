@@ -1,20 +1,27 @@
-<style>
-	div.error {
-		background: #FAA;
-		border: 1px dashed red;
-		padding: 10px;
-		margin: 10px;
-	}
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml">
 
-	div.warning {
-		border: 1px dashed #CCC;
-	}
+<head>
+	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+	<style>
+div.error {
+	background: #FAA;
+	border: 1px dashed red;
+	padding: 10px;
+	margin: 10px;
+}
 
-	img.screenshot {
-		max-width: 250px;
-		height: auto;
-	}
-</style>
+div.warning {
+	border: 1px dashed #CCC;
+}
+
+img.screenshot {
+	max-width: 250px;
+	height: auto;
+}
+	</style>
+</head>
+<body>
 <?php
 
 error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
