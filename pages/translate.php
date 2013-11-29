@@ -17,9 +17,6 @@ if (!isset($_GET['lang'])) {
 	$db = new StringsDbAdapter();
 
 	$defaultLanguage = $config->getDefaultLanguage();
-	if ($defaultLanguage == null) {
-		$defaultLanguage = $db->getFirstLanguage();
-	}
 
 	if ($defaultLanguage == null) {
 		echo "<p>Please import strings first</p>";
