@@ -1,26 +1,21 @@
 <?php
 
 $str = new StringsDbAdapter();
+$cfg = new Config();
 
-echo "<div>Available languages: ";
+echo "<div>Development language: ".$languages[$cfg->getDefaultLanguage()]."</div>";
+echo "<ul>Available languages: ";
 $langs = $str->getLangs();
-$first = true;
+$max = $langs[$cfg->getDefaultLanguage()]['nb'];
 foreach ($langs as $lang) {
-	if ($first) {
-		$first = false;
-	} else {
-		echo " | ";
+	echo "<li><a href=\"?page=translate&lang=" . $lang['lang'] . "\">";
+	echo $languages[$lang['lang']];
+	echo "</a>";
+	if ($lang['lang'] == $cfg->getDefaultLanguage()) {
+		echo " *";
 	}
-	echo "<a href=\"?lang=" . $lang['lang'] . "\">" . $languages[$lang['lang']] . "</a> (" . $lang['nb'] . " strings)";
+	echo " (" . $lang['nb'] . " strings - ".sprintf("%.1f %%", 100.0 * $lang['nb'] / $max).")</li>";
 }
-echo "</div>";
+echo "</ul>";
 
-
-$desiredLang = isset($_GET['lang']) ? $_GET['lang'] : $str->getFirstLanguage();
-
-echo "<div>Strings for " . $languages[$desiredLang] . ": <br />";
-if (isset($desiredLang)) {
-	var_dump($str->getAll($desiredLang));
-}
-echo "</div>";
 
