@@ -16,6 +16,7 @@ if (isset($_FILES['screenshot'])) {
 		case 'image/jpeg':
 			$destination = "./screenshots/" . str_replace("..", "_", $_FILES['screenshot']['name']);
 			move_uploaded_file($_FILES['screenshot']['tmp_name'], $destination);
+			chmod($destination, "0444");
 			if (!$db->add($_FILES['screenshot']['name'], $_POST['screenshot_context'])) {
 				unlink($destination);
 			} else {
