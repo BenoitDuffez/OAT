@@ -9,21 +9,28 @@ class Config extends DbAdapter {
 	const DB_VERSION = 1;
 	const DEFAULT_LANGUAGE = "default_language";
 
+	private $cache;
+
 	public function __construct() {
 		parent::__construct(DbAdapter::TABLE_CONFIG, Config::DB_VERSION);
+		$cache = array();
 	}
 
 	public function get($key) {
-		try {
-			$handle = $this->pdo->prepare("SELECT value FROM " . DbAdapter::getTable(DbAdapter::TABLE_CONFIG) . " WHERE name = ?");
-			$handle->bindValue(1, $key);
-			$handle->execute();
-			$result = $handle->fetch();
-			return $result === false ? false : $result['value'];
-		} catch (PDOException $e) {
-			L("Unable to retrieve config item '$key'");
+		if (!isset($cache[$key])) {
+			try {
+				$handle = $this->pdo->prepare("SELECT value FROM " . DbAdapter::getTable(DbAdapter::TABLE_CONFIG) . " WHERE name = ?");
+				$handle->bindValue(1, $key);
+				$handle->execute();
+				$result = $handle->fetch();
+				$cache[$key] = $result === false ? false : $result['value'];
+			} catch (PDOException $e) {
+				L("Unable to retrieve config item '$key'");
+				$cache[$key] = null;
+			}
 		}
-		return null;
+
+		return $cache[$key];
 	}
 
 	public function set($key, $value) {
@@ -49,7 +56,13 @@ class Config extends DbAdapter {
 	}
 
 	public function getDefaultLanguage() {
-		return $this->get(Config::DEFAULT_LANGUAGE);
+		$defaultLanguage = $this->get(Config::DEFAULT_LANGUAGE);
+		if ($defaultLanguage == null) {
+			$strings = new StringsDbAdapter();
+			$defaultLanguage = $strings->getFirstLanguage();
+			$this->set(Config::DEFAULT_LANGUAGE, $defaultLanguage);
+		}
+		return $defaultLanguage;
 	}
 
 	protected function onUpgrade($oldVersion, $newVersion) {
