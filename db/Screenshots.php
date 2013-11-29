@@ -19,7 +19,7 @@ class ScreenshotsDbAdapter extends DbAdapter {
 			$handle->bindValue(2, $context);
 			$handle->execute();
 			return true;
-		} catch(PDOException $e){
+		} catch (PDOException $e) {
 			L("Unable to add screenshot", $e);
 		}
 		return false;
@@ -27,14 +27,14 @@ class ScreenshotsDbAdapter extends DbAdapter {
 
 	public function getAll() {
 		try {
-			$sql  = "SELECT s.*, c.name as context";
+			$sql = "SELECT s.*, c.name as context";
 			$sql .= " FROM " . $this->getTable(DbAdapter::TABLE_SCREENSHOTS) . " s, " . $this->getTable(DbAdapter::TABLE_CONTEXTS) . " c";
 			$sql .= " WHERE c.id = s.context_id";
 			$sql .= " ORDER BY s.context_id ASC";
 			$handle = $this->pdo->prepare($sql);
 			$handle->execute();
 			return $handle->fetchAll();
-		} catch(PDOException $e){
+		} catch (PDOException $e) {
 			L("Unable retrieve all screenshots", $e);
 		}
 		return null;

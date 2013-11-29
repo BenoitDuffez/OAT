@@ -38,8 +38,7 @@ class Config extends DbAdapter {
 			$oldValue = $this->get($key);
 			if ($oldValue === $value) {
 				return;
-			}
-			else {
+			} else {
 				if ($oldValue === false) {
 					$sql = "INSERT INTO " . DbAdapter::getTable(DbAdapter::TABLE_CONFIG) . " (value, name) VALUES (?, ?)";
 				} else {
@@ -67,12 +66,7 @@ class Config extends DbAdapter {
 
 	protected function onUpgrade($oldVersion, $newVersion) {
 		if ($oldVersion < 1) {
-			$statement = "CREATE TABLE " . DbAdapter::getTable(DbAdapter::TABLE_CONFIG)
-				. "( id INT(11) NOT NULL AUTO_INCREMENT"
-				. ", name VARCHAR(50) NOT NULL"
-				. ", value VARCHAR(250) NOT NULL"
-				. ", PRIMARY KEY (id)"
-				. ") ENGINE=MyISAM DEFAULT CHARSET=UTF8;";
+			$statement = "CREATE TABLE " . DbAdapter::getTable(DbAdapter::TABLE_CONFIG) . "( id INT(11) NOT NULL AUTO_INCREMENT" . ", name VARCHAR(50) NOT NULL" . ", value VARCHAR(250) NOT NULL" . ", PRIMARY KEY (id)" . ") ENGINE=MyISAM DEFAULT CHARSET=UTF8;";
 			$this->createTable($statement);
 		}
 	}

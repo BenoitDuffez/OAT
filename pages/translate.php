@@ -10,13 +10,13 @@ function generateLeftMenu($defStrings, $strings) {
 	<div id="list_strings">
 		<h2>App strings</h2>
 		<ul>';
-		foreach ($defStrings as $k => $defString) {
-			$class = isset($strings[$k]) && !is_string($strings[$k]) && strlen(trim($strings[$k]['text'])) > 0 ? 'set' : 'unset';
-			echo '<li class="'. $class .'">';
-			echo '<a href="#">'.$defString['name'].'</a></li>';
-		}
+	foreach ($defStrings as $k => $defString) {
+		$class = isset($strings[$k]) && !is_string($strings[$k]) && strlen(trim($strings[$k]['text'])) > 0 ? 'set' : 'unset';
+		echo '<li class="' . $class . '">';
+		echo '<a href="#">' . $defString['name'] . '</a></li>';
+	}
 
-		echo '
+	echo '
 		</ul>
 	</div>';
 }
@@ -25,8 +25,9 @@ function generateForm() {
 	global $languages;
 	echo '
 	<div id="topForm">
-		<h2>Translation into '.$languages[$_GET['lang']].'</h2>
-		<textarea>fvkjdnfvkjnvfkjfn</textarea>
+		<h2>Translation into ' . $languages[$_GET['lang']] . '</h2>
+		<textarea class="readonly"></textarea>
+		<textarea class="readwrite"></textarea>
 	</div>';
 }
 
@@ -85,45 +86,45 @@ if (!isset($_GET['lang'])) {
 		generateContext();
 		echo '</div>';
 
-/*
-		echo '
-<form method="POST" action="' . $_SERVER['REQUEST_URI'] . '">
-<table style="border: 1px #CCC solid">
-	<tr>
-		<td>String</td>
-		<td>
-';
-		echo $languages[$defaultLanguage];
-		echo <<<HTML
-		</td>
-		<td>
-HTML;
-		echo $languages[$_GET['lang']];
-		echo <<<HTML
-		</td>
-		<td>Formatted?</td>
-	</tr>
-HTML;
+		/*
+				echo '
+		<form method="POST" action="' . $_SERVER['REQUEST_URI'] . '">
+		<table style="border: 1px #CCC solid">
+			<tr>
+				<td>String</td>
+				<td>
+		';
+				echo $languages[$defaultLanguage];
+				echo <<<HTML
+				</td>
+				<td>
+		HTML;
+				echo $languages[$_GET['lang']];
+				echo <<<HTML
+				</td>
+				<td>Formatted?</td>
+			</tr>
+		HTML;
 
-		$i = 0;
-		foreach ($defStrings as $k => $defString) {
-			echo "<tr>";
-			echo "<td>" . $defString['name'] . "</td>";
-			echo "<td><textarea cols=\"50\" rows=\"5\">" . $defString['text'] . "</textarea></td>";
-			if (is_string($strings[$i])) {
-				$trString = $strings[$i];
-				$checked = "checked";
-			} else {
-				$trString = $strings[$i]['text'];
-				$checked = $defString['formatted'] ? "checked" : "";
-			}
-			echo "<td><textarea cols=\"50\" rows=\"5\">" . $trString . "</textarea></td>";
-			echo "<td><input type=\"checkbox\" name=\"formatted_" . $defString['name'] . "\" " . $checked . "/></td>";
-			echo "</tr>";
+				$i = 0;
+				foreach ($defStrings as $k => $defString) {
+					echo "<tr>";
+					echo "<td>" . $defString['name'] . "</td>";
+					echo "<td><textarea cols=\"50\" rows=\"5\">" . $defString['text'] . "</textarea></td>";
+					if (is_string($strings[$i])) {
+						$trString = $strings[$i];
+						$checked = "checked";
+					} else {
+						$trString = $strings[$i]['text'];
+						$checked = $defString['formatted'] ? "checked" : "";
+					}
+					echo "<td><textarea cols=\"50\" rows=\"5\">" . $trString . "</textarea></td>";
+					echo "<td><input type=\"checkbox\" name=\"formatted_" . $defString['name'] . "\" " . $checked . "/></td>";
+					echo "</tr>";
 
-			$i++;
-		}
-		echo "</table></form>";
-*/
+					$i++;
+				}
+				echo "</table></form>";
+		*/
 	}
 }

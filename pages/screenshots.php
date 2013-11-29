@@ -45,7 +45,7 @@ Related context: <select name="screenshot_context">';
 </form>
 HTML;
 } else {
-//	echo "<div>Before you can upload screenshots, you must create a context.</p>";
+	//	echo "<div>Before you can upload screenshots, you must create a context.</p>";
 }
 
 

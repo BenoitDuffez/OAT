@@ -3,7 +3,7 @@
 $str = new StringsDbAdapter();
 $cfg = new Config();
 
-echo "<div>Development language: ".$languages[$cfg->getDefaultLanguage()]."</div>";
+echo "<div>Development language: " . $languages[$cfg->getDefaultLanguage()] . "</div>";
 echo "<ul>Available languages: ";
 $langs = $str->getLangs();
 $max = $langs[$cfg->getDefaultLanguage()]['nb'];
@@ -14,7 +14,7 @@ foreach ($langs as $lang) {
 	if ($lang['lang'] == $cfg->getDefaultLanguage()) {
 		echo " *";
 	}
-	echo " (" . $lang['nb'] . " strings - ".sprintf("%.1f %%", 100.0 * $lang['nb'] / $max).")</li>";
+	echo " (" . $lang['nb'] . " strings - " . sprintf("%.1f %%", 100.0 * $lang['nb'] / $max) . ")</li>";
 }
 echo "</ul>";
 
