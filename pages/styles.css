@@ -38,14 +38,37 @@ div#translator div#list_strings {
         height: 100%;
 	overflow: scroll;
 }
+div#translator div#list_strings ul {
+    list-style: none inside none;
+    margin: 0;
+    padding: 0;
+}
+div#translator div#list_strings li:before {
+    content: "\0BB \020";
+}
+div#translator div#list_strings li {
+    padding: 2px;
+    margin: 2px;
+    border-radius: 3px;
+}
+div#translator div#list_strings li.set {
+    background: #9f9;
+    border-color: #9f9;
+}
+div#translator div#list_strings li.unset {
+    background: #f99;
+    border-color: #f99;
+}
+
 div#translator div#topForm {
 	float: left;
 	width: 80%;
 	height: 20%;
 }
+
 div#translator div#context {
 	float: right;
 	width: 80%;
 	height: 80%;
 	overflow: scroll;
-
+}

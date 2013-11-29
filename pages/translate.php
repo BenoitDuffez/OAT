@@ -5,6 +5,42 @@
  * Time: 22:18
  */
 
+function generateLeftMenu($defStrings, $strings) {
+	echo '
+	<div id="list_strings">
+		<h2>App strings</h2>
+		<ul>';
+		foreach ($defStrings as $k => $defString) {
+			$class = isset($strings[$k]) && !is_string($strings[$k]) && strlen(trim($strings[$k]['text'])) > 0 ? 'set' : 'unset';
+			echo '<li class="'. $class .'">';
+			echo '<a href="#">'.$defString['name'].'</a></li>';
+		}
+
+		echo '
+		</ul>
+	</div>';
+}
+
+function generateForm() {
+	global $languages;
+	echo '
+	<div id="topForm">
+		<h2>Translation into '.$languages[$_GET['lang']].'</h2>
+		<textarea>fvkjdnfvkjnvfkjfn</textarea>
+	</div>';
+}
+
+function generateContext() {
+	echo '
+	<div id="context">
+		<h2>String context</h2>
+        	<div class="scroll-x">
+        	   Here’s some content that can scroll vertically
+        	</div>
+		<div>Here should be listed the contexts and screenshots related to that string</div>
+	</div>';
+}
+
 if (!isset($_GET['lang'])) {
 	echo "<p>Pick the target language</p>";
 	echo "<div>";
@@ -43,30 +79,11 @@ if (!isset($_GET['lang'])) {
 			}
 		}
 
-		echo '
-<div id="translator">
-	<div id="list_strings">
-		<h2>App strings</h2>
-		<ul>';
-		foreach ($defStrings as $k => $defString) {
-			echo '<li><a href="#">'.$defString['name'].'</a></li>';
-		}
-
-		echo '
-		</ul>
-	</div>
-	<div id="topForm">
-		<h2>Translation into '.$languages[$_GET['lang']].'</h2>
-		<textarea>fvkjdnfvkjnvfkjfn</textarea>
-	</div>
-	<div id="context">
-		<h2>String context</h2>
-        	<div class="scroll-x">
-        	   Here’s some content that can scroll vertically
-        	</div>
-		<div>Here should be listed the contexts and screenshots related to that string</div>
-';
-
+		echo '<div id="translator">';
+		generateLeftMenu($defStrings, $strings);
+		generateForm();
+		generateContext();
+		echo '</div>';
 
 /*
 		echo '
@@ -108,11 +125,5 @@ HTML;
 		}
 		echo "</table></form>";
 */
-
-		echo '
-	</div>';
 	}
-
-	echo '
-</div>'; // id=translator
 }
