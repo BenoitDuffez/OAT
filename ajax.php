@@ -32,12 +32,11 @@ switch ($_GET['action']) {
 		break;
 	}
 
-	case 'getScreenshote':
+	case 'getScreenshots':
 	{
-		include "db/Screenshots.php";
 		include "db/Context.php";
-		$db = new ScreenshotsDbAdapter();
 		$ctx = new ContextDbAdapter();
+		echo json_encode($ctx->getScreenshots($_GET['name']));
 		break;
 	}
 }
