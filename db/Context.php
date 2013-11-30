@@ -61,15 +61,15 @@ class ContextDbAdapter extends DbAdapter {
 	public function getScreenshots($stringName) {
 		$contexts = array();
 		try {
-			$sql = "SELECT s.*, c.name as context FROM ";
-			$sql .= DbAdapter::getTable(DbAdapter::TABLE_SCREENSHOTS) . " s ";
-			$sql .= " LEFT JOIN " . DbAdapter::getTable(DbAdapter::TABLE_LINKS) . " l ";
-			$sql .= " ON s.context_id = l.id1"; // connect screenshot with context
-			$sql .= " AND l.tbl2 = ? AND l.id2 = ?"; // strings table + string name
-			$sql .= " LEFT JOIN " . DbAdapter::getTable(DbAdapter::TABLE_CONTEXTS) . " c ON c.id = s.context_id";
+			$sql = "SELECT s.*, c.name as context FROM " . DbAdapter::getTable(DbAdapter::TABLE_LINKS) . " l ";
+			$sql .= " LEFT JOIN " . DbAdapter::getTable(DbAdapter::TABLE_CONTEXTS) . " c ON c.id = l.id1 ";
+			$sql .= " LEFT JOIN " . DbAdapter::getTable(DbAdapter::TABLE_SCREENSHOTS) . " s ON s.context_id = c.id";
+			$sql .= " WHERE l.tbl1 = ? AND l.tbl2 = ? AND l.id2 = ?"; // strings table + string name
+			$sql .= " ORDER BY context ASC";
 			$handle = $this->pdo->prepare($sql);
 			$i = 1;
-			$handle->bindValue($i++, DbAdapter::getTable(DbAdapter::TABLE_STRINGS));
+			$handle->bindValue($i++, DbAdapter::TABLE_CONTEXTS);
+			$handle->bindValue($i++, DbAdapter::TABLE_STRINGS);
 			$handle->bindValue($i++, $stringName);
 			$handle->execute();
 			return $handle->fetchAll(PDO::FETCH_ASSOC);
