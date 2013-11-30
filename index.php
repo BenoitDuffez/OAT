@@ -6,11 +6,6 @@
 	<link rel="stylesheet" type="text/css" href="pages/styles.css"/>
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 	<script type="text/javascript">
-		$('#sourcetext').autoResize();
-		$('#translatedtext').autoResize();
-	</script>
-
-	<script type="text/javascript">
 		function setCurrentString(name) {
 			$.getJSON("ajax.php?action=getString&name=" + name + "&lang=<?php echo $_GET['lang'] ?>", null, function (data) {
 				$('#sourcetext').val(data.source.text);
