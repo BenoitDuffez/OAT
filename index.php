@@ -4,6 +4,7 @@
 <head>
 	<meta http-equiv="content-type" content="text/html;charset=utf-8"/>
 	<link rel="stylesheet" type="text/css" href="pages/styles.css"/>
+	<link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono|Roboto|Roboto+Condensed' rel='stylesheet' type='text/css'>
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 	<script type="text/javascript">
 		function setCurrentString(name) {

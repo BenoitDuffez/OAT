@@ -27,11 +27,21 @@ body, html, div#translator {
     height: 100%;
 }
 
+h1, h2, h3 {
+    font-family: 'Roboto Condensed', sans-serif;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
 div#menu {
     display: block;
     width: 100%;
     height: 5%;
-    background: #eee;
+    background: #acf;
+    text-align: center;
+    vertical-align: 50%;
 }
 
 div#translator {
@@ -78,10 +88,12 @@ div#translator div#topForm {
     height: 20%;
     min-height: 200px;
 }
+
 div#translator div#topForm textarea {
-    width: 400px;
+    width: 35%;
     height: 100px;
-    font-family: monospace;
+    font-size: 1.1em;
+    font-family: 'Ubunto Mono', monospace;
     border: 1px black solid;
     background: #eee;
     overflow: auto;
