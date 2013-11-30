@@ -13,7 +13,7 @@ function generateLeftMenu($defStrings, $strings) {
 	foreach ($defStrings as $k => $defString) {
 		$class = isset($strings[$k]) && !is_string($strings[$k]) && strlen(trim($strings[$k]['text'])) > 0 ? 'set' : 'unset';
 		echo '<li class="' . $class . '">';
-		echo '<a href="javascript:setCurrentString(\''.$defString['name'].'\');">' . $defString['name'] . '</a></li>';
+		echo '<a href="javascript:setCurrentString(\'' . $defString['name'] . '\');">' . $defString['name'] . '</a></li>';
 	}
 
 	echo '
@@ -35,10 +35,11 @@ function generateContext() {
 	echo '
 	<div id="context">
 		<h2>String context</h2>
-        	<div class="scroll-x">
-        	   Here’s some content that can scroll vertically
+        	<div>
+				Here should be listed the contexts and screenshots related to that string
         	</div>
-		<div>Here should be listed the contexts and screenshots related to that string</div>
+        	<div id="screenshots" class="scroll-x">
+        	</div>
 	</div>';
 }
 

@@ -14,9 +14,12 @@
 		function setCurrentString(name) {
 			$.getJSON("ajax.php?action=getString&name=" + name + "&lang=<?php echo $_GET['lang'] ?>", null, function (data) {
 				$('#sourcetext').val(data.source.text);
-				$('#translatedtext').val(data.destination.text);
-				$('#translatedtext').focus();
+				$('#translatedtext').val(data.destination.text).focus();
 			});
+			$('#screenshots').empty();
+			$.getJSON("ajax.php?action=getScreenshots&name=" + name, null, function (data) {
+				$('#screenshots');
+			}
 		}
 	</script>
 </head>

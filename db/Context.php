@@ -58,6 +58,23 @@ class ContextDbAdapter extends DbAdapter {
 		return $contexts;
 	}
 
+	public function getScreenshots($stringName) {
+		$contexts = array();
+		try {
+			$sql = "SELECT c.name, s.* FROM " . DbAdapter::getTable(DbAdapter::TABLE_CONTEXTS) . " c, ";
+			$sql .= DbAdapter::getTable(DbAdapter::TABLE_SCREENSHOTS) . " s ";
+			$sql .= " WHERE s.context_id=c.id AND ";
+			$handle = $this->pdo->prepare($sql);
+			$handle->execute();
+			while ($result = $handle->fetch()) {
+				$contexts[] = new Context($result);
+			}
+		} catch (PDOException $e) {
+			L("Unable to retrieve all contexts: " . $e->getMessage());
+		}
+		return $contexts;
+	}
+
 	public function add($context_name) {
 		if (trim($context_name) == "") {
 			return;

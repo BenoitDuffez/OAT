@@ -8,7 +8,6 @@ include "util.php";
 
 // Actual code that may need dumb includes
 include "db/DbAdapter.php";
-include "db/Strings.php";
 include "db/Config.php";
 
 // Init DB connection
@@ -21,12 +20,24 @@ try {
 }
 
 $cfg = new Config();
-$db = new StringsDbAdapter();
 switch ($_GET['action']) {
 	case 'getString':
+	{
+		include "db/Strings.php";
+		$db = new StringsDbAdapter();
 		$data = array();
 		$data['source'] = $db->getString($cfg->getDefaultLanguage(), $_GET['name']);
 		$data['destination'] = $db->getString($_GET['lang'], $_GET['name']);
 		echo json_encode($data);
 		break;
+	}
+
+	case 'getScreenshote':
+	{
+		include "db/Screenshots.php";
+		include "db/Context.php";
+		$db = new ScreenshotsDbAdapter();
+		$ctx = new ContextDbAdapter();
+		break;
+	}
 }

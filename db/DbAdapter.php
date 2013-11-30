@@ -8,6 +8,7 @@ abstract class DbAdapter {
 	const TABLE_CONTEXTS = "contexts";
 	const TABLE_STRINGS = "strings";
 	const TABLE_SCREENSHOTS = "screenshots";
+	const TABLE_LINKS = "links";
 
 	abstract protected function onUpgrade($oldVersion, $newVersion);
 
