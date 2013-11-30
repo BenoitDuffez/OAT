@@ -35,10 +35,8 @@ function generateContext() {
 	echo '
 	<div id="context">
 		<h2>String context</h2>
-        	<div>
-				Here should be listed the contexts and screenshots related to that string
-        	</div>
-        	<div id="screenshots" class="scroll-x">
+        	<div>To help with the translation, here\'s the string context</div>
+        	<div id="screenshots">
         	</div>
 	</div>';
 }
