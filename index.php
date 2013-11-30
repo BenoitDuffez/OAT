@@ -11,10 +11,22 @@
 				$('#sourcetext').val(data.source.text);
 				$('#translatedtext').val(data.destination.text).focus();
 			});
-			$('#screenshots').empty();
+			var scr = $('#screenshots');
+			scr.empty();
 			$.getJSON("ajax.php?action=getScreenshots&name=" + name, null, function (data) {
-				$('#screenshots');
-			}
+				prevCid = -1;
+				$.each(data, function (i, screen) {
+					if (prevCid != screen.context_id) {
+						if (prevCid > 0) {
+							scr.append('</div>');
+						}
+						scr.append('<div class="context"><h3>'+screen.context_name);
+					}
+					prevCid = screen.context_id;
+					scr.append('<div class="screenshot"><img class="screenshot" src="screenshots/'+screen.name+'" /></div>');
+				});
+				scr.append('</div>');
+			});
 		}
 	</script>
 </head>
