@@ -9,9 +9,14 @@ div.warning {
     border: 1px dashed #CCC;
 }
 
+div.context {
+    clear: both;
+}
+
 img.screenshot {
     max-width: 250px;
     height: auto;
+    float: left;
 }
 
 body {
@@ -87,4 +92,11 @@ div#translator div#context {
     width: 80%;
     height: 80%;
     overflow: scroll;
+}
+
+form {
+    background: #eef;
+    border: 1px #99f solid;
+    margin: 10px;
+    padding: 5px;
 }
