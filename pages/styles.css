@@ -14,7 +14,6 @@ img.screenshot {
     height: auto;
 }
 
-/* Generic pane rules */
 body {
     margin: 0;
 }
@@ -72,6 +71,15 @@ div#translator div#topForm {
     float: left;
     width: 80%;
     height: 20%;
+    min-height: 200px;
+}
+div#translator div#topForm textarea {
+    width: 400px;
+    height: 100px;
+    font-family: monospace;
+    border: 1px black solid;
+    background: #eee;
+    overflow: auto;
 }
 
 div#translator div#context {

@@ -82,6 +82,20 @@ SQL;
 		return null;
 	}
 
+	public function getString($lang, $name) {
+		try {
+			$sql = "SELECT * FROM " . DbAdapter::getTable(DbAdapter::TABLE_STRINGS) . " WHERE lang = ? AND name = ?";
+			$handle = $this->pdo->prepare($sql);
+			$handle->bindValue(1, $lang);
+			$handle->bindValue(2, $name);
+			$handle->execute();
+			return $handle->fetch(PDO::FETCH_ASSOC);
+		} catch (PDOException $e) {
+			L("Unable to retrieve string $name for lang $lang", $e);
+		}
+		return null;
+	}
+
 	public function saveAll($strings) {
 		global $_POST;
 

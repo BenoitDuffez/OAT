@@ -13,7 +13,7 @@ function generateLeftMenu($defStrings, $strings) {
 	foreach ($defStrings as $k => $defString) {
 		$class = isset($strings[$k]) && !is_string($strings[$k]) && strlen(trim($strings[$k]['text'])) > 0 ? 'set' : 'unset';
 		echo '<li class="' . $class . '">';
-		echo '<a href="#">' . $defString['name'] . '</a></li>';
+		echo '<a href="javascript:setCurrentString(\''.$defString['name'].'\');">' . $defString['name'] . '</a></li>';
 	}
 
 	echo '
@@ -26,8 +26,8 @@ function generateForm() {
 	echo '
 	<div id="topForm">
 		<h2>Translation into ' . $languages[$_GET['lang']] . '</h2>
-		<textarea class="readonly"></textarea>
-		<textarea class="readwrite"></textarea>
+		<textarea id="sourcetext" class="readonly"></textarea>
+		<textarea id="translatedtext" class="readwrite" autofocus placeholder="Enter the text translated to ' . $languages[$_GET['lang']] . '"></textarea>
 	</div>';
 }
 
@@ -79,6 +79,8 @@ if (!isset($_GET['lang'])) {
 				$defStrings[] = $rawDefStrings[$k];
 			}
 		}
+
+		// TODO: add specific JS from here
 
 		echo '<div id="translator">';
 		generateLeftMenu($defStrings, $strings);
