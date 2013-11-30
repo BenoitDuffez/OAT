@@ -53,7 +53,7 @@ HTML;
 echo "<div>";
 $contexts = $cdb->loadAll();
 if (isset($_POST['context_name'])) {
-	$ctx->add($_POST['context_name']);
+	$cdb->add($_POST['context_name']);
 	echo "<p>Context added.</p>";
 } else {
 	echo '
@@ -72,8 +72,9 @@ foreach ($screens as $screen) {
 		if ($prevContext > 0) {
 			echo '</div>';
 		}
-		echo "<div><p>Screenshots related to <b>" . $screen['context'] . "</b></p>";
+		echo '<div class="context"><p>Screenshots related to <b>' . $screen['context'] . '</b></p>';
 	}
 	$prevContext = $screen['context_id'];
 	echo '<p><img class="screenshot" src="./screenshots/' . $screen['name'] . '" /></p>';
 }
+echo '</div>';
