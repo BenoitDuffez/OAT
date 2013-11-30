@@ -61,14 +61,18 @@ class ContextDbAdapter extends DbAdapter {
 	public function getScreenshots($stringName) {
 		$contexts = array();
 		try {
-			$sql = "SELECT c.name, s.* FROM " . DbAdapter::getTable(DbAdapter::TABLE_CONTEXTS) . " c, ";
+			$sql = "SELECT s.*, c.name as context FROM ";
 			$sql .= DbAdapter::getTable(DbAdapter::TABLE_SCREENSHOTS) . " s ";
-			$sql .= " WHERE s.context_id=c.id AND ";
+			$sql .= " LEFT JOIN " . DbAdapter::getTable(DbAdapter::TABLE_LINKS) . " l ";
+			$sql .= " ON s.context_id = l.id1"; // connect screenshot with context
+			$sql .= " AND l.tbl2 = ? AND l.id2 = ?"; // strings table + string name
+			$sql .= " LEFT JOIN " . DbAdapter::getTable(DbAdapter::TABLE_CONTEXTS) . " c ON c.id = s.context_id";
 			$handle = $this->pdo->prepare($sql);
+			$i = 1;
+			$handle->bindValue($i++, DbAdapter::getTable(DbAdapter::TABLE_STRINGS));
+			$handle->bindValue($i++, $stringName);
 			$handle->execute();
-			while ($result = $handle->fetch()) {
-				$contexts[] = new Context($result);
-			}
+			return $handle->fetchAll(PDO::FETCH_ASSOC);
 		} catch (PDOException $e) {
 			L("Unable to retrieve all contexts: " . $e->getMessage());
 		}
