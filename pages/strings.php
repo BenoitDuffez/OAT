@@ -1,5 +1,8 @@
 <?php
 
+include "db/Strings.php";
+include "db/Config.php";
+
 $str = new StringsDbAdapter();
 $cfg = new Config();
 

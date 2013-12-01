@@ -4,6 +4,7 @@
  * Date: 27/11/2013
  * Time: 22:34
  */
+require_once "db/DbAdapter.php";
 
 class Config extends DbAdapter {
 	const DB_VERSION = 1;

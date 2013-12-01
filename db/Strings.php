@@ -1,5 +1,7 @@
 <?php
 
+require_once "db/DbAdapter.php";
+
 class StringsDbAdapter extends DbAdapter {
 	const DB_VERSION = 1;
 

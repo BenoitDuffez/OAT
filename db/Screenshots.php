@@ -4,6 +4,7 @@
  * Date: 28/11/2013
  * Time: 23:20
  */
+require_once "db/DbAdapter.php";
 
 class ScreenshotsDbAdapter extends DbAdapter {
 	const DB_VERSION = 1;

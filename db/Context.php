@@ -4,6 +4,7 @@
  * Date: 27/11/2013
  * Time: 23:33
  */
+require_once "db/DbAdapter.php";
 
 class Context {
 	public $id;

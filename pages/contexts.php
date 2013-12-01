@@ -1,5 +1,9 @@
 <?php
 
+include "db/Context.php";
+include "db/Strings.php";
+include "db/Links.php";
+
 // Context management
 $ctx = new ContextDbAdapter();
 $contexts = $ctx->loadAll();

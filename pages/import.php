@@ -1,7 +1,6 @@
 <?php
 
-echo "<pre>_POST:" . print_r($_POST, true) . "</pre>";
-echo "<pre>_FILES:" . print_r($_FILES, true) . "</pre>";
+include "db/Strings.php";
 
 // XML import
 if (isset($_FILES['xmlimport'])) {

@@ -4,6 +4,7 @@
  * Date: 30/11/2013
  * Time: 17:54
  */
+require_once "db/DbAdapter.php";
 
 class LinksDbAdapter extends DbAdapter {
 	const DB_VERSION = 1;

@@ -24,17 +24,10 @@ ini_set('display_errors', '1');
 
 readfile("pages/header.html");
 
-// Dumb includes
+// Main includes
 include "config.db.php";
 include "lang.php";
 include "util.php";
-
-// Actual code that may need dumb includes
-include "db/DbAdapter.php";
-include "db/Config.php";
-include "db/Context.php";
-include "db/Strings.php";
-include "db/Screenshots.php";
 
 // Init DB connection
 try {
@@ -45,7 +38,7 @@ try {
 	$pdo = null;
 }
 
-
+// Build page content
 if ($pdo == null) {
 	echo "<p>Can't do anything without the DB server</p>";
 } else {
@@ -57,7 +50,7 @@ if ($pdo == null) {
 	echo '<div id="menu"><ul>';
 	foreach ($menu as $p => $title) {
 		$liClass = $p == $page ? ' class="active"' : '';
-		echo '<li' . $liClass . '><a href="%PATH%/' . $p . '">' . $title . '</a></li>';
+		echo '<li' . $liClass . '><a href="%PATH%/' . $p . '/">' . $title . '</a></li>';
 	}
 	echo '</ul></div>';
 

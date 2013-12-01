@@ -4,6 +4,8 @@
  * Date: 28/11/2013
  * Time: 22:18
  */
+include "db/Config.php";
+include "db/Strings.php";
 
 function generateLeftMenu($defStrings, $strings) {
 	echo '

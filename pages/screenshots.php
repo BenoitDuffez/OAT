@@ -1,5 +1,8 @@
 <?php
 
+include "db/Context.php";
+include "db/Screenshots.php";
+
 $cdb = new ContextDbAdapter();
 $contexts = $cdb->loadAll();
 $db = new ScreenshotsDbAdapter();
