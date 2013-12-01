@@ -14,29 +14,39 @@ ob_start("dump_html");
 <head>
 	<meta http-equiv="content-type" content="text/html;charset=utf-8"/>
 	<link rel="stylesheet" type="text/css" href="%PATH%/pages/styles.css"/>
-	<link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono|Roboto|Roboto+Condensed' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono|Roboto|Roboto+Condensed' rel='stylesheet'
+		  type='text/css'>
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 	<script type="text/javascript">
 		function setCurrentString(name) {
-			$.getJSON("ajax.php?action=getString&name=" + name + "&lang=<?php echo $_GET['lang'] ?>", null, function (data) {
+			$.getJSON("%PATH%/ajax.php?action=getString&name=" + name + "&lang=<?php echo $_GET['lang'] ?>", null, function (data) {
+				$('#topForm').css("visibility", "visible");
+				$('#context').css("visibility", "visible");
 				$('#sourcetext').val(data.source.text);
 				$('#translatedtext').val(data.destination.text).focus();
 			});
 			var scr = $('#screenshots');
 			scr.empty();
-			$.getJSON("ajax.php?action=getScreenshots&name=" + name, null, function (data) {
+			$.getJSON("%PATH%/ajax.php?action=getScreenshots&name=" + name, null, function (data) {
 				prevCid = -1;
-				$.each(data, function (i, screen) {
-					if (prevCid != screen.context_id) {
-						if (prevCid > 0) {
-							scr.append('</div>');
+				if (data.length > 0) {
+					scr.append('<p>To help with the translation, here\'s the string context:</p>')
+					$.each(data, function (i, screen) {
+						if (prevCid != screen.context_id) {
+							if (prevCid > 0) {
+								scr.append('</div>');
+							}
+							scr.append('<div class="context"><h3>' + screen.context_name);
 						}
-						scr.append('<div class="context"><h3>'+screen.context_name);
-					}
-					prevCid = screen.context_id;
-					scr.append('<div class="screenshot"><img class="screenshot" src="%PATH%/screenshots/'+screen.name+'" /></div>');
-				});
-				scr.append('</div>');
+						prevCid = screen.context_id;
+						scr.append('<div class="screenshot"><img class="screenshot" src="%PATH%/screenshots/' + screen.name + '" /></div>');
+					});
+					scr.append('</div>');
+				} else {
+					var help='There is no associated context for this string. ';
+					help += 'If you want, you can <a href="%PATH%/contexts/">choose a context</a> for this string.';
+					scr.append('<p>'+help+'</p>');
+				}
 			});
 		}
 	</script>

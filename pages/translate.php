@@ -24,7 +24,7 @@ function generateLeftMenu($defStrings, $strings) {
 function generateForm() {
 	global $languages;
 	echo '
-	<div id="topForm">
+	<div id="topForm" style="visibility: hidden;">
 		<h2>Translation into ' . $languages[$_GET['lang']] . '</h2>
 		<textarea id="sourcetext" class="readonly"></textarea>
 		<textarea id="translatedtext" class="readwrite" autofocus placeholder="Enter the text translated to ' . $languages[$_GET['lang']] . '"></textarea>
@@ -33,11 +33,9 @@ function generateForm() {
 
 function generateContext() {
 	echo '
-	<div id="context">
+	<div id="context" style="visibility: hidden;">
 		<h2>String context</h2>
-        	<div>To help with the translation, here\'s the string context</div>
-        	<div id="screenshots">
-        	</div>
+       	<div id="screenshots"></div>
 	</div>';
 }
 
@@ -86,46 +84,5 @@ if (!isset($_GET['lang'])) {
 		generateForm();
 		generateContext();
 		echo '</div>';
-
-		/*
-				echo '
-		<form method="POST" action="' . $_SERVER['REQUEST_URI'] . '">
-		<table style="border: 1px #CCC solid">
-			<tr>
-				<td>String</td>
-				<td>
-		';
-				echo $languages[$defaultLanguage];
-				echo <<<HTML
-				</td>
-				<td>
-		HTML;
-				echo $languages[$_GET['lang']];
-				echo <<<HTML
-				</td>
-				<td>Formatted?</td>
-			</tr>
-		HTML;
-
-				$i = 0;
-				foreach ($defStrings as $k => $defString) {
-					echo "<tr>";
-					echo "<td>" . $defString['name'] . "</td>";
-					echo "<td><textarea cols=\"50\" rows=\"5\">" . $defString['text'] . "</textarea></td>";
-					if (is_string($strings[$i])) {
-						$trString = $strings[$i];
-						$checked = "checked";
-					} else {
-						$trString = $strings[$i]['text'];
-						$checked = $defString['formatted'] ? "checked" : "";
-					}
-					echo "<td><textarea cols=\"50\" rows=\"5\">" . $trString . "</textarea></td>";
-					echo "<td><input type=\"checkbox\" name=\"formatted_" . $defString['name'] . "\" " . $checked . "/></td>";
-					echo "</tr>";
-
-					$i++;
-				}
-				echo "</table></form>";
-		*/
 	}
 }
