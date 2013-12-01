@@ -7,10 +7,6 @@ $cdb = new ContextDbAdapter();
 $contexts = $cdb->loadAll();
 $db = new ScreenshotsDbAdapter();
 
-// Debug
-echo "<pre>_POST:" . print_r($_POST, true) . "</pre>";
-echo "<pre>_FILES:" . print_r($_FILES, true) . "</pre>";
-
 // Handle screenshot upload
 if (isset($_FILES['screenshot'])) {
 	switch ($_FILES['screenshot']['type']) {
@@ -48,7 +44,7 @@ Related context: <select name="screenshot_context">';
 </form>
 HTML;
 } else {
-	//	echo "<div>Before you can upload screenshots, you must create a context.</p>";
+	echo "<div>Before you can upload screenshots, you must create a context.</p>";
 }
 
 
