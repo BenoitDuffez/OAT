@@ -6,6 +6,7 @@ OAT is a web-based interface that helps developers manage their localized string
 It is aimed to do what others don't:
 
 * Handle `<![CDATA[ ]]>` tags, `formatted="false"`
+* Handle multiple XML files
 * Organize app contexts
 * Organize app screenshots
 * Is free, and open-sourced
