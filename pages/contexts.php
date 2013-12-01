@@ -3,7 +3,6 @@
 // Context management
 $ctx = new ContextDbAdapter();
 $contexts = $ctx->loadAll();
-var_dump($contexts);
 
 if (isset($_POST['context_name'])) {
 	$ctx->add($_POST['context_name']);
@@ -31,19 +30,22 @@ if (isset($_POST['context_id']) && isset($_POST['strings']) && is_array($_POST['
 } else {
 	echo '
 <form id="link" method="post" action="' . $_SERVER['REQUEST_URI'] . '">
-Context: <select name="context_id">';
+<p>Context: <select name="context_id">';
 	foreach ($contexts as $context) {
 		echo '<option value="' . $context->id . '">' . $context->name . '</option>';
 	}
 	echo '
-</select>
-Strings: ';
+</select></p>
+<p>Strings:</p>
+<ul>';
 	foreach ($sdb->getAll($cfg->getDefaultLanguage()) as $context) {
-		echo '<input type="checkbox" name="strings[' . $context['name'] . ']" value="true" id="cb_' . $context['name'] . '"><label for="cb_' . $context['name'] . '">' . $context['name'] . '</label>';
+		$checked = isset($_GET['string']) && $context['name'] == $_GET['string'] ? 'checked' : '';
+		echo '<li><input type="checkbox" name="strings[' . $context['name'] . ']" value="true" id="cb_' . $context['name'] . '"'.$checked.'>';
+		echo '<label for="cb_' . $context['name'] . '">' . $context['name'] . '</label></li>';
 	}
 }
 echo '
-</select>
-<input type="submit" value="Link String with context"/>
+</ul>
+<input type="submit" value="Link String(s) with context"/>
 </form>';
 

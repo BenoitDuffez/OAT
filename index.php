@@ -43,9 +43,9 @@ ob_start("dump_html");
 					});
 					scr.append('</div>');
 				} else {
-					var help='There is no associated context for this string. ';
-					help += 'If you want, you can <a href="%PATH%/contexts/">choose a context</a> for this string.';
-					scr.append('<p>'+help+'</p>');
+					var help = 'There is no associated context for this string. ';
+					help += 'If you want, you can <a href="%PATH%/contexts/' + name + '">choose a context</a> for this string.';
+					scr.append('<p>' + help + '</p>');
 				}
 			});
 		}
