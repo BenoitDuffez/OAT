@@ -1,0 +1,5 @@
+RewriteEngine on
+
+RewriteRule ^translate/([^/]+)/?$                index.php?page=translate&lang=$1
+RewriteRule ^(translate|contexts|strings|import|screenshots|help)/?([^a-z]*)$          index.php?page=$1
+
