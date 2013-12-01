@@ -59,7 +59,8 @@ SQL;
 		try {
 			$handle = $this->pdo->prepare("SELECT lang, COUNT(*) as n FROM " . DbAdapter::getTable(DbAdapter::TABLE_STRINGS) . " GROUP BY lang ORDER BY n DESC LIMIT 1");
 			$handle->execute();
-			return $handle->fetch()['lang'];
+			$result = $handle->fetch();
+			return $result['lang'];
 		} catch (PDOException $e) {
 			L("Unable to retrieve best lang", $e);
 		}
