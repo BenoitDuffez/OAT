@@ -65,7 +65,9 @@ cd www
 git clone https://github.com/BenoitDuffez/OAT.git
 mv config.db.php.dist config.db.php
 vi config.db.php
-chmod 666 screenshots # set this to appropriate permissions```
+chmod 666 screenshots # set this to appropriate permissions
+```
+
 You should be able to edit the config file without any issue. It's just the database parameters (server, credentials and table prefix).
 
 Upgrading
