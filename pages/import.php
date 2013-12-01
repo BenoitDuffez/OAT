@@ -32,7 +32,7 @@ if (isset($_FILES['xmlimport'])) {
 		fclose($file);
 
 		$lang = $_POST['language'];
-		$xmlStrings = simplexml_load_string($xml);
+		$xmlStrings = simplexml_load_string($xml); // TODO: error handling
 		$strings = array();
 		foreach ($xmlStrings as $string) {
 			$formatted = true;
