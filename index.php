@@ -49,6 +49,18 @@ ob_start("dump_html");
 				}
 			});
 		}
+
+		$(document).ready(function () {
+			$('#translatedtext').keydown(function (e) {
+				if (e.keyCode == 39 && event.altKey) {
+					$('#translatedtext').val($('#sourcetext').val());
+				}
+//				if ((e.keyCode == 10 || e.keyCode == 13) && event.ctrlKey) {
+//					$('#topForm').submit();
+//					e.preventDefault();
+//				}
+			});
+		});
 	</script>
 </head>
 <body>

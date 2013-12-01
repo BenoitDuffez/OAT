@@ -26,6 +26,7 @@ function generateForm() {
 	echo '
 	<div id="topForm" style="visibility: hidden;">
 		<h2>Translation into ' . $languages[$_GET['lang']] . '</h2>
+		<p class="tip">Tip: use Alt+Right to copy from source language<br />Tip: use Ctrl+Enter to save string and go to next</p>
 		<textarea id="sourcetext" class="readonly"></textarea>
 		<textarea id="translatedtext" class="readwrite" autofocus placeholder="Enter the text translated to ' . $languages[$_GET['lang']] . '"></textarea>
 	</div>';

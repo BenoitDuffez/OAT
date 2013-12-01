@@ -99,6 +99,11 @@ div#translator div#topForm textarea {
     overflow: auto;
 }
 
+div#translator div#topForm .tip {
+    float: right;
+    color: #ccc;
+}
+
 div#translator div#context {
     float: right;
     width: 80%;
