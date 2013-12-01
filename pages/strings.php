@@ -8,7 +8,7 @@ echo "<ul>Available languages: ";
 $langs = $str->getLangs();
 $max = $langs[$cfg->getDefaultLanguage()]['nb'];
 foreach ($langs as $lang) {
-	echo "<li><a href=\"?page=translate&lang=" . $lang['lang'] . "\">";
+	echo '<li><a href="%PATH%/translate/' . $lang['lang'] . '/">';
 	echo $languages[$lang['lang']];
 	echo "</a>";
 	if ($lang['lang'] == $cfg->getDefaultLanguage()) {

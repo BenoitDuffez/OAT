@@ -63,7 +63,7 @@ if (isset($_FILES['xmlimport'])) {
 	}
 }
 echo <<<HTML
-<form method="post" action="?page=import" enctype="multipart/form-data">
+<form method="post" action="%PATH%/import/" enctype="multipart/form-data">
 XML file to import: <input type="file" name="xmlimport" />
 <select name="language">
 HTML;

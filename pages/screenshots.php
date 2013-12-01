@@ -75,6 +75,6 @@ foreach ($screens as $screen) {
 		echo '<div class="context"><p>Screenshots related to <b>' . $screen['context'] . '</b></p>';
 	}
 	$prevContext = $screen['context_id'];
-	echo '<p><img class="screenshot" src="./screenshots/' . $screen['name'] . '" /></p>';
+	echo '<p><img class="screenshot" src="%PATH%/screenshots/' . $screen['name'] . '" /></p>';
 }
 echo '</div>';

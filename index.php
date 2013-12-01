@@ -34,7 +34,7 @@ ob_start("dump_html");
 						scr.append('<div class="context"><h3>'+screen.context_name);
 					}
 					prevCid = screen.context_id;
-					scr.append('<div class="screenshot"><img class="screenshot" src="screenshots/'+screen.name+'" /></div>');
+					scr.append('<div class="screenshot"><img class="screenshot" src="%PATH%/screenshots/'+screen.name+'" /></div>');
 				});
 				scr.append('</div>');
 			});
@@ -80,12 +80,12 @@ $cfg = new Config($pdo);
 // Write page contents
 echo <<<HTML
 <div id="menu">
-	<a href=".">Home</a>
-	 | <a href="?page=translate">Translate</a>
-	 | <a href="?page=contexts">Contexts</a>
-	 | <a href="?page=screenshots">Screenshots</a>
-	 | <a href="?page=import">Import</a>
-	 | <a href="?page=help">Help</a>
+	<a href="%PATH%/">Home</a>
+	 | <a href="%PATH%/translate/">Translate</a>
+	 | <a href="%PATH%/contexts/">Contexts</a>
+	 | <a href="%PATH%/screenshots/">Screenshots</a>
+	 | <a href="%PATH%/import/">Import</a>
+	 | <a href="%PATH%/help/">Help</a>
 </div>
 HTML;
 
