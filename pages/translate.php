@@ -46,7 +46,7 @@ if (!isset($_GET['lang'])) {
 	echo "<p>Pick the target language</p>";
 	echo "<div>";
 	foreach ($languages as $lang => $language) {
-		echo "<a href=\"?page=" . $_GET['page'] . "&lang=$lang\">$language</a> ";
+		echo '<a href="%PATH%/translate/' . $lang . '/">' . $language . '</a> ';
 	}
 	echo "</div>";
 } else {
