@@ -13,10 +13,13 @@ if (isset($_FILES['screenshot'])) {
 		case 'image/png':
 		case 'image/jpg':
 		case 'image/jpeg':
-			$destination = "./screenshots/" . str_replace("..", "_", $_FILES['screenshot']['name']);
+			do {
+				$name = "img_" . substr(base64_encode(time() . rand()), 0, 16);
+				$destination = "./screenshots/" . $name; 
+			} while (file_exists($destination));
 			move_uploaded_file($_FILES['screenshot']['tmp_name'], $destination);
 			chmod($destination, "0444");
-			if (!$db->add($_FILES['screenshot']['name'], $_POST['screenshot_context'])) {
+			if (!$db->add($name, $_POST['screenshot_context'])) {
 				unlink($destination);
 			} else {
 				echo "<p>Screenshot added</p>";
