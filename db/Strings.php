@@ -10,8 +10,9 @@ class StringsDbAdapter extends DbAdapter {
 	}
 
 	protected function onUpgrade($oldVersion, $newVersion) {
-		if ($oldVersion < 1) {
-			$statement = <<<SQL
+		try {
+			if ($oldVersion < 1) {
+				$statement = <<<SQL
 CREATE TABLE IF NOT EXISTS table (
   id int(11) NOT NULL AUTO_INCREMENT,
   lang varchar(8) NOT NULL,
@@ -20,12 +21,16 @@ CREATE TABLE IF NOT EXISTS table (
   formatted tinyint(1) NOT NULL,
   date_created date NOT NULL,
   date_updated date NOT NULL,
+  filename varchar(255) NOT NULL,
   PRIMARY KEY (id),
   UNIQUE KEY lang (lang,name)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 SQL;
 
-			$this->createTable($statement);
+				$this->createTable($statement);
+			}
+		} catch (PDOException $e) {
+			L("Unable to upgrade strings database from $oldVersion to $newVersion", $e);
 		}
 	}
 
