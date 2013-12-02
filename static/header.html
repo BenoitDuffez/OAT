@@ -12,6 +12,8 @@
     <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono|Roboto|Roboto+Condensed' rel='stylesheet'
           type='text/css'>
     <script type="text/javascript">
+        var oatPath = '%PATH%';
+
         function setCurrentString(name, lang) {
             $.getJSON("%PATH%/ajax.php?action=getString&name=" + name + "&lang=" + lang, null, function (data) {
                 $('#topForm').css("visibility", "visible");
