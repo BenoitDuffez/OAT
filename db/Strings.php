@@ -102,7 +102,6 @@ SQL;
 	public function saveAll($strings) {
 		global $_POST;
 
-		//insert into $table (field, value) values (:name, :value) on duplicate key update value=:value2
 		$statement = "INSERT INTO " . DbAdapter::getTable(DbAdapter::TABLE_STRINGS) . " (lang, name, text, formatted, date_created, date_updated) VALUES (?, ?, ?, ?, ?, ?)";
 		$statement .= " ON DUPLICATE KEY UPDATE name = ?, text = ?, formatted = ?, date_created = ?, date_updated = ?";
 
