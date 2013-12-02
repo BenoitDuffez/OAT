@@ -1,5 +1,7 @@
 RewriteEngine on
 
+RewriteRule ^pages/([^/]+)\.php                /$1/ [R=301,L]
+RewriteRule ^pages/?$                             / [R=301,L]
 RewriteRule ^translate/([^/]+)/?$                index.php?page=translate&lang=$1
 RewriteRule ^contexts/([^/]+)/?$                index.php?page=contexts&string=$1
 RewriteRule ^screenshots/img_([^/]+)$              	- 

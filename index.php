@@ -22,7 +22,7 @@ ob_start("dump_html");
 error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
 ini_set('display_errors', '1');
 
-readfile("pages/header.html");
+readfile("static/header.html");
 
 // Main includes
 include "config.db.php";
@@ -69,7 +69,7 @@ if ($pdo == null) {
 			break;
 
 		case 'help':
-			echo file_get_contents("pages/help.html");
+			echo file_get_contents("static/help.html");
 			break;
 
 		default:
@@ -78,5 +78,5 @@ if ($pdo == null) {
 	}
 }
 
-readfile("pages/footer.html");
+readfile("static/footer.html");
 ob_end_flush();
