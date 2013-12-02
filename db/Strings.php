@@ -107,8 +107,9 @@ SQL;
 	public function saveAll($strings) {
 		global $_POST;
 
-		$statement = "INSERT INTO " . DbAdapter::getTable(DbAdapter::TABLE_STRINGS) . " (lang, name, text, formatted, date_created, date_updated) VALUES (?, ?, ?, ?, ?, ?)";
-		$statement .= " ON DUPLICATE KEY UPDATE name = ?, text = ?, formatted = ?, date_created = ?, date_updated = ?";
+		$statement = "INSERT INTO " . DbAdapter::getTable(DbAdapter::TABLE_STRINGS);
+		$statement .= " (lang, name, text, formatted, date_created, date_updated) VALUES (?, ?, ?, ?, NOW(), NOW())";
+		$statement .= " ON DUPLICATE KEY UPDATE name = ?, text = ?, formatted = ?, date_updated = NOW()";
 
 		try {
 			$handle = $this->pdo->prepare($statement);
@@ -118,13 +119,10 @@ SQL;
 				$handle->bindValue($i++, $string['name']);
 				$handle->bindValue($i++, $string['text']);
 				$handle->bindValue($i++, $string['formatted']);
-				$handle->bindValue($i++, "now()"); // TODO: doesn't work
-				$handle->bindValue($i++, "now()");
+
 				$handle->bindValue($i++, $string['name']);
 				$handle->bindValue($i++, $string['text']);
 				$handle->bindValue($i++, $string['formatted']);
-				$handle->bindValue($i++, "now()");
-				$handle->bindValue($i++, "now()");
 
 				$handle->execute();
 			}
