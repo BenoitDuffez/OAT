@@ -5,17 +5,10 @@ include "db/Screenshots.php";
 
 $cdb = new ContextDbAdapter();
 $contexts = $cdb->loadAll();
-$db = new ScreenshotsDbAdapter();
 
-/* TODO: Validate end of upload:
-POST=array(2) { ["screenshot_context"]=> string(1) "1" ["files"]=> array(1) { [0]=> string(16) "IMG_1247 (2).JPG" } }
+// TODO: we will need a cronjob to remove unassigned screenshots
 
-TODO: we will need a cronjob to remove unassigned screenshots
-
-
-*/
-
-// Display upload form
+// Display screenshot upload form
 if ($contexts != null && count($contexts) > 0) {
 	echo <<<HTML
 
@@ -46,21 +39,5 @@ HTML;
 } else {
 	echo "<div>Before you can upload screenshots, you must create a context.</p>";
 }
-
-
-// Context management
-echo "<div>";
-$contexts = $cdb->loadAll();
-if (isset($_POST['context_name'])) {
-	$cdb->add($_POST['context_name']);
-	echo "<p>Context added.</p>";
-} else {
-	echo '
-<form method="post" action="' . $_SERVER['REQUEST_URI'] . '">
-Context name: <input type="text" name="context_name" />
-<input type="submit" value="Add context"/>
-</form>';
-}
-echo "</div>";
 
 echo '<div id="screenshots_container"></div>';
