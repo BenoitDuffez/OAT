@@ -6,4 +6,4 @@ config.db.php
 # Upload handler
 upload/files/*
 !upload/*.php
-!upload/files/*
+!upload/files/.htaccess
