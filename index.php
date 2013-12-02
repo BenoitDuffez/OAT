@@ -46,11 +46,12 @@ if ($pdo == null) {
 	$page = isset($_GET['page']) ? $_GET['page'] : null;
 
 	// Write menu
-	$menu = array('translate' => "Translate", 'contexts' => "Contexts", 'screenshots' => "Screenshots", 'import' => "Import", 'help' => "Help");
+	$menu = array('' => "Home", 'translate' => "Translate", 'contexts' => "Contexts", 'screenshots' => "Screenshots", 'import' => "Import", 'help' => "Help");
 	echo '<div id="menu"><ul>';
 	foreach ($menu as $p => $title) {
 		$liClass = $p == $page ? ' class="active"' : '';
-		echo '<li' . $liClass . '><a href="%PATH%/' . $p . '/">' . $title . '</a></li>';
+		$url = $p == "" ? "" : $p . "/";
+		echo '<li' . $liClass . '><a href="%PATH%/' . $url . '">' . $title . '</a></li>';
 	}
 	echo '</ul></div>';
 
