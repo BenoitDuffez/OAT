@@ -12,10 +12,15 @@ function dump_html($html) {
 	$path = str_replace("/index.php", "", $_SERVER['SCRIPT_NAME']);
 	$head = isset($html_head) ? $html_head : "";
 
-	$src = array('%PATH%', '%HEAD%');
-	$dst = array($path, $head);
+	$src = array('%HEAD%', '%PATH%');
+	$dst = array($head, $path);
 
 	return str_replace($src, $dst, $html);
+}
+
+function addHtmlHeader($header) {
+	global $html_head;
+	$html_head .= $header;
 }
 
 ob_start("dump_html");
