@@ -12,8 +12,8 @@
     <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono|Roboto|Roboto+Condensed' rel='stylesheet'
           type='text/css'>
     <script type="text/javascript">
-        function setCurrentString(name) {
-            $.getJSON("%PATH%/ajax.php?action=getString&name=" + name + "&lang=<?php echo $_GET['lang'] ?>", null, function (data) {
+        function setCurrentString(name, lang) {
+            $.getJSON("%PATH%/ajax.php?action=getString&name=" + name + "&lang=" + lang, null, function (data) {
                 $('#topForm').css("visibility", "visible");
                 $('#context').css("visibility", "visible");
                 $('#sourcetext').val(data.source.text);

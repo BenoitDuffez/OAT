@@ -15,7 +15,7 @@ function generateLeftMenu($defStrings, $strings) {
 	foreach ($defStrings as $k => $defString) {
 		$class = isset($strings[$k]) && !is_string($strings[$k]) && strlen(trim($strings[$k]['text'])) > 0 ? 'set' : 'unset';
 		echo '<li class="' . $class . '">';
-		echo '<a href="javascript:setCurrentString(\'' . $defString['name'] . '\');">' . $defString['name'] . '</a></li>';
+		echo '<a href="javascript:setCurrentString(\'' . $defString['name'] . '\', \''.$_GET['lang'].'\');">' . $defString['name'] . '</a></li>';
 	}
 
 	echo '
