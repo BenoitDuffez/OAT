@@ -33,12 +33,26 @@ h1, h2, h3 {
 
 body {
     font-family: 'Roboto', sans-serif;
-    background: #ccc;
+    background: #efefef;
+}
+
+#main_container {
+    max-width: 980px;
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    background: white;
+    padding: 10px;
+    box-shadow: 4px 4px 4px #999;
+    /*border: 1px #999 solid;*/
+    /*border-right-width: 3px;*/
+    /*border-bottom-width: 2px;*/
 }
 
 div#menu {
     display: block;
     width: 100%;
+    margin-bottom: 10px;
     height: 5%;
     text-align: center;
 }
@@ -68,6 +82,9 @@ div#menu li {
 }
 
 div#translator {
+    position: absolute;
+    top: 100px;
+    left: 0px;
     width: 100%;
     height: 95%;
 }
