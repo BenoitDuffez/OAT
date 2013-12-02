@@ -104,12 +104,12 @@ SQL;
 		return null;
 	}
 
-	public function saveAll($strings) {
+	public function saveAll($strings, $filename) {
 		global $_POST;
 
 		$statement = "INSERT INTO " . DbAdapter::getTable(DbAdapter::TABLE_STRINGS);
-		$statement .= " (lang, name, text, formatted, date_created, date_updated) VALUES (?, ?, ?, ?, NOW(), NOW())";
-		$statement .= " ON DUPLICATE KEY UPDATE name = ?, text = ?, formatted = ?, date_updated = NOW()";
+		$statement .= " (lang, name, text, formatted, date_created, date_updated, filename) VALUES (?, ?, ?, ?, NOW(), NOW(), ?)";
+		$statement .= " ON DUPLICATE KEY UPDATE name = ?, text = ?, formatted = ?, date_updated = NOW(), filename = ?";
 
 		try {
 			$handle = $this->pdo->prepare($statement);
@@ -119,10 +119,12 @@ SQL;
 				$handle->bindValue($i++, $string['name']);
 				$handle->bindValue($i++, $string['text']);
 				$handle->bindValue($i++, $string['formatted']);
+				$handle->bindValue($i++, $filename);
 
 				$handle->bindValue($i++, $string['name']);
 				$handle->bindValue($i++, $string['text']);
 				$handle->bindValue($i++, $string['formatted']);
+				$handle->bindValue($i++, $filename);
 
 				$handle->execute();
 			}

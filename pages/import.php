@@ -58,7 +58,7 @@ if (isset($_FILES['xmlimport'])) {
 		}
 
 		$db = new StringsDbAdapter();
-		$db->saveAll($strings);
+		$db->saveAll($strings, $_FILES['xmlimport']['name']);
 	}
 }
 echo <<<HTML
