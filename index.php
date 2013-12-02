@@ -51,7 +51,14 @@ if ($pdo == null) {
 	$page = isset($_GET['page']) ? $_GET['page'] : null;
 
 	// Write menu
-	$menu = array('' => "Home", 'translate' => "Translate", 'contexts' => "Contexts", 'screenshots' => "Screenshots", 'import' => "Import", 'help' => "Help");
+	$menu = array();
+	$menu[''] = "Home";
+	$menu['translate'] = "Translate";
+	$menu['contexts'] = "Contexts";
+	$menu['screenshots'] = "Screenshots";
+	$menu['import'] = "Import";
+	$menu['export'] = "Export";
+	$menu['help'] = "Help";
 	echo '
   <div id="menu">
     <ul>';
@@ -70,6 +77,7 @@ if ($pdo == null) {
 		case 'contexts':
 		case 'screenshots':
 		case 'import':
+		case 'export':
 		case 'translate':
 			include "pages/$page.php";
 			break;
