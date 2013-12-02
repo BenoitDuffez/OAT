@@ -47,12 +47,18 @@ if ($pdo == null) {
 
 	// Write menu
 	$menu = array('translate' => "Translate", 'contexts' => "Contexts", 'screenshots' => "Screenshots", 'import' => "Import", 'help' => "Help");
-	echo '<div id="menu"><ul>';
+	echo '
+  <div id="menu">
+    <ul>';
 	foreach ($menu as $p => $title) {
 		$liClass = $p == $page ? ' class="active"' : '';
-		echo '<li' . $liClass . '><a href="%PATH%/' . $p . '/">' . $title . '</a></li>';
+		echo '
+      <li' . $liClass . '><a href="%PATH%/' . $p . '/">' . $title . '</a></li>';
 	}
-	echo '</ul></div>';
+	echo '
+    </ul>
+  </div>
+';
 
 	// Write page contents
 	switch ($page) {

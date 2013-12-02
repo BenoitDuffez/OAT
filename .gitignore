@@ -2,3 +2,8 @@ screenshots/img*
 .idea
 config.db.php
 **/*.swp
+
+# Upload handler
+upload/files/*
+!upload/*.php
+!upload/files/*
