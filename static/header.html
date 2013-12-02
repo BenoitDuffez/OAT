@@ -13,50 +13,6 @@
           type='text/css'>
     <script type="text/javascript">
         var oatPath = '%PATH%';
-
-        function setCurrentString(name, lang) {
-            $.getJSON("%PATH%/ajax.php?action=getString&name=" + name + "&lang=" + lang, null, function (data) {
-                $('#topForm').css("visibility", "visible");
-                $('#context').css("visibility", "visible");
-                $('#sourcetext').val(data.source.text);
-                $('#translatedtext').val(data.destination.text).focus();
-            });
-            var scr = $('#screenshots');
-            scr.empty();
-            $.getJSON("%PATH%/ajax.php?action=getScreenshots&name=" + name, null, function (data) {
-                prevCid = -1;
-                if (data.length > 0) {
-                    scr.append('<p>To help with the translation, here\'s the string context:</p>')
-                    $.each(data, function (i, screen) {
-                        if (prevCid != screen.context_id) {
-                            if (prevCid > 0) {
-                                scr.append('</div>');
-                            }
-                            scr.append('<div class="context"><h3>' + screen.context_name);
-                        }
-                        prevCid = screen.context_id;
-                        scr.append('<div class="screenshot"><img class="screenshot" src="%PATH%/screenshots/' + screen.name + '" /></div>');
-                    });
-                    scr.append('</div>');
-                } else {
-                    var help = 'There is no associated context for this string. ';
-                    help += 'If you want, you can <a href="%PATH%/contexts/' + name + '">choose a context</a> for this string.';
-                    scr.append('<p>' + help + '</p>');
-                }
-            });
-        }
-
-        $(document).ready(function () {
-            $('#translatedtext').keydown(function (e) {
-                if (e.keyCode == 39 && event.altKey) {
-                    $('#translatedtext').val($('#sourcetext').val());
-                }
-//				if ((e.keyCode == 10 || e.keyCode == 13) && event.ctrlKey) {
-//					$('#topForm').submit();
-//					e.preventDefault();
-//				}
-            });
-        });
     </script>
     %HEAD%
 </head>

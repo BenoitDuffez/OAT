@@ -80,7 +80,7 @@ if (!isset($_GET['lang'])) {
 			}
 		}
 
-		// TODO: add specific JS from here
+		addHtmlHeader('<script language="javascript" src="%PATH%/static/translate.js"></script>');
 
 		echo '<div id="translator">';
 		generateLeftMenu($defStrings, $strings);
