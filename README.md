@@ -96,4 +96,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ```
 
+This software uses code licensed under the MIT license:
+
+ * https://github.com/blueimp/jQuery-File-Upload
+
   [1]: http://php.net/intro.pdo

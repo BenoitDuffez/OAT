@@ -1,6 +1,9 @@
-screenshots/*.png
-screenshots/*.jpg
-screenshots/*.jpeg
+screenshots/img*
 .idea
 config.db.php
 **/*.swp
+
+# Upload handler
+upload/files/*
+!upload/*.php
+!upload/files/.htaccess

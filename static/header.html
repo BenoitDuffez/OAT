@@ -3,10 +3,14 @@
 
 <head>
     <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
-    <link rel="stylesheet" type="text/css" href="%PATH%/pages/styles.css"/>
+    <link rel="stylesheet" type="text/css" href="%PATH%/static/styles.css"/>
+    <link rel="stylesheet" type="text/css" href="%PATH%/static/jquery.fileupload.css"/>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="%PATH%/static/jquery.ui.widget.js"></script>
+    <script src="%PATH%/static/jquery.iframe-transport.js"></script>
+    <script src="%PATH%/static/jquery.fileupload.js"></script>
     <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono|Roboto|Roboto+Condensed' rel='stylesheet'
           type='text/css'>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script type="text/javascript">
         function setCurrentString(name) {
             $.getJSON("%PATH%/ajax.php?action=getString&name=" + name + "&lang=<?php echo $_GET['lang'] ?>", null, function (data) {
