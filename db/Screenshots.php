@@ -8,6 +8,7 @@ require_once "db/DbAdapter.php";
 
 class ScreenshotsDbAdapter extends DbAdapter {
 	const DB_VERSION = 1;
+	private $lastException;
 
 	public function __construct() {
 		parent::__construct(DbAdapter::TABLE_SCREENSHOTS, ScreenshotsDbAdapter::DB_VERSION);
@@ -22,8 +23,13 @@ class ScreenshotsDbAdapter extends DbAdapter {
 			return true;
 		} catch (PDOException $e) {
 			L("Unable to add screenshot", $e);
+			$this->lastException = $e;
 		}
 		return false;
+	}
+
+	public function getLastException() {
+		return $this->lastException;
 	}
 
 	public function getAll() {
@@ -34,7 +40,7 @@ class ScreenshotsDbAdapter extends DbAdapter {
 			$sql .= " ORDER BY s.context_id ASC";
 			$handle = $this->pdo->prepare($sql);
 			$handle->execute();
-			return $handle->fetchAll();
+			return $handle->fetchAll(PDO::FETCH_ASSOC);
 		} catch (PDOException $e) {
 			L("Unable retrieve all screenshots", $e);
 		}

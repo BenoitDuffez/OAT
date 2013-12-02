@@ -59,6 +59,18 @@ class ContextDbAdapter extends DbAdapter {
 		return $contexts;
 	}
 
+	public function getAllScreenshots() {
+		try {
+			$sql = "SELECT s.*, c.name as context_name FROM " . DbAdapter::getTable(DbAdapter::TABLE_SCREENSHOTS) . " s, " . DbAdapter::getTable(DbAdapter::TABLE_CONTEXTS) . " c";
+			$sql .= " WHERE c.id = s.context_id ORDER BY context_name ASC";
+			$handle = $this->pdo->prepare($sql);
+			$handle->execute();
+			return $handle->fetchAll(PDO::FETCH_ASSOC);
+		} catch (PDOException $e) {
+			L("Unable to retrieve all screenshots", $e);
+		}
+	}
+
 	public function getScreenshots($stringName) {
 		$contexts = array();
 		try {
@@ -75,7 +87,7 @@ class ContextDbAdapter extends DbAdapter {
 			$handle->execute();
 			return $handle->fetchAll(PDO::FETCH_ASSOC);
 		} catch (PDOException $e) {
-			L("Unable to retrieve all contexts: " . $e->getMessage());
+			L("Unable to retrieve all contexts: ", $e);
 		}
 		return $contexts;
 	}
