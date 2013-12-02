@@ -62,3 +62,5 @@ Context name: <input type="text" name="context_name" />
 </form>';
 }
 echo "</div>";
+
+echo '<div id="screenshots_container"></div>';

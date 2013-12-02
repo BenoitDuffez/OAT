@@ -38,7 +38,22 @@ function addScreenshots() {
  */
 function refreshScreenshots() {
     $.getJSON(oatPath + "/ajax.php?action=getScreenshots", null, function (result) {
-        console.log(result);
+        var prevContextId = -1;
+        var currentContext = '';
+        var screenshots = $('#screenshots_container');
+
+        screenshots.empty();
+        $.each(result, function (i, screenshot) {
+            if (prevContextId != screenshot.context_id) {
+                if (prevContextId > 0) {
+                    currentContext += '</div>';
+                }
+                currentContext += '<div class="context"><h2>' + screenshot.context_name + '</h2>';
+            }
+            prevContextId = screenshot.context_id;
+            currentContext += '<div class="screenshot"><img class="screenshot" src="' + oatPath + '/upload/files/' + screenshot.name + '" /></div>';
+        });
+        screenshots.append(currentContext);
     });
 }
 
