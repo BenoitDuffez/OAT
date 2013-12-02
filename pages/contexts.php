@@ -1,13 +1,18 @@
 <?php
 
 include "db/Context.php";
+include "db/Config.php";
 include "db/Strings.php";
 include "db/Links.php";
 
-// Context management
+// Load helpers
 $ctx = new ContextDbAdapter();
-$contexts = $ctx->loadAll();
+$links = new LinksDbAdapter();
+$cfg = new Config();
+$sdb = new StringsDbAdapter();
 
+// List contexts
+$contexts = $ctx->loadAll();
 if (isset($_POST['context_name'])) {
 	$ctx->add($_POST['context_name']);
 	echo "<p>Context added.</p>";
@@ -19,10 +24,7 @@ Context name: <input type="text" name="context_name" />
 </form>';
 }
 
-include "db/Links.php";
-$links = new LinksDbAdapter();
-$sdb = new StringsDbAdapter();
-
+// Handle new string(s) / context linkage
 if (isset($_POST['context_id']) && isset($_POST['strings']) && is_array($_POST['strings'])) {
 	$contextId = 0 + $_POST['context_id'];
 	foreach ($_POST['strings'] as $stringName => $selected) {
@@ -31,7 +33,9 @@ if (isset($_POST['context_id']) && isset($_POST['strings']) && is_array($_POST['
 		}
 	}
 	echo "<p>String" . (count($_POST['strings']) == 1 ? "" : "s") . " linked to context.</p>";
-} else {
+}
+// Display the form
+else {
 	echo '
 <form id="link" method="post" action="' . $_SERVER['REQUEST_URI'] . '">
 <p>Context: <select name="context_id">';
@@ -41,15 +45,16 @@ if (isset($_POST['context_id']) && isset($_POST['strings']) && is_array($_POST['
 	echo '
 </select></p>
 <p>Strings:</p>
-<ul>';
+<div id="strings_list">
+';
 	foreach ($sdb->getAll($cfg->getDefaultLanguage()) as $context) {
 		$checked = isset($_GET['string']) && $context['name'] == $_GET['string'] ? 'checked' : '';
-		echo '<li><input type="checkbox" name="strings[' . $context['name'] . ']" value="true" id="cb_' . $context['name'] . '"'.$checked.'>';
-		echo '<label for="cb_' . $context['name'] . '">' . $context['name'] . '</label></li>';
+		echo '<div style="overflow: hidden;"><input type="checkbox" name="strings[' . $context['name'] . ']" value="true" id="cb_' . $context['name'] . '"'.$checked.'>';
+		echo '<label for="cb_' . $context['name'] . '">' . $context['name'] . '</label></div>';
 	}
 }
 echo '
-</ul>
+</div>
 <input type="submit" value="Link String(s) with context"/>
 </form>';
 

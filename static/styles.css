@@ -140,3 +140,10 @@ form {
     margin: 10px;
     padding: 5px;
 }
+
+#strings_list {
+    column-width: 250px;
+    -moz-column-width: 250px;
+    -webkit-column-width: 250px;
+    overflow: hidden;
+}
