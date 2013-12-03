@@ -17,10 +17,10 @@ $db = new StringsDbAdapter();
 $tr = new Translations();
 $cfg = new Config();
 
-echo <<<XML
+echo '
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-XML;
+';
 
 // Get the list of strings
 $strings = $tr->getStrings($_GET['lang'], $_GET['filename']);
