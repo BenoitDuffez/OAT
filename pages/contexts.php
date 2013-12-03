@@ -16,12 +16,20 @@ $contexts = $ctx->loadAll();
 if (isset($_POST['context_name'])) {
 	$ctx->add($_POST['context_name']);
 	echo "<p>Context added.</p>";
+
+	// Allow that context to be in the list right away
+	$contexts = $ctx->loadAll();
 } else {
-	echo '
-<form id="context" method="post" action="' . $_SERVER['REQUEST_URI'] . '">
-Context name: <input type="text" name="context_name" />
-<input type="submit" value="Add context"/>
-</form>';
+	echo <<<HTML
+<form id="context" method="post" action="%PATH%/contexts/">
+  <div>
+    <h3>Create a new context</h3>
+    <p>Context name:</p>
+    <input type="text" name="context_name" />
+    <input type="submit" value="Add context"/>
+  </div>
+</form>
+HTML;
 }
 
 // Handle new string(s) / context linkage
@@ -36,25 +44,31 @@ if (isset($_POST['context_id']) && isset($_POST['strings']) && is_array($_POST['
 }
 // Display the form
 else {
-	echo '
-<form id="link" method="post" action="' . $_SERVER['REQUEST_URI'] . '">
-<p>Context: <select name="context_id">';
+	echo <<<HTML
+  <form id="link" method="post" action="%PATH%/contexts/">
+    <div>
+      <h3>Link a set of strings with a context</h3>
+      <p>Please select the target context:</p>
+      <select name="context_id">
+HTML;
 	foreach ($contexts as $context) {
 		echo '<option value="' . $context->id . '">' . $context->name . '</option>';
 	}
-	echo '
-</select></p>
-<p>Strings:</p>
-<div id="strings_list">
-';
+	echo <<<HTML
+      </select>
+      <p>Select the strings to link with that context:</p>
+      <div id="strings_list">
+HTML;
 	foreach ($sdb->getAll($cfg->getDefaultLanguage()) as $context) {
 		$checked = isset($_GET['string']) && $context['name'] == $_GET['string'] ? 'checked' : '';
 		echo '<div style="overflow: hidden;"><input type="checkbox" name="strings[' . $context['name'] . ']" value="true" id="cb_' . $context['name'] . '"'.$checked.'>';
 		echo '<label for="cb_' . $context['name'] . '">' . $context['name'] . '</label></div>';
 	}
+	echo <<<HTML
+      </div>
+      <input type="submit" value="Link String(s) with context"/>
+    </div>
+  </form>
+HTML;
 }
-echo '
-</div>
-<input type="submit" value="Link String(s) with context"/>
-</form>';
 
