@@ -7,6 +7,7 @@ abstract class DbAdapter {
 	const TABLE_CONFIG = "config";
 	const TABLE_CONTEXTS = "contexts";
 	const TABLE_STRINGS = "strings";
+	const TABLE_TRANSLATIONS = "translations";
 	const TABLE_SCREENSHOTS = "screenshots";
 	const TABLE_LINKS = "links";
 
@@ -25,8 +26,9 @@ abstract class DbAdapter {
 
 		$currentVersion = 0 + $this->getDbVersion($table);
 		if ($currentVersion < $version) {
-			$this->onUpgrade($currentVersion, $version);
-			$this->setDbVersion($table, $version);
+			if ($this->onUpgrade($currentVersion, $version)) {
+				$this->setDbVersion($table, $version);
+			}
 		}
 	}
 
