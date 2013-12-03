@@ -54,6 +54,7 @@ div#menu {
     width: 100%;
     padding-bottom: 6px;
     border-bottom: 2px #006 solid;
+    margin-bottom: 10px;
     height: 5%;
     text-align: center;
 }
@@ -65,20 +66,17 @@ div#menu ul {
     list-style-type: none;
 }
 
-div#menu ul li:hover {
-}
-
 div#menu ul li a {
     text-decoration: none;
     color: black;
     background-color: white;
     padding: 0.2em 0.8em;
 }
+
 div#menu ul li.active a {
-/*    color: white;
-    background-color: #006;*/
     border-bottom: 5px #006 solid;
 }
+
 div#menu a:hover {
     border-bottom: 5px #006 solid;
     background-color: #006;
