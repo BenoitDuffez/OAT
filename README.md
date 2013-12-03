@@ -31,7 +31,7 @@ This manages the app contexts (*main screen*, *preferences activity*, *content p
 
 Well, that's where the work has to be done. Strings are represented along with:
 
-* one or several screenshots, corresponding to the context of that string;
+* one or several screenshots, corresponding to the context(s) in which that string appears;
 * the string name, as in `R.string.xyz`;
 * the text in the *main language*, as it appears in the screenhot(s);
 * the text to be translated to the target language
