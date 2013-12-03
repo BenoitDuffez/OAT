@@ -3,7 +3,7 @@
 require_once "db/DbAdapter.php";
 
 class StringsDbAdapter extends DbAdapter {
-	const DB_VERSION = 1;
+	const DB_VERSION = 2;
 
 	public function __construct() {
 		parent::__construct(DbAdapter::TABLE_STRINGS, StringsDbAdapter::DB_VERSION);
@@ -28,6 +28,11 @@ CREATE TABLE IF NOT EXISTS table (
 SQL;
 
 				$this->createTable($statement);
+			}
+
+			if ($oldVersion < 2) {
+				$statement = "ALTER TABLE " . DbAdapter::getTable(DbAdapter::TABLE_STRINGS) . " ADD stringtype varchar(50)";
+				$this->pdo->exec($statement);
 			}
 		} catch (PDOException $e) {
 			L("Unable to upgrade strings database from $oldVersion to $newVersion", $e);
@@ -108,8 +113,8 @@ SQL;
 		global $_POST;
 
 		$statement = "INSERT INTO " . DbAdapter::getTable(DbAdapter::TABLE_STRINGS);
-		$statement .= " (lang, name, text, formatted, date_created, date_updated, filename) VALUES (?, ?, ?, ?, NOW(), NOW(), ?)";
-		$statement .= " ON DUPLICATE KEY UPDATE name = ?, text = ?, formatted = ?, date_updated = NOW(), filename = ?";
+		$statement .= " (lang, name, text, formatted, date_created, date_updated, filename, stringtype) VALUES (?, ?, ?, ?, NOW(), NOW(), ?, ?)";
+		$statement .= " ON DUPLICATE KEY UPDATE name = ?, text = ?, formatted = ?, date_updated = NOW(), filename = ?, stringtype = ?";
 
 		try {
 			$handle = $this->pdo->prepare($statement);
@@ -120,11 +125,13 @@ SQL;
 				$handle->bindValue($i++, $string['text']);
 				$handle->bindValue($i++, $string['formatted']);
 				$handle->bindValue($i++, $filename);
+				$handle->bindValue($i++, $string['type']);
 
 				$handle->bindValue($i++, $string['name']);
 				$handle->bindValue($i++, $string['text']);
 				$handle->bindValue($i++, $string['formatted']);
 				$handle->bindValue($i++, $filename);
+				$handle->bindValue($i++, $string['type']);
 
 				$handle->execute();
 			}

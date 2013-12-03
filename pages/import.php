@@ -50,11 +50,12 @@ if (isset($_FILES['xmlimport'])) {
 
 				echo "<li>$attribute = $value</li>";
 			}
-			$text = preg_replace(array("#<string[^>]*>#", "#(</string>)#"), '', (string) $string->asXml());
+			$type = $string->getName();
+			$text = preg_replace(array("#<".$type."[^>]*>#", "#(</".$type.">)#"), '', (string) $string->asXml());
 			echo "<li><textarea rows=5 cols=50>$text</textarea></li>";
 			echo "</ul><hr />";
 
-			$strings[] = array('formatted' => $formatted, 'name' => $name, 'text' => $text);
+			$strings[] = array('formatted' => $formatted, 'name' => $name, 'text' => $text, 'type' => $type);
 		}
 
 		$db = new StringsDbAdapter();

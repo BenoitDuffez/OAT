@@ -26,7 +26,7 @@ foreach ($names as $name) {
 	$string = $db->getString($_GET['lang'], $name['name']);
 	$formatted = $string['formatted'] ? '' : ' formatted="false"';
 	echo "\n    ";
-	echo '<string name="'.$string['name'].'"'.$formatted.'>'.$string['text'].'</string>';
+	echo '<' . $string['stringtype'] . ' name="'.$string['name'].'"'.$formatted.'>'.$string['text'].'</' . $string['stringtype'] . '>';
 
 }
 
