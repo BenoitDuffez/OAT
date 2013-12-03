@@ -1,4 +1,4 @@
-Open-source Android Translator
+Open Android Translator
 ==============================
 
 OAT is a web-based interface that helps developers manage their localized strings for any Android app.
