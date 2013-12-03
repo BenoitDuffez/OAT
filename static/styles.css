@@ -106,7 +106,7 @@ div#translator div#list_strings ul {
 }
 
 div#translator div#list_strings li:before {
-    content: "\0BB \020";
+    content: "\203A \020";
 }
 
 div#translator div#list_strings li {
@@ -123,6 +123,10 @@ div#translator div#list_strings li.set {
 div#translator div#list_strings li.unset {
     background: #f99;
     border-color: #f99;
+}
+
+div#translator div#list_strings li.current:before {
+    content: "\0BB \020";
 }
 
 div#translator div#topForm {

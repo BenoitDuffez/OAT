@@ -19,6 +19,26 @@ switch ($_GET['action']) {
 		break;
 	}
 
+	case 'addString':
+	{
+		include_once "db/Translations.php";
+		$db = new Translations();
+		$req = json_decode($HTTP_RAW_POST_DATA);
+		$res = $db->addTranslation($req->name, $req->lang, $req->text);
+		$json = array();
+		if ($res === true) {
+			$json['result'] = 'OK';
+		} else if ($res === false) {
+			$json['result'] = 'KO';
+			$json['reason'] = 'Unknown PDO error';
+		} else {
+			$json['result'] = 'KO';
+			$json['reason'] = $res->getMessage();
+		}
+		echo json_encode($json);
+		break;
+	}
+
 	case 'getScreenshots':
 	{
 		include "db/Context.php";

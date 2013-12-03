@@ -55,6 +55,30 @@ SQL;
 		}
 	}
 
+	public function addTranslation($name, $lang, $text) {
+		$statement = "INSERT INTO " . DbAdapter::getTable(DbAdapter::TABLE_TRANSLATIONS);
+		$statement .= " (name, lang, text) VALUES (?, ?, ?)";
+		$statement .= " ON DUPLICATE KEY UPDATE name = ?, lang = ?, text = ?";
+
+		try {
+			$handle = $this->pdo->prepare($statement);
+			$i = 1;
+			$handle->bindValue($i++, $name);
+			$handle->bindValue($i++, $lang);
+			$handle->bindValue($i++, $text);
+
+			$handle->bindValue($i++, $name);
+			$handle->bindValue($i++, $lang);
+			$handle->bindValue($i++, $text);
+
+			return $handle->execute();
+		} catch (PDOException $e) {
+			L("Unable to save string!", $e);
+		}
+
+		return $e;
+	}
+
 	public function getFirstLanguage() {
 		try {
 			$handle = $this->pdo->prepare("SELECT lang, COUNT(*) as n FROM " . DbAdapter::getTable(DbAdapter::TABLE_STRINGS) . " GROUP BY lang ORDER BY n DESC LIMIT 1");
