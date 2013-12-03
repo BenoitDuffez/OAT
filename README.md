@@ -13,6 +13,8 @@ It is aimed to do what others don't:
 
 Feel free to contribute. This is the goal of that tool.
 
+**Please, have a look <a href="../../wiki/Gallery">at the gallery</a>!**
+
 How does it work?
 -----------------
 
