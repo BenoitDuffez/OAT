@@ -4,9 +4,9 @@
  * Date: 28/11/2013
  * Time: 22:18
  */
+
 include "db/Config.php";
 include "db/Strings.php";
-include "db/Translations.php";
 
 function generateLeftMenu($defStrings) {
 	echo '
@@ -53,15 +53,11 @@ if (!isset($_GET['lang'])) {
 } else {
 	$config = new Config();
 	$db = new StringsDbAdapter();
-	$tr = new Translations();
 
 	$defaultLanguage = $config->getDefaultLanguage();
-
 	if ($defaultLanguage == null) {
-		echo "<p>Please import strings first</p>";
+		echo "<p>Please import development strings first</p>";
 	} else {
-		$nb = $tr->getNbStrings($_GET['lang']);
-
 		$defStrings = $db->getAll($_GET['lang']);
 
 		addHtmlHeader('<script language="javascript" src="%PATH%/static/translate.js"></script>');
@@ -72,3 +68,4 @@ if (!isset($_GET['lang'])) {
 		echo '</div>';
 	}
 }
+
