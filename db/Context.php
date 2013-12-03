@@ -76,7 +76,7 @@ class ContextDbAdapter extends DbAdapter {
 		try {
 			$sql = "SELECT s.*, c.name as context_name FROM " . DbAdapter::getTable(DbAdapter::TABLE_LINKS) . " l ";
 			$sql .= " LEFT JOIN " . DbAdapter::getTable(DbAdapter::TABLE_CONTEXTS) . " c ON c.id = l.id1 ";
-			$sql .= " LEFT JOIN " . DbAdapter::getTable(DbAdapter::TABLE_SCREENSHOTS) . " s ON s.context_id = c.id";
+			$sql .= " INNER JOIN " . DbAdapter::getTable(DbAdapter::TABLE_SCREENSHOTS) . " s ON s.context_id = c.id";
 			$sql .= " WHERE l.tbl1 = ? AND l.tbl2 = ? AND l.id2 = ?"; // strings table + string name
 			$sql .= " ORDER BY context_name ASC";
 			$handle = $this->pdo->prepare($sql);
