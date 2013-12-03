@@ -19,10 +19,6 @@ img.screenshot {
     float: left;
 }
 
-body {
-    margin: 0;
-}
-
 body, html, div#translator {
     height: 100%;
 }
@@ -34,11 +30,12 @@ h1, h2, h3 {
 body {
     font-family: 'Roboto', sans-serif;
     background: #efefef;
+    margin: 0;
 }
 
 #main_container {
     max-width: 980px;
-    margin-top: 0px;
+    margin-top: 10px;
     margin-left: auto;
     margin-right: auto;
     background: white;
