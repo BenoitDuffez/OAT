@@ -2,8 +2,8 @@
 
 $_db_host = "localhost";
 $_db_user = "johndoe";
-$_db_name = "translate";
 $_db_pass = "correct horse battery staple"
+$_db_name = "translate";
 
 $_tprefix = "oat_";
 
