@@ -1,6 +1,7 @@
 .idea
 config.db.php
-**/*.swp
+*.sw*
+**/*.sw*
 
 # Upload handler
 upload/files/*
