@@ -33,6 +33,17 @@ body {
     margin: 0;
 }
 
+a, a:visited {
+    text-decoration: none;
+    color: #33c;
+}
+a:active {
+    color: #66f;
+}
+a:hover{
+    color: #99f;
+}
+
 #main_container {
     max-width: 980px;
     margin: 10px auto;
