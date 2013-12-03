@@ -38,7 +38,7 @@ body {
 
 #main_container {
     max-width: 980px;
-    margin-top: 20px;
+    margin-top: 0px;
     margin-left: auto;
     margin-right: auto;
     background: white;
@@ -52,7 +52,8 @@ body {
 div#menu {
     display: block;
     width: 100%;
-    margin-bottom: 10px;
+    padding-bottom: 6px;
+    border-bottom: 2px #006 solid;
     height: 5%;
     text-align: center;
 }
@@ -64,17 +65,24 @@ div#menu ul {
     list-style-type: none;
 }
 
-div#menu a {
-    width: 6em;
-    text-decoration: none;
-    color: white;
-    background-color: #006;
-    padding: 0.1em 0.6em;
-    border-right: 1px solid white;
+div#menu ul li:hover {
 }
 
+div#menu ul li a {
+    text-decoration: none;
+    color: black;
+    background-color: white;
+    padding: 0.2em 0.8em;
+}
+div#menu ul li.active a {
+/*    color: white;
+    background-color: #006;*/
+    border-bottom: 5px #006 solid;
+}
 div#menu a:hover {
-    background-color: #30f;
+    border-bottom: 5px #006 solid;
+    background-color: #006;
+    color: white;
 }
 
 div#menu li {
