@@ -1,15 +1,29 @@
 <?php
 
+// TODO: severity
 function L($msg, $exception = null) {
-	echo "<div class=\"" . ($exception == null ? "warning" : "error") . "\">Message: $msg";
-	if ($exception != null) {
-		echo "<br/>Stack trace:<ul>";
-		foreach (debug_backtrace() as $k => $v) {
-			echo "<li>$k: " . $v['file'] . ":" . $v['line'] . "<br />";
-		}
-		echo "<br/>Exception: " . $exception->getMessage();
+	if (!file_exists("./log")) {
+		mkdir("./log");
 	}
-	echo "</div>";
+	if (!file_exists("./log")) {
+		echo "Fatal error: can't create log folder while trying to log: $msg";
+		return;
+	}
+	$log = fopen("./log/application.log", "a+");
+	if (!$log) {
+		echo "Fatal error: can't create/append log file while trying to log: $msg";
+		return;
+	}
+	fprintf($log, "%s %s: %s\n", date(DATE_ATOM), $exception == null ? "warning" : "error", $msg);
+	if ($exception != null) {// TODO: if ($severity > WARNING)
+		fprintf($log, "<br/>Stack trace:<ul>");
+		foreach (debug_backtrace() as $k => $v) {
+			fprintf($log, "<li>$k: " . $v['file'] . ":" . $v['line'] . "<br />");
+		}
+		fprintf($log, "<br/>Exception: " . $exception->getMessage());
+		fprintf($log, "</div>");
+	}
+	fclose($log);
 }
 
 function utf8_fopen_read($fileName, $encoding) {

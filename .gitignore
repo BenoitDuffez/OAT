@@ -7,3 +7,4 @@ config.db.php
 upload/files/*
 !upload/*.php
 !upload/files/.htaccess
+log
