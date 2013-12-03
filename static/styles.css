@@ -106,27 +106,25 @@ div#translator div#list_strings ul {
 }
 
 div#translator div#list_strings li:before {
-    content: "\203A \020";
-}
-
-div#translator div#list_strings li {
-    padding: 2px;
-    margin: 2px;
-    border-radius: 3px;
-}
-
-div#translator div#list_strings li.set {
-    background: #9f9;
-    border-color: #9f9;
-}
-
-div#translator div#list_strings li.unset {
-    background: #f99;
-    border-color: #f99;
+    content: "\203A \00A0 \00A0";
 }
 
 div#translator div#list_strings li.current:before {
     content: "\0BB \020";
+}
+
+div#translator div#list_strings li {
+    margin: 2px;
+}
+
+div#translator div#list_strings li.set:after {
+    color: #6c6;
+    content: "\020 \2713"
+}
+
+div#translator div#list_strings li.unset:after {
+    color: #f99;
+    content: "\020 \2718"
 }
 
 div#translator div#topForm {
@@ -147,8 +145,8 @@ div#translator div#topForm textarea {
 }
 
 div#translator div#topForm .tip {
-    float: right;
-    color: #ccc;
+    color: #999;
+    font-size: 0.7em;
 }
 
 div#translator div#context {

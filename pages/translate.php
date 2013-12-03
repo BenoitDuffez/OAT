@@ -16,7 +16,7 @@ function generateLeftMenu($defStrings) {
 	foreach ($defStrings as $k => $defString) {
 		$class = (0 + $defString['is_translated']) > 0 ? 'set' : 'unset';
 		echo '<li id="' . $defString['name'] . '" class="' . $class . '">';
-		echo '<a href="javascript:setCurrentString(\'' . $defString['name'] . '\', \'' . $_GET['lang'] . '\');">' . $defString['name'] . '</a></li>';
+		echo '<a class="button" href="javascript:setCurrentString(\'' . $defString['name'] . '\', \'' . $_GET['lang'] . '\');">' . $defString['name'] . '</a></li>';
 	}
 
 	echo '
@@ -29,9 +29,13 @@ function generateForm() {
 	echo '
 	<div id="topForm" style="visibility: hidden;">
 		<h2>Translation into ' . $languages[$_GET['lang']] . '</h2>
-		<p class="tip">Tip: use Alt+Right to copy from source language<br />Tip: use Ctrl+Enter to save string and go to next</p>
 		<textarea id="sourcetext" class="readonly"></textarea>
 		<textarea id="translatedtext" class="readwrite" autofocus placeholder="Enter the text translated to ' . $languages[$_GET['lang']] . '"></textarea>
+		<p class="tip">
+			Tips: use Alt+Right to copy from source language —
+			use Ctrl+Enter to save string and go to next —
+			use Alt+Up or Down to navigate next/prev string
+		</p>
 	</div>';
 }
 

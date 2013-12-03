@@ -13,9 +13,15 @@ function setCurrentString(name, lang) {
     window.currentStringLang = lang;
 
     $('#list_strings').find('ul li').each(function (i, e) {
-        $(e).removeClass('current');
+        $(e).removeClass('current').find('a.button').each(function (i, e) {
+            $(e).removeClass('active');
+        });
     });
-    $('li#' + window.currentStringName).addClass('current');
+    var current = $('li#' + window.currentStringName);
+    current.addClass('current');
+    current.find('a.button').each(function (i, e) {
+        $(e).addClass('active');
+    });
 
     $.getJSON(oatPath + "/ajax.php?action=getString&name=" + name + "&lang=" + lang, null, function (data) {
         $('#topForm').css("visibility", "visible");

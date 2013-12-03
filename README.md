@@ -97,4 +97,9 @@ This software uses code licensed under the MIT license:
 
  * https://github.com/blueimp/jQuery-File-Upload
 
+Other credits:
+
+ * https://github.com/necolas/css3-github-buttons
+
+
   [1]: http://php.net/intro.pdo
