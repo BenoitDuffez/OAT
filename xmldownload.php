@@ -19,7 +19,7 @@ include "db/Config.php";
 $db = new StringsDbAdapter();
 $cfg = new Config();
 
-// TODO: so many queries, such slowness, wow
+// TODO: so many queries, such slowness, wow => SELECT s.name, d.text, s.text from oat_strings s left join oat_strings d on d.name=s.name where s.lang = 'en' and d.lang='fr'
 // Get the list of string names
 $names = $db->getStringNames($cfg->getDefaultLanguage(), $_GET['filename']);
 foreach ($names as $name) {
