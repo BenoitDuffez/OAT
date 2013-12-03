@@ -19,8 +19,8 @@ img.screenshot {
     float: left;
 }
 
-body, html, div#translator {
-    height: 100%;
+body, html {
+    height: 98%;
 }
 
 h1, h2, h3 {
