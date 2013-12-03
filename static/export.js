@@ -3,6 +3,6 @@
  */
 
 /*global window, $*/
-function exportStringsToFile(filename){
+function exportStringsToFile(filename) {
     window.location.href = oatPath + '/xmldownload.php?filename=' + $('#filename').val() + '&lang=' + $('#lang').val();
 }

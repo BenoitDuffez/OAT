@@ -27,7 +27,7 @@ $strings = $tr->getStrings($_GET['lang'], $_GET['filename']);
 foreach ($strings as $string) {
 	$formatted = $string['formatted'] ? '' : ' formatted="false"';
 	echo "\n    ";
-	echo '<' . $string['stringtype'] . ' name="'.$string['name'].'"'.$formatted.'>'.$string['text'].'</' . $string['stringtype'] . '>';
+	echo '<' . $string['stringtype'] . ' name="' . $string['name'] . '"' . $formatted . '>' . $string['text'] . '</' . $string['stringtype'] . '>';
 
 }
 

@@ -11,50 +11,51 @@
  */
 
 .fileinput-button {
-  background: #f00;
-  position: relative;
-  overflow: hidden;
+    background: #f00;
+    position: relative;
+    overflow: hidden;
 }
+
 .fileinput-button input[type="file"] {
-  position: absolute;
-  top: 0;
-  right: 0;
-  margin: 0;
-  opacity: 0;
-  -ms-filter: 'alpha(opacity=0)';
-  /*font-size: 2em;*/
-  direction: ltr;
-  cursor: pointer;
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    opacity: 0;
+    -ms-filter: 'alpha(opacity=0)';
+    /*font-size: 2em;*/
+    direction: ltr;
+    cursor: pointer;
 }
 
 /* Fixes for IE < 8 */
-@media screen\9 {
-  .fileinput-button input {
-    filter: alpha(opacity=0);
-    font-size: 100%;
-    height: 100%;
-  }
+@media screen\9  {
+    .fileinput-button input {
+        filter: alpha(opacity=0);
+        font-size: 100%;
+        height: 100%;
+    }
 }
 
 #screenshot_files {
-  float: left;
+    float: left;
 }
 
 #screenshot_upload {
-  clear: both;
+    clear: both;
 }
 
 #progress {
-  margin: 5px;
-  height: 8px;
-  width: 200px;
-  border: 1px black solid;
+    margin: 5px;
+    height: 8px;
+    width: 200px;
+    border: 1px black solid;
 }
 
 #progress .progress-bar-success {
-  background: #090;
-  height: 100%;
-  width: 0%;
+    background: #090;
+    height: 100%;
+    width: 0%;
 }
 
 

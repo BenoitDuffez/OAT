@@ -9,10 +9,10 @@ class Translations extends DbAdapter {
 		parent::__construct(DbAdapter::TABLE_TRANSLATIONS, Translations::DB_VERSION);
 	}
 
-        protected function onUpgrade($oldVersion, $newVersion) {
-                try {
-                        if ($oldVersion < 1) {
-                                $statement = <<<SQL
+	protected function onUpgrade($oldVersion, $newVersion) {
+		try {
+			if ($oldVersion < 1) {
+				$statement = <<<SQL
 CREATE TABLE IF NOT EXISTS table (
   id int(11) NOT NULL AUTO_INCREMENT,
   name varchar(100) NOT NULL,
@@ -22,37 +22,37 @@ CREATE TABLE IF NOT EXISTS table (
   UNIQUE KEY lang (lang, name)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 SQL;
-                                $this->createTable($statement);
+				$this->createTable($statement);
 				return true;
-                        }
-                } catch (PDOException $e) {
-                        L("Unable to upgrade strings database from $oldVersion to $newVersion", $e);
-                }
+			}
+		} catch (PDOException $e) {
+			L("Unable to upgrade strings database from $oldVersion to $newVersion", $e);
+		}
 		return false;
-        }
+	}
 
-        public function saveAll($lang, $strings) {
-                $statement = "INSERT INTO " . DbAdapter::getTable(DbAdapter::TABLE_TRANSLATIONS);
-                $statement .= " (name, lang, text) VALUES (?, ?, ?)";
-                $statement .= " ON DUPLICATE KEY UPDATE name = ?, lang = ?, text = ?";
+	public function saveAll($lang, $strings) {
+		$statement = "INSERT INTO " . DbAdapter::getTable(DbAdapter::TABLE_TRANSLATIONS);
+		$statement .= " (name, lang, text) VALUES (?, ?, ?)";
+		$statement .= " ON DUPLICATE KEY UPDATE name = ?, lang = ?, text = ?";
 
-                try {
-                        $handle = $this->pdo->prepare($statement);
-                        foreach ($strings as $string) {
-                                $i = 1;
-                                $handle->bindValue($i++, $string['name']);
-                                $handle->bindValue($i++, $lang);
-                                $handle->bindValue($i++, $string['text']);
+		try {
+			$handle = $this->pdo->prepare($statement);
+			foreach ($strings as $string) {
+				$i = 1;
+				$handle->bindValue($i++, $string['name']);
+				$handle->bindValue($i++, $lang);
+				$handle->bindValue($i++, $string['text']);
 
-                                $handle->bindValue($i++, $string['name']);
-                                $handle->bindValue($i++, $lang);
-                                $handle->bindValue($i++, $string['text']);
+				$handle->bindValue($i++, $string['name']);
+				$handle->bindValue($i++, $lang);
+				$handle->bindValue($i++, $string['text']);
 
-                                $handle->execute();
-                        }
-                } catch (PDOException $e) {
-                        L("Unable to batch save strings!", $e);
-                }
+				$handle->execute();
+			}
+		} catch (PDOException $e) {
+			L("Unable to batch save strings!", $e);
+		}
 	}
 
 	public function getFirstLanguage() {
@@ -82,34 +82,34 @@ SQL;
 	}
 
 	public function getStrings($lang, $filename) {
-                try {
-                        $sql = "SELECT s.*, t.text FROM " . DbAdapter::getTable(DbAdapter::TABLE_STRINGS) . " s, ";
+		try {
+			$sql = "SELECT s.*, t.text FROM " . DbAdapter::getTable(DbAdapter::TABLE_STRINGS) . " s, ";
 			$sql .= DbAdapter::getTable(DbAdapter::TABLE_TRANSLATIONS) . " t";
 			$sql .= " WHERE t.lang = ? AND s.filename = ? AND t.name = s.name";
-                        $handle = $this->pdo->prepare($sql);
-                        $handle->bindValue(1, $lang);
-                        $handle->bindValue(2, $filename);
-                        $handle->execute();
-                        return $handle->fetchAll(PDO::FETCH_ASSOC);
-                } catch (PDOException $e) {
-                        L("Unable to retrieve string $name for lang $lang", $e);
-                }
-                return null;
-        }
-
-
-        public function getNbStrings($lang) {
-                try {
-                        $handle = $this->pdo->prepare("SELECT COUNT(*) as nb FROM " . DbAdapter::getTable(DbAdapter::TABLE_TRANSLATIONS) . " WHERE lang = ?");
+			$handle = $this->pdo->prepare($sql);
 			$handle->bindValue(1, $lang);
-                        $handle->execute();
-                        $result = $handle->fetch();
-                        return $result['nb'];
-                } catch (PDOException $e) {
-                        L("Unable to retrieve available langs", $e);
-                }
-                return 0;
-        }
+			$handle->bindValue(2, $filename);
+			$handle->execute();
+			return $handle->fetchAll(PDO::FETCH_ASSOC);
+		} catch (PDOException $e) {
+			L("Unable to retrieve strings from $filename for lang $lang", $e);
+		}
+		return null;
+	}
+
+
+	public function getNbStrings($lang) {
+		try {
+			$handle = $this->pdo->prepare("SELECT COUNT(*) as nb FROM " . DbAdapter::getTable(DbAdapter::TABLE_TRANSLATIONS) . " WHERE lang = ?");
+			$handle->bindValue(1, $lang);
+			$handle->execute();
+			$result = $handle->fetch();
+			return $result['nb'];
+		} catch (PDOException $e) {
+			L("Unable to retrieve available langs", $e);
+		}
+		return 0;
+	}
 
 	public function getLangs() {
 		try {
