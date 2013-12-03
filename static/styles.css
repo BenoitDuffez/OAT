@@ -44,6 +44,8 @@ body {
 }
 
 div#menu {
+    position: relative;
+    z-index: 1000;
     display: block;
     width: 100%;
     padding-bottom: 6px;
