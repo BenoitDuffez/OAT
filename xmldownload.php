@@ -5,7 +5,7 @@
  * Time: 00:33
  */
 
-header('Content-type: application/xml');
+header('Content-type: application/xml; charset=utf-8');
 header('Content-Disposition: attachment; filename="' . $_GET['filename'] . '"');
 
 include "init.php";
@@ -17,8 +17,7 @@ $db = new StringsDbAdapter();
 $tr = new Translations();
 $cfg = new Config();
 
-echo '
-<?xml version="1.0" encoding="utf-8"?>
+echo '<?xml version="1.0" encoding="utf-8"?>
 <resources>
 ';
 
