@@ -1,6 +1,7 @@
 <?php
 
 include "db/Strings.php";
+include "db/Translations.php";
 
 // XML import
 if (isset($_FILES['xmlimport'])) {
@@ -58,8 +59,16 @@ if (isset($_FILES['xmlimport'])) {
 			$strings[] = array('formatted' => $formatted, 'name' => $name, 'text' => $text, 'type' => $type);
 		}
 
+		$tr = new Translations();
 		$db = new StringsDbAdapter();
-		$db->saveAll($strings, $_FILES['xmlimport']['name']);
+
+		// Update string definitions only if the file is in the development language
+		if ($_POST['language'] == $db->getDefaultLanguage()) {
+			$db->saveAll($strings, $_FILES['xmlimport']['name']);
+		}
+
+		// Save the strings in the DB
+		$tr->saveAll($_POST['language'], $strings);
 	}
 }
 echo <<<HTML

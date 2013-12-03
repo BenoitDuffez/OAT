@@ -23,8 +23,8 @@ $cfg = new Config();
 switch ($_GET['action']) {
 	case 'getString':
 	{
-		include "db/Strings.php";
-		$db = new StringsDbAdapter();
+		include "db/Translations.php";
+		$db = new Translations();
 		$data = array();
 		$data['source'] = $db->getString($cfg->getDefaultLanguage(), $_GET['name']);
 		$data['destination'] = $db->getString($_GET['lang'], $_GET['name']);

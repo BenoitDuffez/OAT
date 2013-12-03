@@ -1,12 +1,12 @@
 <?php
 
 include "db/Strings.php";
-include "db/Config.php";
+include "db/Translations.php";
 
-$cfg = new Config();
 $str = new StringsDbAdapter();
-$files = $str->getFileNames($cfg->getDefaultLanguage());
-$langs = $str->getLangs();
+$tr = new Translations();
+$files = $str->getFileNames();
+$langs = $tr->getLangs();
 
 echo '<div><p>Export
 <select id="filename">';

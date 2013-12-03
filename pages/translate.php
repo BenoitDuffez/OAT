@@ -6,14 +6,15 @@
  */
 include "db/Config.php";
 include "db/Strings.php";
+include "db/Translations.php";
 
-function generateLeftMenu($defStrings, $strings) {
+function generateLeftMenu($defStrings) {
 	echo '
 	<div id="list_strings">
 		<h2>App strings</h2>
 		<ul>';
 	foreach ($defStrings as $k => $defString) {
-		$class = isset($strings[$k]) && !is_string($strings[$k]) && strlen(trim($strings[$k]['text'])) > 0 ? 'set' : 'unset';
+		$class = (0 + $defString['is_translated']) > 0 ? 'set' : 'unset';
 		echo '<li class="' . $class . '">';
 		echo '<a href="javascript:setCurrentString(\'' . $defString['name'] . '\', \''.$_GET['lang'].'\');">' . $defString['name'] . '</a></li>';
 	}
@@ -52,38 +53,20 @@ if (!isset($_GET['lang'])) {
 } else {
 	$config = new Config();
 	$db = new StringsDbAdapter();
+	$tr = new Translations();
 
 	$defaultLanguage = $config->getDefaultLanguage();
 
 	if ($defaultLanguage == null) {
 		echo "<p>Please import strings first</p>";
 	} else {
-		$nb = $db->getNbStrings($_GET['lang']);
+		$nb = $tr->getNbStrings($_GET['lang']);
 
-		$rawDefStrings = $db->getAll($defaultLanguage);
-		$rawStrings = $db->getAll($_GET['lang']);
-
-		$strings = array();
-		$defStrings = array();
-		// Get all empty in target language first
-		foreach ($rawDefStrings as $k => $rawDefString) {
-			if (!isset($rawStrings[$k]) || strlen(trim($rawStrings[$k]['text'])) == 0) {
-				$strings[] = "";
-				$defStrings[] = $rawDefStrings[$k];
-			}
-		}
-		// Then add others
-		foreach ($rawDefStrings as $k => $rawDefString) {
-			if (isset($rawStrings[$k]) && strlen(trim($rawStrings[$k]['text'])) > 0) {
-				$strings[] = $rawStrings[$k];
-				$defStrings[] = $rawDefStrings[$k];
-			}
-		}
+		$defStrings = $db->getAll($_GET['lang']);
 
 		addHtmlHeader('<script language="javascript" src="%PATH%/static/translate.js"></script>');
-
 		echo '<div id="translator">';
-		generateLeftMenu($defStrings, $strings);
+		generateLeftMenu($defStrings);
 		generateForm();
 		generateContext();
 		echo '</div>';

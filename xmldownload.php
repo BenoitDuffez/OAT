@@ -5,25 +5,26 @@
  * Time: 00:33
  */
 
+header('Content-type: application/xml');
+header('Content-Disposition: attachment; filename="' . $_GET['filename'] . '"');
+
+include "init.php";
+include "db/Strings.php";
+include "db/Translations.php";
+include "db/Config.php";
+
+$db = new StringsDbAdapter();
+$tr = new Translations();
+$cfg = new Config();
+
 echo <<<XML
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 XML;
 
-header('Content-type: application/xml');
-
-include "init.php";
-include "db/Strings.php";
-include "db/Config.php";
-
-$db = new StringsDbAdapter();
-$cfg = new Config();
-
-// TODO: so many queries, such slowness, wow => SELECT s.name, d.text, s.text from oat_strings s left join oat_strings d on d.name=s.name where s.lang = 'en' and d.lang='fr'
-// Get the list of string names
-$names = $db->getStringNames($cfg->getDefaultLanguage(), $_GET['filename']);
-foreach ($names as $name) {
-	$string = $db->getString($_GET['lang'], $name['name']);
+// Get the list of strings
+$strings = $tr->getStrings($_GET['lang'], $_GET['filename']);
+foreach ($strings as $string) {
 	$formatted = $string['formatted'] ? '' : ' formatted="false"';
 	echo "\n    ";
 	echo '<' . $string['stringtype'] . ' name="'.$string['name'].'"'.$formatted.'>'.$string['text'].'</' . $string['stringtype'] . '>';
@@ -31,4 +32,5 @@ foreach ($names as $name) {
 }
 
 ?>
+
 </resources>

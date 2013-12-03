@@ -5,6 +5,7 @@
  * Time: 22:34
  */
 require_once "db/DbAdapter.php";
+include_once "db/Translations.php";
 
 class Config extends DbAdapter {
 	const DB_VERSION = 1;
@@ -58,8 +59,8 @@ class Config extends DbAdapter {
 	public function getDefaultLanguage() {
 		$defaultLanguage = $this->get(Config::DEFAULT_LANGUAGE);
 		if ($defaultLanguage == null) {
-			$strings = new StringsDbAdapter();
-			$defaultLanguage = $strings->getFirstLanguage();
+			$translations = new Translations();
+			$defaultLanguage = $translations->getFirstLanguage();
 			$this->set(Config::DEFAULT_LANGUAGE, $defaultLanguage);
 		}
 		return $defaultLanguage;
