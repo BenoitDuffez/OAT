@@ -24,9 +24,9 @@ function setCurrentString(name, lang) {
         $('#translatedtext').val(data.destination.text).focus();
     });
     var scr = $('#screenshots');
-    scr.empty();
     $.getJSON(oatPath + "/ajax.php?action=getScreenshots&name=" + name, null, function (data) {
         prevCid = -1;
+        scr.empty();
         if (data.length > 0) {
             scr.append('<p>To help with the translation, here\'s the string context:</p>')
             $.each(data, function (i, screen) {
