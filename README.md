@@ -5,13 +5,11 @@ OAT is a web-based interface that helps developers manage their localized string
 
 It is aimed to do what others don't:
 
-* Handle `<![CDATA[ ]]>` tags, `formatted="false"`
-* Handle multiple XML files
-* Organize app contexts
-* Organize app screenshots
+* Handle `<![CDATA[ ]]>` tags, `formatted="false"`, `string`s, `string-array`s, `plural`s
+* Handle multiple XML files (if you use `strings_main.xml`, `string_preferences.xml`, etc.)
+* Organize app contexts: main menu, activity A, settings pane, etc.
+* Organize app screenshots: associate one or more screenshots to a specific context
 * Is free, and open-sourced
-
-It is not aimed to be pretty, nor with any professionnal support.
 
 Feel free to contribute. This is the goal of that tool.
 
