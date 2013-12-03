@@ -13,7 +13,7 @@ function generateLeftMenu($defStrings) {
 	<div id="list_strings">
 		<h2>App strings</h2>
 		<ul>';
-	foreach ($defStrings as $k => $defString) {
+	foreach ($defStrings as $defString) {
 		$class = (0 + $defString['is_translated']) > 0 ? 'set' : 'unset';
 		echo '<li id="' . $defString['name'] . '" class="' . $class . '">';
 		echo '<a class="button" href="javascript:setCurrentString(\'' . $defString['name'] . '\', \'' . $_GET['lang'] . '\');">' . $defString['name'] . '</a></li>';
@@ -27,7 +27,7 @@ function generateLeftMenu($defStrings) {
 function generateForm() {
 	global $languages;
 	echo '
-	<div id="topForm" style="visibility: hidden;">
+	<div id="topForm" style="opacity: 0;">
 		<h2>Translation into ' . $languages[$_GET['lang']] . '</h2>
 		<textarea id="sourcetext" class="readonly"></textarea>
 		<textarea id="translatedtext" class="readwrite" autofocus placeholder="Enter the text translated to ' . $languages[$_GET['lang']] . '"></textarea>
@@ -40,11 +40,12 @@ function generateForm() {
 }
 
 function generateContext() {
-	echo '
-	<div id="context" style="visibility: hidden;">
+	echo <<<HTML
+	<div id="context" style="opacity: 0;">
 		<h2>String context</h2>
        	<div id="screenshots"></div>
-	</div>';
+	</div>
+HTML;
 }
 
 if (!isset($_GET['lang'])) {

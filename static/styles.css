@@ -141,10 +141,10 @@ div#translator div#list_strings li.unset:after {
 
 div#translator div#topForm {
     float: left;
-    margin-top: 100px;
+    margin-top: 55px;
     width: 80%;
     height: 20%;
-    min-height: 200px;
+    min-height: 220px;
 }
 
 div#translator div#topForm textarea {
@@ -165,7 +165,7 @@ div#translator div#topForm .tip {
 div#translator div#context {
     float: right;
     width: 80%;
-    height: 80%;
+    height: 60%;
     overflow: scroll;
 }
 

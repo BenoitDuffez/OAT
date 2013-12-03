@@ -22,11 +22,11 @@ function setCurrentString(name, lang) {
     current.find('a.button').each(function (i, e) {
         $(e).addClass('active');
     });
-    $('#main_container').animate({height: '100%'}, 150);
+    $('#main_container').animate({height: '98%'}, 150);
+    $('#topForm').animate({opacity: 1}, 1000);
+    $('#context').animate({opacity: 1}, 1000);
 
     $.getJSON(oatPath + "/ajax.php?action=getString&name=" + name + "&lang=" + lang, null, function (data) {
-        $('#topForm').css("visibility", "visible");
-        $('#context').css("visibility", "visible");
         $('#sourcetext').val(data.source.text);
         $('#translatedtext').val(data.destination.text).focus();
     });
