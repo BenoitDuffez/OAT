@@ -132,5 +132,38 @@ SQL;
 			L("Unable to batch save strings!", $e);
 		}
 	}
+
+	public function getFileNames($defaultLanguage) {
+		try {
+			$sql = "SELECT filename FROM " . DbAdapter::getTable(DbAdapter::TABLE_STRINGS) . " WHERE lang = ? GROUP BY filename ORDER BY filename ASC";
+			$handle = $this->pdo->prepare($sql);
+			$handle->bindValue(1, $defaultLanguage);
+			$handle->execute();
+			return $handle->fetchAll(PDO::FETCH_ASSOC);
+		} catch (PDOException $e) {
+			L("Unable to get file names!", $e);
+		}
+		return null;
+	}
+
+	/**
+	 * Retrieve the list of string names contained in a specific file
+	 * @param $lang string Default language
+	 * @param $filename string Desired file name
+	 * @return array The list of string names that should be contained in that file
+	 */
+	public function getStringNames($lang, $filename) {
+		try {
+			$sql = "SELECT name FROM " . DbAdapter::getTable(DbAdapter::TABLE_STRINGS) . " WHERE lang = ? AND filename = ? ORDER BY id ASC";
+			$handle = $this->pdo->prepare($sql);
+			$handle->bindValue(1, $lang);
+			$handle->bindValue(2, $filename);
+			$handle->execute();
+			return $handle->fetchAll(PDO::FETCH_ASSOC);
+		} catch (PDOException $e) {
+			L("Unable to get string names for $filename (in $lang)!", $e);
+		}
+		return null;
+	}
 }
 
