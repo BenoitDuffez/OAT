@@ -33,8 +33,8 @@ function generateForm() {
 		<textarea id="translatedtext" class="readwrite" autofocus placeholder="Enter the text translated to ' . $languages[$_GET['lang']] . '"></textarea>
 		<p class="tip">
 			Tips: use Alt+Right to copy from source language —
-			use Ctrl+Enter to save string and go to next —
-			use Alt+Up or Down to navigate next/prev string
+			Ctrl+Enter to save string and go to next —
+			Alt+Up or Down to navigate next/prev string
 		</p>
 	</div>';
 }
@@ -48,10 +48,12 @@ function generateContext() {
 }
 
 if (!isset($_GET['lang'])) {
-	echo "<p>Pick the target language</p>";
-	echo "<div>";
+	echo <<<HTML
+<p>Pick the target language: </p>
+<div id="languages_list">
+HTML;
 	foreach ($languages as $lang => $language) {
-		echo '<a href="%PATH%/translate/' . $lang . '/">' . $language . '</a> ';
+		echo '<a href="%PATH%/translate/' . $lang . '/">' . $language . '</a><br />';
 	}
 	echo "</div>";
 } else {

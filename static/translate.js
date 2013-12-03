@@ -22,6 +22,7 @@ function setCurrentString(name, lang) {
     current.find('a.button').each(function (i, e) {
         $(e).addClass('active');
     });
+    $('#main_container').animate({height: '100%'}, 150);
 
     $.getJSON(oatPath + "/ajax.php?action=getString&name=" + name + "&lang=" + lang, null, function (data) {
         $('#topForm').css("visibility", "visible");

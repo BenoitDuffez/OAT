@@ -45,7 +45,9 @@ a:hover{
 }
 
 #main_container {
+    width: 90%;
     max-width: 980px;
+    min-height: 50%;
     margin: 10px auto;
     background: white;
     padding: 10px;
@@ -62,7 +64,6 @@ div#menu {
     padding-bottom: 6px;
     border-bottom: 2px #006 solid;
     margin-bottom: 10px;
-    height: 5%;
     text-align: center;
 }
 
@@ -180,4 +181,11 @@ form {
     -moz-column-width: 250px;
     -webkit-column-width: 250px;
     overflow: hidden;
+}
+
+#languages_list {
+    padding-left: 15px;
+    column-width: 150px;
+    -moz-column-width: 150px;
+    -webkit-column-width: 150px;
 }
