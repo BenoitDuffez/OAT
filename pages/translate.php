@@ -62,7 +62,7 @@ if (!isset($_GET['lang'])) {
 	} else {
 		$defStrings = $db->getAll($_GET['lang']);
 
-		addHtmlHeader('<script language="javascript" src="%PATH%/static/translate.js"></script>');
+		addHtmlHeader('<script src="%PATH%/static/translate.js"></script>');
 		echo '<div id="translator">';
 		generateLeftMenu($defStrings);
 		generateForm();

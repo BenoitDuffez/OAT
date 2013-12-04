@@ -27,4 +27,4 @@ echo <<<HTML
 <iframe id="downloader" style="display: none;"/>
 HTML;
 
-addHtmlHeader('<script language="javascript" src="%PATH%/static/export.js"></script>');
+addHtmlHeader('<script src="%PATH%/static/export.js"></script>');
