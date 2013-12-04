@@ -3,11 +3,15 @@
 include "db/Translations.php";
 include "db/Config.php";
 
+setHtmlTitle('Open Android Translator - Dashboard');
+
 $tr = new Translations();
 $cfg = new Config();
 
-echo "<div>Development language: " . $languages[$cfg->getDefaultLanguage()] . "</div>";
-echo "<ul>Available languages: ";
+echo '<div>Development language: ' . $languages[$cfg->getDefaultLanguage()] . '</div>
+<p>Available languages:</p>
+<ul>
+';
 
 $langs = $tr->getLangs();
 if (count($langs) == 0) {
@@ -25,6 +29,8 @@ if (count($langs) == 0) {
 	}
 }
 
-echo "</ul>";
+echo '
+</ul>
+';
 
 

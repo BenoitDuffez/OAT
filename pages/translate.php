@@ -8,6 +8,8 @@
 include "db/Config.php";
 include "db/Strings.php";
 
+setHtmlTitle('Translator UI - OAT');
+
 function generateLeftMenu($defStrings) {
 	echo '
 	<div id="list_strings">

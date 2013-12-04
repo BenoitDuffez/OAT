@@ -8,6 +8,8 @@ $tr = new Translations();
 $files = $str->getFileNames();
 $langs = $tr->getLangs();
 
+setHtmlTitle('Strings export to XML files - OAT');
+
 echo '<div><p>Export
 <select id="filename">';
 foreach ($files as $file) {

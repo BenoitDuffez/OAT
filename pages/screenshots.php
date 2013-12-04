@@ -3,6 +3,8 @@
 include "db/Context.php";
 include "db/Screenshots.php";
 
+setHtmlTitle('Screenshots management - OAT');
+
 $cdb = new ContextDbAdapter();
 $contexts = $cdb->loadAll();
 

@@ -11,6 +11,8 @@ $links = new LinksDbAdapter();
 $cfg = new Config();
 $sdb = new StringsDbAdapter();
 
+setHtmlTitle('Contexts management - OAT');
+
 // List contexts
 $contexts = $ctx->loadAll();
 if (isset($_POST['context_name'])) {

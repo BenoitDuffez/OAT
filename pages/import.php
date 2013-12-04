@@ -4,6 +4,8 @@ include "db/Config.php";
 include "db/Strings.php";
 include_once "db/Translations.php";
 
+setHtmlTitle('Strings import from XML files - OAT');
+
 $cfg = new Config();
 
 // XML import
