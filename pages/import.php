@@ -80,18 +80,23 @@ if (isset($_FILES['xmlimport'])) {
 		}
 	}
 }
+
+// Display import form
 echo <<<HTML
 <form method="post" action="%PATH%/import/" enctype="multipart/form-data">
-XML file to import: <input type="file" name="xmlimport" />
-<select name="language">
+  <p>
+    XML file to import:
+    <input type="file" name="xmlimport" />
+    <select name="language">
 HTML;
 foreach ($languages as $code => $name) {
 	echo '<option value="' . $code . '"' . ($code == 'en' ? ' selected' : '') . '>' . $name . '</option>';
 }
 echo <<<HTML
-</select>
-<input type="submit" value="Import XML" />
-</forum>
+    </select>
+    <input type="submit" value="Import XML" />
+  </p>
+</form>
 HTML;
 
 

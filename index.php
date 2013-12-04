@@ -80,6 +80,7 @@ if ($pdo == null) {
 			break;
 
 		case 'help':
+			setHtmlTitle('Help - OAT');
 			echo file_get_contents("static/help.html");
 			break;
 
