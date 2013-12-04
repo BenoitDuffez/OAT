@@ -16,14 +16,14 @@ echo '
   <select id="filename">
 ';
 foreach ($files as $file) {
-	echo '<option value="'.$file['filename'].'">'.$file['filename'].'</option>';
+	echo '<option value="' . $file['filename'] . '">' . $file['filename'] . '</option>';
 }
 echo '
   </select>
   in
   <select id="lang">';
 foreach ($langs as $lang => $foo) {
-	echo '<option value="'.$lang.'">'.$languages[$lang].'</option>';
+	echo '<option value="' . $lang . '">' . $languages[$lang] . '</option>';
 }
 echo <<<HTML
   </select>

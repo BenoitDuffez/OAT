@@ -33,26 +33,37 @@ body {
     margin: 0;
 }
 
+a, a:visited {
+    text-decoration: none;
+    color: #33c;
+}
+a:active {
+    color: #66f;
+}
+a:hover{
+    color: #99f;
+}
+
 #main_container {
+    width: 90%;
     max-width: 980px;
-    margin-top: 10px;
-    margin-left: auto;
-    margin-right: auto;
+    min-height: 50%;
+    margin: 10px auto;
     background: white;
     padding: 10px;
     box-shadow: 4px 4px 4px #999;
-    /*border: 1px #999 solid;*/
-    /*border-right-width: 3px;*/
-    /*border-bottom-width: 2px;*/
+    overflow: scroll;
+    border: 1px #ccc solid;
 }
 
 div#menu {
+    position: relative;
+    z-index: 1000;
     display: block;
     width: 100%;
     padding-bottom: 6px;
     border-bottom: 2px #006 solid;
     margin-bottom: 10px;
-    height: 5%;
     text-align: center;
 }
 
@@ -86,16 +97,17 @@ div#menu li {
 
 div#translator {
     position: absolute;
-    top: 100px;
+    top: 0px;
     left: 0px;
     width: 100%;
-    height: 95%;
+    height: 100%;
+    overflow: hidden;
 }
 
 div#translator div#list_strings {
     float: left;
     width: 20%;
-    height: 96%;
+    height: 100%;
     overflow: scroll;
 }
 
@@ -106,30 +118,33 @@ div#translator div#list_strings ul {
 }
 
 div#translator div#list_strings li:before {
+    content: "\203A \00A0 \00A0";
+}
+
+div#translator div#list_strings li.current:before {
     content: "\0BB \020";
 }
 
 div#translator div#list_strings li {
-    padding: 2px;
     margin: 2px;
-    border-radius: 3px;
 }
 
-div#translator div#list_strings li.set {
-    background: #9f9;
-    border-color: #9f9;
+div#translator div#list_strings li.set:after {
+    color: #6c6;
+    content: "\020 \2713"
 }
 
-div#translator div#list_strings li.unset {
-    background: #f99;
-    border-color: #f99;
+div#translator div#list_strings li.unset:after {
+    color: #f99;
+    content: "\020 \2718"
 }
 
 div#translator div#topForm {
     float: left;
+    margin-top: 55px;
     width: 80%;
     height: 20%;
-    min-height: 200px;
+    min-height: 220px;
 }
 
 div#translator div#topForm textarea {
@@ -143,14 +158,14 @@ div#translator div#topForm textarea {
 }
 
 div#translator div#topForm .tip {
-    float: right;
-    color: #ccc;
+    color: #999;
+    font-size: 0.7em;
 }
 
 div#translator div#context {
     float: right;
     width: 80%;
-    height: 80%;
+    height: 60%;
     overflow: scroll;
 }
 
@@ -166,4 +181,11 @@ form {
     -moz-column-width: 250px;
     -webkit-column-width: 250px;
     overflow: hidden;
+}
+
+#languages_list {
+    padding-left: 15px;
+    column-width: 150px;
+    -moz-column-width: 150px;
+    -webkit-column-width: 150px;
 }

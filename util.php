@@ -15,7 +15,7 @@ function L($msg, $exception = null) {
 		return;
 	}
 	fprintf($log, "%s %s: %s\n", date(DATE_ATOM), $exception == null ? "warning" : "error", $msg);
-	if ($exception != null) {// TODO: if ($severity > WARNING)
+	if ($exception != null) { // TODO: if ($severity > WARNING)
 		fprintf($log, "<br/>Stack trace:<ul>");
 		foreach (debug_backtrace() as $k => $v) {
 			fprintf($log, "<li>$k: " . $v['file'] . ":" . $v['line'] . "<br />");

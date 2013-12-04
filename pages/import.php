@@ -28,7 +28,7 @@ if (isset($_FILES['xmlimport'])) {
 		}
 		fclose($file);
 
-		echo "<p>Parsing ".$_FILES['xmlimport']['name']." using encoding: $encoding</p>";
+		echo "<p>Parsing " . $_FILES['xmlimport']['name'] . " using encoding: $encoding</p>";
 		$file = utf8_fopen_read($_FILES['xmlimport']['tmp_name'], $encoding);
 		$xml = "";
 		while ($line = fgets($file)) {
@@ -60,7 +60,7 @@ if (isset($_FILES['xmlimport'])) {
 					echo "<li>$attribute = $value</li>";
 				}
 				$type = $string->getName();
-				$text = preg_replace(array("#<".$type."[^>]*>#", "#(</".$type.">)#"), '', (string) $string->asXml());
+				$text = preg_replace(array("#<" . $type . "[^>]*>#", "#(</" . $type . ">)#"), '', (string)$string->asXml());
 				echo "<li><textarea rows=5 cols=50>$text</textarea></li>";
 				echo "</ul><hr />";
 

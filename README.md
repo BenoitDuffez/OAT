@@ -13,6 +13,8 @@ It is aimed to do what others don't:
 
 Feel free to contribute. This is the goal of that tool.
 
+**Please, have a look <a href="../../wiki/Gallery">at the gallery</a>!**
+
 How does it work?
 -----------------
 
@@ -96,5 +98,10 @@ limitations under the License.
 This software uses code licensed under the MIT license:
 
  * https://github.com/blueimp/jQuery-File-Upload
+
+Other credits:
+
+ * https://github.com/necolas/css3-github-buttons
+
 
   [1]: http://php.net/intro.pdo

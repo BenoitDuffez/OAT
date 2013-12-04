@@ -43,8 +43,7 @@ if (isset($_POST['context_id']) && isset($_POST['strings']) && is_array($_POST['
 		}
 	}
 	echo "<p>String" . (count($_POST['strings']) == 1 ? "" : "s") . " linked to context.</p>";
-}
-// Display the form
+} // Display the form
 else {
 	echo <<<HTML
   <form id="link" method="post" action="%PATH%/contexts/">
@@ -63,7 +62,7 @@ HTML;
 HTML;
 	foreach ($sdb->getAll($cfg->getDefaultLanguage()) as $context) {
 		$checked = isset($_GET['string']) && $context['name'] == $_GET['string'] ? 'checked' : '';
-		echo '<div style="overflow: hidden;"><input type="checkbox" name="strings[' . $context['name'] . ']" value="true" id="cb_' . $context['name'] . '"'.$checked.'>';
+		echo '<div style="overflow: hidden;"><input type="checkbox" name="strings[' . $context['name'] . ']" value="true" id="cb_' . $context['name'] . '"' . $checked . '>';
 		echo '<label for="cb_' . $context['name'] . '">' . $context['name'] . '</label></div>';
 	}
 	echo <<<HTML

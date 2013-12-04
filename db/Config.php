@@ -15,7 +15,7 @@ class Config extends DbAdapter {
 
 	public function __construct() {
 		parent::__construct(DbAdapter::TABLE_CONFIG, Config::DB_VERSION);
-		$cache = array();
+		$this->cache = array();
 	}
 
 	public function get($key) {

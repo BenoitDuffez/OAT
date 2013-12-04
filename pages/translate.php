@@ -15,10 +15,10 @@ function generateLeftMenu($defStrings) {
 	<div id="list_strings">
 		<h2>App strings</h2>
 		<ul>';
-	foreach ($defStrings as $k => $defString) {
+	foreach ($defStrings as $defString) {
 		$class = (0 + $defString['is_translated']) > 0 ? 'set' : 'unset';
-		echo '<li class="' . $class . '">';
-		echo '<a href="javascript:setCurrentString(\'' . $defString['name'] . '\', \''.$_GET['lang'].'\');">' . $defString['name'] . '</a></li>';
+		echo '<li id="' . $defString['name'] . '" class="' . $class . '">';
+		echo '<a class="button" href="javascript:setCurrentString(\'' . $defString['name'] . '\', \'' . $_GET['lang'] . '\');">' . $defString['name'] . '</a></li>';
 	}
 
 	echo '
@@ -29,27 +29,34 @@ function generateLeftMenu($defStrings) {
 function generateForm() {
 	global $languages;
 	echo '
-	<div id="topForm" style="visibility: hidden;">
+	<div id="topForm" style="opacity: 0;">
 		<h2>Translation into ' . $languages[$_GET['lang']] . '</h2>
-		<p class="tip">Tip: use Alt+Right to copy from source language<br />Tip: use Ctrl+Enter to save string and go to next</p>
 		<textarea id="sourcetext" class="readonly"></textarea>
 		<textarea id="translatedtext" class="readwrite" autofocus placeholder="Enter the text translated to ' . $languages[$_GET['lang']] . '"></textarea>
+		<p class="tip">
+			Tips: use Alt+Right to copy from source language —
+			Ctrl+Enter to save string and go to next —
+			Alt+Up or Down to navigate next/prev string
+		</p>
 	</div>';
 }
 
 function generateContext() {
-	echo '
-	<div id="context" style="visibility: hidden;">
+	echo <<<HTML
+	<div id="context" style="opacity: 0;">
 		<h2>String context</h2>
        	<div id="screenshots"></div>
-	</div>';
+	</div>
+HTML;
 }
 
 if (!isset($_GET['lang'])) {
-	echo "<p>Pick the target language</p>";
-	echo "<div>";
+	echo <<<HTML
+<p>Pick the target language: </p>
+<div id="languages_list">
+HTML;
 	foreach ($languages as $lang => $language) {
-		echo '<a href="%PATH%/translate/' . $lang . '/">' . $language . '</a> ';
+		echo '<a href="%PATH%/translate/' . $lang . '/">' . $language . '</a><br />';
 	}
 	echo "</div>";
 } else {

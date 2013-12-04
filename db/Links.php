@@ -9,7 +9,7 @@ require_once "db/DbAdapter.php";
 class LinksDbAdapter extends DbAdapter {
 	const DB_VERSION = 1;
 
-	public function __construct(){
+	public function __construct() {
 		parent::__construct(DbAdapter::TABLE_LINKS, LinksDbAdapter::DB_VERSION);
 	}
 
