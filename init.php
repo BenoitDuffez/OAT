@@ -1,5 +1,7 @@
 <?php
 
+$OAT_VERSION = "0.2.0";
+
 // Main includes
 include "config.db.php";
 include "lang.php";
