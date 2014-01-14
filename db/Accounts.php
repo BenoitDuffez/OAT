@@ -39,17 +39,15 @@ class AccountsDbAdapter extends DbAdapter {
 		try {
 			$sql = "INSERT INTO " . $this->getTable(DbAdapter::TABLE_ACCOUNTS);
 			$sql .= " (user_name, user_hash, user_mail, creation_date, last_login_date, last_login_ip, last_login_host)";
-			$sql .= " VALUES (?, ?, ?, ?, ?, ?, ?)";
+			$sql .= " VALUES (?, ?, ?, NOW(), NOW(), ?, ?)";
 			$handle = $this->pdo->prepare($sql);
 
 			$i = 1;
 			$handle->bindValue($i++, $account->name);
 			$handle->bindValue($i++, $account->hash);
 			$handle->bindValue($i++, $account->mail);
-			$handle->bindValue($i++, $account->creationDate);
-			$handle->bindValue($i++, $account->hash);
-			$handle->bindValue($i++, $account->hash);
-			$handle->bindValue($i++, $account->hash);
+			$handle->bindValue($i++, $_SERVER['REMOTE_ADDR']);
+			$handle->bindValue($i++, gethostbyaddr($_SERVER['REMOTE_ADDR']));
 
 			$handle->execute();
 			return true;
@@ -57,6 +55,7 @@ class AccountsDbAdapter extends DbAdapter {
 			L("Unable to add account", $e);
 			$this->lastException = $e;
 		}
+
 		return false;
 	}
 
@@ -76,6 +75,18 @@ CREATE TABLE IF NOT EXISTS table (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 SQL;
 			$this->createTable($statement);
+
+			$statement = <<<SQL
+CREATE TABLE IF NOT EXISTS table (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  user_id int(11) NOT NULL,
+  attempt_ip varchar(16) NOT NULL,
+  attempt_host varchar(255) NOT NULL,
+  attempt_date datetime NOT NULL,
+  PRIMARY KEY (id)
+) ENGINE = MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+SQL;
+			$this->createTable($statement, DbApdater::TABLE_LOGIN_ATTEMPTS);
 		}
 	}
 }

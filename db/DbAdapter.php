@@ -10,6 +10,7 @@ abstract class DbAdapter {
 	const TABLE_TRANSLATIONS = "translations";
 	const TABLE_SCREENSHOTS = "screenshots";
 	const TABLE_ACCOUNTS = "accounts";
+	const TABLE_LOGIN_ATTEMPTS = "login_attempts";
 	const TABLE_LINKS = "links";
 
 	abstract protected function onUpgrade($oldVersion, $newVersion);
@@ -33,8 +34,12 @@ abstract class DbAdapter {
 		}
 	}
 
-	protected function createTable($statement) {
-		$sql = str_replace("table", $this->tableName, $statement);
+	protected function createTable($statement, $tableName = "") {
+		if (strlen(trim($tableName)) == 0) {
+			$tableName = $this->tableName;
+		}
+
+		$sql = str_replace("table", $tableName, $statement);
 		try {
 			$this->pdo->exec($sql);
 		} catch (PDOException $e) {
