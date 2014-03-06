@@ -30,15 +30,31 @@ SQL;
 		}
 	}
 
-	public function getAll($trLang) {
+	public function getAll($trLang, $countUses = false) {
 		try {
-			$sql = "SELECT s.*, t.id is not null as is_translated FROM " . DbAdapter::getTable(DbAdapter::TABLE_STRINGS) . " s";
+			$sql = "SELECT s.*, t.id is not null as is_translated";
+			if ($countUses) {
+				$sql .= ", COUNT(l.id) as nb_contexts";
+			}
+			$sql .= " FROM " . DbAdapter::getTable(DbAdapter::TABLE_STRINGS) . " s";
 			$sql .= " LEFT JOIN " . DbAdapter::getTable(DbAdapter::TABLE_TRANSLATIONS) . " t";
 			$sql .= " ON t.lang = ? AND t.name = s.name ";
+			if ($countUses) {
+				$sql .= " LEFT JOIN " . DbAdapter::getTable(DbAdapter::TABLE_LINKS) . " l";
+				$sql .= " ON l.tbl1 = ? AND l.tbl2 = ? AND l.id2 = s.name";
+			}
+			if ($countUses) {
+				$sql .= " GROUP BY s.id";
+			}
 			$sql .= " ORDER BY is_translated ASC, s.id ASC";
 
 			$handle = $this->pdo->prepare($sql);
 			$handle->bindValue(1, $trLang);
+			if ($countUses) {
+				$handle->bindValue(2, DbAdapter::TABLE_CONTEXTS);
+				$handle->bindValue(3, DbAdapter::TABLE_STRINGS);
+			}
+
 			$handle->execute();
 			$strings = array();
 			return $handle->fetchAll(PDO::FETCH_ASSOC);
