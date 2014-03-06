@@ -10,6 +10,7 @@ abstract class DbAdapter {
 	const TABLE_TRANSLATIONS = "translations";
 	const TABLE_SCREENSHOTS = "screenshots";
 	const TABLE_LINKS = "links";
+	const TABLE_USERS = "users";
 
 	abstract protected function onUpgrade($oldVersion, $newVersion);
 
