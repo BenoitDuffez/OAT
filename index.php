@@ -28,6 +28,8 @@ function setHtmlTitle($title) {
 }
 
 function writeContents() {
+	global $languages;
+
 	// Desired page
 	$page = isset($_GET['page']) ? $_GET['page'] : null;
 
@@ -88,6 +90,15 @@ if ($pdo == null) {
 	echo "<p>Service is currently down for maintenance.</p>";
 	L("Unable to connect to database server (\$pdo==null).");
 } else {
+	// Try to identify the user
+	if(!empty($_SESSION['logged_in']) && !empty($_SESSION['username'])) {
+		// let the user access the main page
+	} else if(!empty($_POST['username']) && !empty($_POST['password'])) {
+		// let the user login
+	} else {
+		// display the login form
+	}
+
 	writeContents();
 }
 readfile("static/footer.html");
