@@ -21,8 +21,10 @@ if (isset($_POST['context_name'])) {
 
 	// Allow that context to be in the list right away
 	$contexts = $ctx->loadAll();
-} else {
-	echo <<<HTML
+}
+
+// Show add new context form
+echo <<<HTML
 <form id="context" method="post" action="%PATH%/contexts/">
   <div>
     <h3>Create a new context</h3>
@@ -32,7 +34,6 @@ if (isset($_POST['context_name'])) {
   </div>
 </form>
 HTML;
-}
 
 // Handle new string(s) / context linkage
 if (isset($_POST['context_id']) && isset($_POST['strings']) && is_array($_POST['strings'])) {
