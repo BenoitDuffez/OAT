@@ -27,15 +27,7 @@ function setHtmlTitle($title) {
 	addHtmlHeader('<title>' . $title . '</title>');
 }
 
-ob_start("dump_html");
-readfile("static/header.html");
-
-include "init.php";
-
-// Build page content
-if ($pdo == null) {
-	echo "<p>Can't do anything without the DB server</p>";
-} else {
+function writeContents() {
 	// Desired page
 	$page = isset($_GET['page']) ? $_GET['page'] : null;
 
@@ -87,5 +79,18 @@ if ($pdo == null) {
 	}
 }
 
+include "init.php";
+
+// Build page content
+ob_start("dump_html");
+readfile("static/header.html");
+if ($pdo == null) {
+	echo "<p>Service is currently down for maintenance.</p>";
+	L("Unable to connect to database server (\$pdo==null).");
+} else {
+	writeContents();
+}
 readfile("static/footer.html");
 ob_end_flush();
+
+
