@@ -79,10 +79,11 @@ SQL;
 			$statement .= " VALUES (?, ?, ?, ?)";
 
 			$hash = UsersDbAdapter::getPasswordHash($password);
+			$role = $this->getUser(1) == null ? Role::ADMINISTRATOR : Role::REGISTERED;
 
 			$handle = $this->pdo->prepare($statement);
 			$handle->bindValue(1, $login);
-			$handle->bindValue(2, Role::ANONYMOUS);
+			$handle->bindValue(2, $role);
 			$handle->bindValue(3, $email);
 			$handle->bindValue(4, $hash);
 
