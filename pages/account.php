@@ -7,37 +7,37 @@ case 'register':
 	$showForm = true;
 
 	if (isset($_POST['submit'])) {
-		if (!empty($_POST['login']) && !empty($_POST['password']) && !empty($_POST['email'])) {
+		if (!empty($_POST['login']) && !empty($_POST['password'])) {
 			$db = new UsersDbAdapter();
 			$targetUser = $db->getUser($_POST['login']);
-			print_r($targetUser);
 			if ($targetUser != null) {
 				echo "<p>Login already in use. Please choose a different one.</p>";
 			} else if (!$db->registerUser($_POST['login'], $_POST['password'], $_POST['email'])) {
 				echo "<p>Unable to create account</p>";
 			} else {
 				$GLOBALS['user'] = $db->getUser($_POST['login']);
-				$_SESSION['user'] = serialize($GLOBALS['user']); 
+				$_SESSION['userId'] = $GLOBALS['user']->id;
 				header("Location: " . getInstallPath() . "/");
 			}
+		} else {
+			echo "<p>Please fill the form appropriately</p>";
 		}
 	}
 
 	if ($showForm) {
-		$form = <<<HTML
+		$login = isset($_POST['login']) ? $_POST['login'] : '';
+		$email = isset($_POST['email']) ? $_POST['email'] : '';
+		echo <<<HTML
 <form method="post">
 <h3>Register account</h3>
 <p>Please fill in this form in order to create your account.</p>
-<input type="text" name="login" placeholder="Login" /><br />
+<input type="text" name="login" value="$login" placeholder="Login" /><br />
 <input type="password" name="password" placeholder="Password" /><br />
 <input type="password" placeholder="Password confirmation" /><span id="password_check" /><br />
-<input type="email" name="email" placeholder="Email address" /> Optional. If you ever forget your password.<br />
+<input type="email" name="email" value="$email" placeholder="Email address" /> Optional. If you ever forget your password.<br />
 <input type="submit" name="submit" value="Register" />
 </form>
 HTML;
-		$login = isset($_POST['login']) ? $_POST['login'] : '';
-		$email = isset($_POST['email']) ? $_POST['email'] : '';
-		echo str_replace(array('$login', '$email'), array($login, $email), $form);
 	}
 	break;
 
@@ -50,7 +50,7 @@ case 'login':
 	$db = new UsersDbAdapter();
 	$realHash = $db->getUserPassword(isset($_POST['login']) ? $_POST['login'] : '');
 	if (password_verify($pw, $realHash)) {
-		$_SESSION['user'] = serialize($db->getUser($_POST['login']));
+		$_SESSION['userId'] = $db->getUser($_POST['login'])->id;
 		header('Location: ' . getInstallPath() . '/');
 	} else {
 		echo "<p>Invalid user or password.</p>";
@@ -58,7 +58,7 @@ case 'login':
 	break;
 
 case 'logout':
-	unset($_SESSION['user']);
+	unset($_SESSION['userId']);
 	header('Location: ' . getInstallPath() . '/');
 	break;
 

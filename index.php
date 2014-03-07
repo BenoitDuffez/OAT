@@ -18,13 +18,10 @@ if ($pdo == null) {
 	L("Unable to connect to database server (\$pdo==null).");
 } else {
 	// Try to identify the user
-	if(isset($_SESSION['user'])) {
+	if(isset($_SESSION['userId'])) {
 		$user_menu = '<a href="%PATH%/account/logout.html">Log out</a>';
-		$user = new User(unserialize($_SESSION['user']));
-
-		// Refresh from DB
 		$db = new UsersDbAdapter();
-		$user = $db->getUser($user->name);
+		$user = $db->getUser(intval($_SESSION['userId']));
 	} else {
 		$user = User::$ANONYMOUS;
 		// display the login form

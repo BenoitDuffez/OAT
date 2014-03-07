@@ -9,6 +9,7 @@ class Role {
 }
 
 class User {
+	public $id;
 	public $role;
 	public $name;
 	public $passwordHash;
@@ -23,10 +24,12 @@ class User {
 		if (is_int($data) && $data == Role::ANONYMOUS) {
 			$this->role = $data;
 		} else if (is_array($data)) {
+			$this->id   = $data['id'];
 			$this->name = $data['name'];
 			$this->role = $data['role'];
 			$this->passwordHash = $data['password'];
 		} else {
+			$this->id   = $data->id;
 			$this->role = $data->role;
 			$this->name = $data->name;
 			$this->passwordHash = $data->passwordHash;
@@ -34,7 +37,7 @@ class User {
 	}
 
 	public function getName() {
-		if ($this->role == Role::ANONYMOUS) {
+		if ($this->id <= 0) {
 			return "anonymous";
 		} else {
 			return $this->name;
@@ -104,12 +107,17 @@ SQL;
 		return null;
 	}
 
-	function getUser($login) {
+	function getUser($id) {
 		try {
-			$statement = "SELECT * FROM " . $this->getTable(DbAdapter::TABLE_USERS) . " WHERE name = ?";
+			$statement = "SELECT * FROM " . $this->getTable(DbAdapter::TABLE_USERS);
+			if (is_int($id)) {
+				$statement .= " WHERE id = ?";
+			} else {
+				$statement .= " WHERE name = ?";
+			}
 
 			$handle = $this->pdo->prepare($statement);
-			$handle->bindValue(1, $login);
+			$handle->bindValue(1, $id);
 
 			$handle->execute();
 			if ($handle->rowCount() == 1) {

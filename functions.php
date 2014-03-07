@@ -33,21 +33,24 @@ function writeContents() {
 
 	// Write menu
 	$menu = array();
-	$menu[''] = "Home";
-	$menu['translate'] = "Translate";
-	$menu['contexts'] = "Contexts";
-	$menu['screenshots'] = "Screenshots";
-	$menu['import'] = "Import";
-	$menu['export'] = "Export";
-	$menu['help'] = "Help";
+	$menu[''] = array('title' => "Home", 'level' => Role::ANONYMOUS);
+	$menu['translate'] = array('title' => "Translate", 'level' => Role::ANONYMOUS);
+	$menu['contexts'] = array('title' => "Contexts", 'level' => Role::ADMINISTRATOR);
+	$menu['screenshots'] = array('title' => "Screenshots", 'level' => Role::ADMINISTRATOR);
+	$menu['import'] = array('title' => "Import", 'level' => Role::ADMINISTRATOR);
+	$menu['export'] = array('title' => "Export", 'level' => Role::ADMINISTRATOR);
+	$menu['help'] = array('title' => "Help", 'level' => Role::ANONYMOUS);
 	echo '
   <div id="menu">
     <div id="user_menu">%USER_MENU%</div>
     <ul>';
-	foreach ($menu as $p => $title) {
-		$liClass = $p == $page ? ' class="active"' : '';
-		$url = $p == "" ? "" : $p . "/";
-		echo '<li' . $liClass . '><a href="%PATH%/' . $url . '">' . $title . '</a></li>';
+	$level = isset($GLOBALS['user']) ? $GLOBALS['user']->role : Role::ANONYMOUS;
+	foreach ($menu as $p => $item) {
+		if ($level >= $item['level']) {
+			$liClass = $p == $page ? ' class="active"' : '';
+			$url = $p == "" ? "" : $p . "/";
+			echo '<li' . $liClass . '><a href="%PATH%/' . $url . '">' . $item['title'] . '</a></li>';
+		}
 	}
 	echo '
     </ul>
@@ -55,29 +58,34 @@ function writeContents() {
 ';
 
 	// Write page contents
-	switch ($page) {
-		case 'contexts':
-		case 'screenshots':
-		case 'import':
-		case 'export':
-		case 'translate':
-		case 'account':
-			include "pages/$page.php";
-			break;
+	if ($page != 'account' && !isset($menu[$page])) {
+		header('HTTP/1.0 404 Not Found');
+		echo "<p>The page '$page' was not found.</p>";
+	} else if ($page != 'account' && $level < $menu[$page]['level']) {
+		header('HTTP/1.0 403 Forbidden');
+		echo "<p>The access to this page is restricted</p>";
+	} else {
+		switch ($page) {
+			case 'contexts':
+			case 'screenshots':
+			case 'import':
+			case 'export':
+			case 'translate':
+			case 'account':
+			case 'help':
+				include "pages/$page.php";
+				break;
 
-		case 'strings':
-		case null:
-			include "pages/strings.php";
-			break;
+			case 'strings':
+			case null:
+				include "pages/strings.php";
+				break;
 
-		case 'help':
-			setHtmlTitle('Help - OAT');
-			echo file_get_contents("static/help.html");
-			break;
-
-		default:
-			echo "<div>Unknown page.</div>";
-			break;
+			default:
+				echo "<div>Unknown page.</div>";
+				header('HTTP/1.0 404 Not Found');
+				break;
+		}
 	}
 }
 

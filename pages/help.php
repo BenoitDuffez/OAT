@@ -1,4 +1,22 @@
-<h2>Welcome to the OAT service</h2>
+<?php
+
+setHtmlTitle('OAT - Help');
+
+?>
+<h1>Welcome to the OAT service</h1>
+<h2>About</h2>
+<p>OAT is an open-source software. Please check <a href="https://github.com/BenoitDuffez/OAT">the GitHub project</a></p>
+<?php
+
+switch ($GLOBALS['user']->role) {
+case Role::ANONYMOUS:
+?>
+<p>In order to help translate, please <a href="%PATH%/account/register.html">register</a> for an account.</p>
+<?php
+	break;
+
+case Role::ADMINISTRATOR:
+?>
 <h3>Getting started</h3>
 <ol>
     <li>Go <a href="%PATH%/import/">import</a> all your strings.xml file(s)</li>
@@ -14,3 +32,13 @@
         will automatically apear below the translation boxes.
     </li>
 </ul>
+<?php
+
+case Role::REGISTERED:
+?>
+<h2>Translate</h2>
+<p>Go to the <a href="%PATH%/">home page</a> and start translating!</p>
+<?php
+	break;
+}
+
