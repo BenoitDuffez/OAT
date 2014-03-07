@@ -85,7 +85,7 @@ div#menu ul li.active a {
     border-bottom: 5px #006 solid;
 }
 
-div#menu a:hover {
+div#menu ul li a:hover {
     border-bottom: 5px #006 solid;
     background-color: #006;
     color: white;
@@ -93,6 +93,14 @@ div#menu a:hover {
 
 div#menu li {
     display: inline;
+}
+
+div#user_menu {
+    float: right;
+}
+
+div#user_menu form a {
+    font-size: 0.7em;
 }
 
 div#translator {

@@ -1,31 +1,46 @@
 <?php
 
+require_once "db/DbAdapter.php";
+
 class Role {
-	const level_ANONYMOUS = 0;
-	const level_REGISTERED = 1;
-	const level_ADMINISTRATOR = 2;
-
-	public static $ANONYMOUS, $REGISTERED, $ADMINISTRATOR;
-	private $level;
-
-	function __construct($level) {
-		if ($level < 0) {
-			Role::$ANONYMOUS = new Role(Role::level_ANONYMOUS);
-			Role::$REGISTERED = new Role(Role::level_REGISTERED);
-			Role::$ADMINISTRATOR = new Role(Role::level_ADMINISTRATOR);
-		} else {
-			$this->level = $level;
-		}
-	}
+	const ANONYMOUS = 0;
+	const REGISTERED = 1;
+	const ADMINISTRATOR = 2;
 }
-
-new Role(-1);
 
 class User {
-	private $role;
-}
+	public $role;
+	public $name;
+	public $passwordHash;
 
-require_once "db/DbAdapter.php";
+	public static $ANONYMOUS;
+
+	public static function init() {
+		self::$ANONYMOUS = new User(Role::ANONYMOUS);
+	}
+
+	public function __construct($data) {
+		if (is_int($data) && $data == Role::ANONYMOUS) {
+			$this->role = $data;
+		} else if (is_array($data)) {
+			$this->name = $data['name'];
+			$this->role = $data['role'];
+			$this->passwordHash = $data['password'];
+		} else {
+			$this->role = $data->role;
+			$this->name = $data->name;
+			$this->passwordHash = $data->passwordHash;
+		}
+	}
+
+	public function getName() {
+		if ($this->role == Role::ANONYMOUS) {
+			return "anonymous";
+		} else {
+			return $this->name;
+		}
+	}
+} User::init();
 
 class UsersDbAdapter extends DbAdapter {
         const DB_VERSION = 1;
@@ -55,8 +70,55 @@ SQL;
                 }
         }
 
+	function registerUser($login, $password, $email) {
+		try {
+			$statement = "INSERT INTO " . $this->getTable(DbAdapter::TABLE_USERS) . " (name, role, email, password) ";
+			$statement .= " VALUES (?, ?, ?, ?)";
 
-var_dump(Role::$ANONYMOUS);
-var_dump(Role::$REGISTERED);
-var_dump(Role::$ADMINISTRATOR);
+			$hash = UsersDbAdapter::getPasswordHash($password);
+
+			$handle = $this->pdo->prepare($statement);
+			$handle->bindValue(1, $login);
+			$handle->bindValue(2, Role::ANONYMOUS);
+			$handle->bindValue(3, $email);
+			$handle->bindValue(4, $hash);
+
+			$handle->execute();
+			return true;
+		} catch (PDOException $e) {
+			L("Unable to register user '$login', '$email'", $e);
+		}
+		return false;
+	}
+
+	public static function getPasswordHash($password) {
+		$options = [ 'cost' => 12 ];
+		return password_hash($password, PASSWORD_BCRYPT, $options);
+	}
+
+	function getUserPassword($login) {
+		$user = $this->getUser($login);
+		if ($user != null && !empty($user->passwordHash)) {
+			return $user->passwordHash;
+		}
+		return null;
+	}
+
+	function getUser($login) {
+		try {
+			$statement = "SELECT * FROM " . $this->getTable(DbAdapter::TABLE_USERS) . " WHERE name = ?";
+
+			$handle = $this->pdo->prepare($statement);
+			$handle->bindValue(1, $login);
+
+			$handle->execute();
+			if ($handle->rowCount() == 1) {
+				return new User($handle->fetch());
+			}
+		} catch (PDOException $e) {
+			L("Unable to register user '$login', '$email'", $e);
+		}
+		return null;
+	}
+}
 
