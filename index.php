@@ -43,7 +43,7 @@ HTML;
 	}
 
 	if (isset($user) && is_object($user)) {
-		$user_menu = "[ " . $user->getName() . " ] " . $user_menu;
+		$user_menu = '[ <a href="%PATH%/account/">' . $user->getName() . '</a> ] ' . $user_menu;
 	}
 
 	writeContents();

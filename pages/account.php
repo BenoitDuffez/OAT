@@ -64,7 +64,6 @@ case 'logout':
 
 default:
 	echo "<p>Welcome, " . $GLOBALS['user']->getName() . "</p>";
-	echo "<p>Your session data:<pre>" . print_r($_SESSION, true) . "</pre></p>";
 	break;
 }
 
