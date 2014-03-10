@@ -58,6 +58,8 @@ The development has been done with:
 * MySQL 5.1
 * Apache 2.2
 
+*Please note* that the login/accounts part of this web application uses PHP's [`password_hash`][2], which has been included in PHP 5.5. If you plan to install this application on PHP<5.5.0, you need to fix this part and use your own implementation for generating/checking password hashes.
+
 Installing
 ----------
 
@@ -105,4 +107,5 @@ Other credits:
 
 
   [1]: http://php.net/intro.pdo
+  [2]: http://php.net/password_hash
 
