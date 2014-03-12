@@ -3,7 +3,7 @@
 require_once "db/DbAdapter.php";
 
 class Translations extends DbAdapter {
-	const DB_VERSION = 1;
+	const DB_VERSION = 2;
 
 	public function __construct() {
 		parent::__construct(DbAdapter::TABLE_TRANSLATIONS, Translations::DB_VERSION);
@@ -18,23 +18,31 @@ CREATE TABLE IF NOT EXISTS table (
   name varchar(100) NOT NULL,
   lang varchar(25) NOT NULL,
   text text NOT NULL,
-  PRIMARY KEY (id),
-  UNIQUE KEY lang (lang, name)
+  user_id int(11) NOT NULL,
+  last_mod_date datetime NOT NULL,
+  PRIMARY KEY (id)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 SQL;
 				$this->createTable($statement);
-				return true;
+			}
+
+			if ($oldVersion < 2) {
+				$statement = "ALTER TABLE " . $this->getTable(DbAdapter::TABLE_TRANSLATIONS);
+				$statement .= " ADD user_id int(11) NOT NULL, ";
+				$statement .= " ADD last_mod_date datetime NOT NULL, ";
+				$statement .= " DROP INDEX lang";
+				$this->pdo->exec($statement);
 			}
 		} catch (PDOException $e) {
 			L("Unable to upgrade strings database from $oldVersion to $newVersion", $e);
+			return false;
 		}
-		return false;
+		return true;
 	}
 
 	public function saveAll($lang, $strings) {
 		$statement = "INSERT INTO " . DbAdapter::getTable(DbAdapter::TABLE_TRANSLATIONS);
-		$statement .= " (name, lang, text) VALUES (?, ?, ?)";
-		$statement .= " ON DUPLICATE KEY UPDATE name = ?, lang = ?, text = ?";
+		$statement .= " (name, lang, text, user_id, last_mod_date) VALUES (?, ?, ?, ?, now())";
 
 		try {
 			$handle = $this->pdo->prepare($statement);
@@ -43,10 +51,7 @@ SQL;
 				$handle->bindValue($i++, $string['name']);
 				$handle->bindValue($i++, $lang);
 				$handle->bindValue($i++, $string['text']);
-
-				$handle->bindValue($i++, $string['name']);
-				$handle->bindValue($i++, $lang);
-				$handle->bindValue($i++, $string['text']);
+				$handle->bindValue($i++, intval($GLOBALS['user']->id));
 
 				$handle->execute();
 			}
@@ -57,8 +62,7 @@ SQL;
 
 	public function addTranslation($name, $lang, $text) {
 		$statement = "INSERT INTO " . DbAdapter::getTable(DbAdapter::TABLE_TRANSLATIONS);
-		$statement .= " (name, lang, text) VALUES (?, ?, ?)";
-		$statement .= " ON DUPLICATE KEY UPDATE name = ?, lang = ?, text = ?";
+		$statement .= " (name, lang, text, user_id, last_mod_date) VALUES (?, ?, ?, ?, now())";
 
 		try {
 			$handle = $this->pdo->prepare($statement);
@@ -66,10 +70,7 @@ SQL;
 			$handle->bindValue($i++, $name);
 			$handle->bindValue($i++, $lang);
 			$handle->bindValue($i++, $text);
-
-			$handle->bindValue($i++, $name);
-			$handle->bindValue($i++, $lang);
-			$handle->bindValue($i++, $text);
+			$handle->bindValue($i++, intval($GLOBALS['user']->id));
 
 			return $handle->execute();
 		} catch (PDOException $e) {
@@ -93,7 +94,11 @@ SQL;
 
 	public function getString($lang, $name) {
 		try {
-			$sql = "SELECT * FROM " . DbAdapter::getTable(DbAdapter::TABLE_TRANSLATIONS) . " WHERE lang = ? AND name = ?";
+			$sql = "SELECT * FROM " . DbAdapter::getTable(DbAdapter::TABLE_TRANSLATIONS);
+			$sql .= " WHERE lang = ? AND name = ?";
+			$sql .= " ORDER BY last_mod_date DESC";
+			$sql .= " LIMIT 1";
+
 			$handle = $this->pdo->prepare($sql);
 			$handle->bindValue(1, $lang);
 			$handle->bindValue(2, $name);
@@ -105,11 +110,27 @@ SQL;
 		return null;
 	}
 
+	/**
+	 * Retrieve all the best translations for a language.
+	 * Used to generate the XML file for export
+	 */
 	public function getStrings($lang, $filename) {
 		try {
-			$sql = "SELECT s.*, t.text FROM " . DbAdapter::getTable(DbAdapter::TABLE_STRINGS) . " s, ";
+			$sql = "SELECT s.*, t.name, t.lang, r.text, r.user_id, r.last_mod_date";
+			$sql .= " FROM " . DbAdapter::getTable(DbAdapter::TABLE_STRINGS) . " s, ";
 			$sql .= DbAdapter::getTable(DbAdapter::TABLE_TRANSLATIONS) . " t";
-			$sql .= " WHERE t.lang = ? AND s.filename = ? AND t.name = s.name";
+			$sql .= " LEFT JOIN (";
+			$sql .= "   SELECT t1.name, t1.text, t1.user_id, t1.last_mod_date, t1.lang";
+			$sql .= "   FROM " . DbAdapter::getTable(DbAdapter::TABLE_TRANSLATIONS) . " t1";
+			$sql .= "   LEFT JOIN " . DbAdapter::getTable(DbAdapter::TABLE_TRANSLATIONS) . " t2";
+			$sql .= "   ON t1.name = t2.name AND t1.lang = t2.lang AND t1.last_mod_date < t2.last_mod_date";
+			$sql .= "   WHERE t2.name IS NULL AND t1.lang = ?";
+			$sql .= " ) r";
+			$sql .= " ON r.name = t.name";
+			$sql .= " WHERE s.filename = ? AND s.name = t.name AND t.lang = r.lang";
+			$sql .= " GROUP BY t.name";
+			$sql .= " ORDER BY t.name ASC";
+
 			$handle = $this->pdo->prepare($sql);
 			$handle->bindValue(1, $lang);
 			$handle->bindValue(2, $filename);
@@ -118,13 +139,18 @@ SQL;
 		} catch (PDOException $e) {
 			L("Unable to retrieve strings from $filename for lang $lang", $e);
 		}
+
 		return null;
 	}
 
 
 	public function getNbStrings($lang) {
 		try {
-			$handle = $this->pdo->prepare("SELECT COUNT(*) as nb FROM " . DbAdapter::getTable(DbAdapter::TABLE_TRANSLATIONS) . " WHERE lang = ?");
+			$sql = "SELECT COUNT(*) as nb FROM " . DbAdapter::getTable(DbAdapter::TABLE_TRANSLATIONS);
+			$sql .= " WHERE lang = ?";
+			$sql .= " GROUP BY name";
+
+			$handle = $this->pdo->prepare($sql);
 			$handle->bindValue(1, $lang);
 			$handle->execute();
 			$result = $handle->fetch();
