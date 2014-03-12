@@ -70,7 +70,9 @@ SQL;
                         }
                 } catch (PDOException $e) {
                         L("Unable to upgrade strings database from $oldVersion to $newVersion", $e);
+			return false;
                 }
+		return true;
         }
 
 	function registerUser($login, $password, $email) {
