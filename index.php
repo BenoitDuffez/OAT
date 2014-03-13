@@ -39,7 +39,7 @@ if ($pdo == null) {
 HTML;
 	}
 
-	if (isset($user) && is_object($user)) {
+	if (isset($user) && is_object($user) && $user->id > 0) {
 		$user_menu = '[ <a href="%PATH%/account/">' . $user->getName() . '</a> ] ' . $user_menu;
 	}
 
