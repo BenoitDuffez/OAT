@@ -14,16 +14,19 @@ function L($msg, $exception = null) {
 		echo "Fatal error: can't create/append log file while trying to log: $msg";
 		return;
 	}
-	fprintf($log, "%s %s: %s\n", date(DATE_ATOM), $exception == null ? "warning" : "error", $msg);
+	logLine($log, "%s: %s", $exception == null ? "warning" : "error", $msg);
 	if ($exception != null) { // TODO: if ($severity > WARNING)
-		fprintf($log, "<br/>Stack trace:<ul>");
+		logLine($log, "Stack trace:");
 		foreach (debug_backtrace() as $k => $v) {
-			fprintf($log, "<li>$k: " . $v['file'] . ":" . $v['line'] . "<br />");
+			logLine($log, "$k: " . $v['file'] . ":" . $v['line']);
 		}
-		fprintf($log, "<br/>Exception: " . $exception->getMessage());
-		fprintf($log, "</div>");
+		logLine($log, "Exception: " . $exception->getMessage());
 	}
 	fclose($log);
+}
+
+function logLine($file, $line) {
+	fprintf($file, "%s %s\n", date(DATE_ATOM), $line);
 }
 
 function utf8_fopen_read($fileName, $encoding) {
