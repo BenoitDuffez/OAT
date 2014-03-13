@@ -76,9 +76,9 @@ function writeContents() {
 				include "pages/$page.php";
 				break;
 
-			case 'strings':
+			case 'home_dashboard':
 			case null:
-				include "pages/strings.php";
+				include "pages/home_dashboard.php";
 				break;
 
 			default:
