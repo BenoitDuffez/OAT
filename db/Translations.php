@@ -24,6 +24,7 @@ CREATE TABLE IF NOT EXISTS table (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 SQL;
 				$this->createTable($statement);
+				return true;
 			}
 
 			if ($oldVersion < 2) {
