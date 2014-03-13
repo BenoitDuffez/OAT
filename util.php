@@ -28,8 +28,7 @@ function L($msg, $exception = null) {
 function logLine($file, $line) {
 	$args = func_get_args();
 	array_shift($args); // $file
-	array_shift($args); // $line
-	$formattedLine = count($args) > 0 ? call_user_func_array('sprintf', $args) : $line;
+	$formattedLine = count($args) > 1 ? call_user_func_array('sprintf', $args) : $line;
 	fprintf($file, "%s [%s] %s\n", date(DATE_ATOM), $GLOBALS['_oat_env'], $formattedLine);
 }
 
