@@ -11,7 +11,6 @@ $cfg = new Config();
 $defaultLang = $cfg->getDefaultLanguage();
 $devLang = $defaultLang == null ? "none" : $languages[$defaultLang]; 
 
-
 $langs = $tr->getLangs();
 if ($defaultLang == null) {
 	echo '<p>You have an empty database. You need to <a href="%PATH%/import/">import an XML file</a> before you can translate anything.
@@ -23,19 +22,26 @@ if ($defaultLang == null) {
 		echo '<p>You need to pick a now language to translate your strings to.
 		Please go to the <a href="%PATH%/translate/">translate tab</a> to pick one</p>';
 	} else {
-		echo '<div>Available languages: ';
 		$max = $langs[$defaultLang]['nb'];
-		echo '<ul>';
 		foreach ($langs as $lang) {
-			echo '<li><a href="%PATH%/translate/' . $lang['lang'] . '/">';
-			echo $languages[$lang['lang']];
-			echo '</a>';
+			echo '<div class="home_language">';
+			echo '<h3>' . $languages[$lang['lang']] . '</h3>';
 			if ($lang['lang'] == $cfg->getDefaultLanguage()) {
-				echo ' *';
+				echo '<span title="Development language" class="dev">[dev]</span>';
 			}
-			echo ' (' . $lang['nb'] . ' strings - ' . sprintf("%.1f %%", 100.0 * $lang['nb'] / $max) . ')</li>';
+			echo '<hr />';
+			echo '<a href="%PATH%/translate/' . $lang['lang'] . '/">Translate</a>';
+			echo '<p>' . $lang['nb'] . ' strings translated</p>';
+			$percent = 100 * $lang['nb'] / $max;
+			echo '<div class="progress">';
+			echo '<div class="translated" style="width: ' . $percent . '%;"></div>';
+			if ($percent < 100) {
+				echo '<div style="width: ' . (100 - $percent) . '%;"></div>';
+			}
+			echo '</div>';
+			echo sprintf("<div>%.1f %%</div>", $percent);
+			echo '</div>';
 		}
-		echo '</ul></div>';
 	}
 }
 

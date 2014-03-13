@@ -40,8 +40,47 @@ a, a:visited {
 a:active {
     color: #66f;
 }
-a:hover{
+a:hover {
     color: #99f;
+}
+
+.home_language {
+    width: 350px;
+    float: left;
+    padding: 15px;
+    margin: 15px;
+    border: 1px #eee solid;
+    border-radius: 3px;
+    background: #fefefe;
+}
+.home_language h3 {
+   float: left;
+}
+.home_language hr {
+    clear: both;
+    height: 1px;
+    color: #eee;
+    background: #eee;
+    font-size: 0;
+    border: 0;
+    margin-bottom: 15px;
+}
+.home_language span.dev {
+    font-size: 0.6em;
+    color: #333;
+}
+.home_language div.progress {
+    width: 260px;
+    height: 15px;
+}
+.home_language div.translated {
+    float: left;
+    height: 100%;
+    background: #090;
+}
+.home_language div.not_translated {
+    height: 100%;
+    background: #333;
 }
 
 #main_container {
