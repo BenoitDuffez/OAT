@@ -26,7 +26,7 @@ function L($msg, $exception = null) {
 }
 
 function logLine($file, $line) {
-	fprintf($file, "%s %s\n", date(DATE_ATOM), $line);
+	fprintf($file, "%s [%s] %s\n", date(DATE_ATOM), $GLOBALS['_oat_env'], $line);
 }
 
 function utf8_fopen_read($fileName, $encoding) {
