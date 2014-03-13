@@ -83,7 +83,10 @@ SQL;
 
 	public function getFirstLanguage() {
 		try {
-			$handle = $this->pdo->prepare("SELECT lang, COUNT(*) as n FROM " . DbAdapter::getTable(DbAdapter::TABLE_STRINGS) . " GROUP BY lang ORDER BY n DESC LIMIT 1");
+			$sql = "SELECT lang, COUNT(*) as n";
+			$sql .= " FROM " . DbAdapter::getTable(DbAdapter::TABLE_TRANSLATIONS);
+			$sql .= " GROUP BY lang ORDER BY n DESC LIMIT 1";
+			$handle = $this->pdo->prepare($sql);
 			$handle->execute();
 			$result = $handle->fetch();
 			return $result['lang'];
