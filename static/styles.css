@@ -54,7 +54,8 @@ a:hover {
     background: #fefefe;
 }
 .home_language h3 {
-   float: left;
+    float: left;
+    margin-left: 25px;
 }
 .home_language hr {
     clear: both;
@@ -93,6 +94,9 @@ a:hover {
     box-shadow: 4px 4px 4px #999;
     overflow: scroll;
     border: 1px #ccc solid;
+}
+#main_container::-webkit-scrollbar {
+    display: none; 
 }
 
 div#menu {
