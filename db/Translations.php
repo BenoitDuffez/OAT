@@ -134,7 +134,7 @@ SQL;
 			$sql .= " WHERE s.filename = ? AND s.name = t.name AND t.lang = r.lang";
 			$sql .= " GROUP BY t.name";
 			$sql .= " ORDER BY t.name ASC";
-
+echo "$sql $lang $filename";
 			$handle = $this->pdo->prepare($sql);
 			$handle->bindValue(1, $lang);
 			$handle->bindValue(2, $filename);
@@ -149,25 +149,23 @@ SQL;
 
 
 	public function getNbStrings($lang) {
-		try {
-			$sql = "SELECT COUNT(*) as nb FROM " . DbAdapter::getTable(DbAdapter::TABLE_TRANSLATIONS);
-			$sql .= " WHERE lang = ?";
-			$sql .= " GROUP BY name";
-
-			$handle = $this->pdo->prepare($sql);
-			$handle->bindValue(1, $lang);
-			$handle->execute();
-			$result = $handle->fetch();
-			return $result['nb'];
-		} catch (PDOException $e) {
-			L("Unable to retrieve available langs", $e);
+		$langs = $this->getLangs();
+		if (is_array($langs) && isset($langs[$lang]) && isset($langs[$lang]['nb'])) {
+			return $langs[$lang]['nb'];
 		}
 		return 0;
 	}
 
 	public function getLangs() {
 		try {
-			$handle = $this->pdo->prepare("SELECT lang, COUNT(*) as nb FROM " . DbAdapter::getTable(DbAdapter::TABLE_TRANSLATIONS) . " GROUP BY lang");
+			$sql = "SELECT lang, COUNT(r.name) as nb ";
+			$sql .= " FROM ( SELECT t1.name, t1.last_mod_date, t1.lang";
+			$sql .= "   FROM " . DbAdapter::getTable(DbAdapter::TABLE_TRANSLATIONS) . " t1";
+			$sql .= "   LEFT JOIN " . DbAdapter::getTable(DbAdapter::TABLE_TRANSLATIONS) . " t2";
+			$sql .= "   ON t1.name = t2.name and t1.lang = t2.lang AND t1.last_mod_date < t2.last_mod_date";
+			$sql .= "   WHERE t2.name IS NULL) r";
+			$sql .= " GROUP BY lang";
+			$handle = $this->pdo->prepare($sql);
 			$handle->execute();
 			$langs = array();
 			foreach ($handle->fetchAll() as $lang) {
