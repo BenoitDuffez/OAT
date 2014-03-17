@@ -161,6 +161,9 @@ div#translator div#list_strings {
     height: 100%;
     overflow: scroll;
 }
+div#translator div#list_strings::-webkit-scrollbar {
+    display: none;
+}
 
 div#translator div#list_strings ul {
     list-style: none inside none;
