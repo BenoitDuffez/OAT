@@ -6,6 +6,12 @@
  * Time: 22:28
  */
 
+
+$time = microtime();
+$time = explode(' ', $time);
+$time = $time[1] + $time[0];
+$start = $time;
+
 include "init.php";
 include "db/Users.php";
 include "functions.php";
