@@ -20,7 +20,8 @@ CREATE TABLE IF NOT EXISTS table (
   text text NOT NULL,
   user_id int(11) NOT NULL,
   last_mod_date datetime NOT NULL,
-  PRIMARY KEY (id)
+  PRIMARY KEY (id),
+  UNIQUE KEY (name, lang, text(200))
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 SQL;
 				$this->createTable($statement);
@@ -31,7 +32,8 @@ SQL;
 				$statement = "ALTER TABLE " . $this->getTable(DbAdapter::TABLE_TRANSLATIONS);
 				$statement .= " ADD user_id int(11) NOT NULL, ";
 				$statement .= " ADD last_mod_date datetime NOT NULL, ";
-				$statement .= " DROP INDEX lang";
+				$statement .= " DROP INDEX lang, ";
+				$statement .= " ADD UNIQUE (name, lang, text(200))";
 				$this->pdo->exec($statement);
 			}
 		} catch (PDOException $e) {
@@ -43,7 +45,9 @@ SQL;
 
 	public function saveAll($lang, $strings) {
 		$statement = "INSERT INTO " . DbAdapter::getTable(DbAdapter::TABLE_TRANSLATIONS);
-		$statement .= " (name, lang, text, user_id, last_mod_date) VALUES (?, ?, ?, ?, now())";
+		$statement .= " (name, lang, text, user_id, last_mod_date)";
+		$statement .= " VALUES (?, ?, ?, ?, now())";
+		$statement .= " ON DUPLICATE KEY UPDATE id = id";
 
 		try {
 			$handle = $this->pdo->prepare($statement);
@@ -134,7 +138,7 @@ SQL;
 			$sql .= " WHERE s.filename = ? AND s.name = t.name AND t.lang = r.lang";
 			$sql .= " GROUP BY t.name";
 			$sql .= " ORDER BY t.name ASC";
-echo "$sql $lang $filename";
+
 			$handle = $this->pdo->prepare($sql);
 			$handle->bindValue(1, $lang);
 			$handle->bindValue(2, $filename);
