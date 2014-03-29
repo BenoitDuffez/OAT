@@ -1,7 +1,7 @@
 Open Android Translator
 ==============================
 
-OAT is a web-based interface that helps developers manage their localized strings for any Android app.
+OAT is a web-based interface that helps developers manage their localized strings for any Android app. It's a simple Android app localization tool.
 
 It is aimed to do what others don't:
 
@@ -54,9 +54,11 @@ Requirements
 This is a web-based PHP application, requiring a [PDO][1]-capable database.
 The development has been done with:
 
-* PHP 5.4
+* PHP 5.5
 * MySQL 5.1
 * Apache 2.2
+
+*Please note* that the login/accounts part of this web application uses PHP's [`password_hash`][2], which has been included in PHP 5.5. If you plan to install this application on PHP<5.5.0, you need to fix this part and use your own implementation for generating/checking password hashes.
 
 Installing
 ----------
@@ -64,7 +66,7 @@ Installing
 ```
 cd www
 git clone https://github.com/BenoitDuffez/OAT.git
-mv config.db.php.dist config.db.php
+cp config.db.php.dist config.db.php
 vi config.db.php
 ```
 
@@ -74,7 +76,7 @@ Upgrading
 ---------
 Database tables use the same pattern as Android databases, meaning that they keep a DB version somewhere. When the table schema is upgraded from the code, the version is incremented and the table schema is automatically updated on the server.
 
-This should mean that you can just `git pull`.
+This means that you can just `git pull`.
 
 License
 =======
@@ -105,3 +107,5 @@ Other credits:
 
 
   [1]: http://php.net/intro.pdo
+  [2]: http://php.net/password_hash
+

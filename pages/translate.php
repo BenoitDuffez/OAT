@@ -8,6 +8,8 @@
 include "db/Config.php";
 include "db/Strings.php";
 
+setHtmlTitle('Translator UI - OAT');
+
 function generateLeftMenu($defStrings) {
 	echo '
 	<div id="list_strings">
@@ -67,7 +69,7 @@ HTML;
 	} else {
 		$defStrings = $db->getAll($_GET['lang']);
 
-		addHtmlHeader('<script language="javascript" src="%PATH%/static/translate.js"></script>');
+		addHtmlHeader('<script src="%PATH%/static/translate.js"></script>');
 		echo '<div id="translator">';
 		generateLeftMenu($defStrings);
 		generateForm();

@@ -11,6 +11,8 @@ $links = new LinksDbAdapter();
 $cfg = new Config();
 $sdb = new StringsDbAdapter();
 
+setHtmlTitle('Contexts management - OAT');
+
 // List contexts
 $contexts = $ctx->loadAll();
 if (isset($_POST['context_name'])) {
@@ -19,8 +21,10 @@ if (isset($_POST['context_name'])) {
 
 	// Allow that context to be in the list right away
 	$contexts = $ctx->loadAll();
-} else {
-	echo <<<HTML
+}
+
+// Show add new context form
+echo <<<HTML
 <form id="context" method="post" action="%PATH%/contexts/">
   <div>
     <h3>Create a new context</h3>
@@ -30,7 +34,6 @@ if (isset($_POST['context_name'])) {
   </div>
 </form>
 HTML;
-}
 
 // Handle new string(s) / context linkage
 if (isset($_POST['context_id']) && isset($_POST['strings']) && is_array($_POST['strings'])) {
@@ -55,13 +58,15 @@ HTML;
 	}
 	echo <<<HTML
       </select>
-      <p>Select the strings to link with that context:</p>
+      <p>Select the strings to link with that context; please note that strings in bold aren't associated with any context now.</p>
       <div id="strings_list">
 HTML;
-	foreach ($sdb->getAll($cfg->getDefaultLanguage()) as $context) {
-		$checked = isset($_GET['string']) && $context['name'] == $_GET['string'] ? 'checked' : '';
-		echo '<div style="overflow: hidden;"><input type="checkbox" name="strings[' . $context['name'] . ']" value="true" id="cb_' . $context['name'] . '"' . $checked . '>';
-		echo '<label for="cb_' . $context['name'] . '">' . $context['name'] . '</label></div>';
+	foreach ($sdb->getAll($cfg->getDefaultLanguage(), true) as $string) {
+		$checked = isset($_GET['string']) && $string['name'] == $_GET['string'] ? 'checked' : '';
+		$fontWeight = $string['nb_contexts'] > 0 ? 'normal' : 'bold';
+		echo '<div style="overflow: hidden;">';
+		echo '<input type="checkbox" name="strings[' . $string['name'] . ']" value="true" id="cb_' . $string['name'] . '"' . $checked . '>';
+		echo '<label for="cb_' . $string['name'] . '" style="font-weight: ' . $fontWeight . '">' . $string['name'] . '</label></div>';
 	}
 	echo <<<HTML
       </div>

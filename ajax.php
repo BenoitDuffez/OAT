@@ -64,14 +64,6 @@ switch ($_GET['action']) {
 			foreach ($req->screenshots as $file) {
 				// $file->name is just the base name of the file
 				// it is located in ./upload/files/
-
-				// rename the file
-				do {
-					$newName = base64_encode(time() . rand(1e6, 1e9));
-					$realpath = "./upload/files/$newName";
-				} while (file_exists($realpath));
-				rename("./upload/files/" . $file->name, $newName);
-
 				if (!$db->add($file->name, $req->context_id)) {
 					unlink("./upload/files/" . $file->name);
 					$result['status'] = 'KO';

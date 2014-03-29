@@ -61,7 +61,9 @@ class Config extends DbAdapter {
 		if ($defaultLanguage == null) {
 			$translations = new Translations();
 			$defaultLanguage = $translations->getFirstLanguage();
-			$this->set(Config::DEFAULT_LANGUAGE, $defaultLanguage);
+			if ($defaultLanguage != null) {
+				$this->set(Config::DEFAULT_LANGUAGE, $defaultLanguage);
+			}
 		}
 		return $defaultLanguage;
 	}

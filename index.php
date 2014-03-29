@@ -6,84 +6,52 @@
  * Time: 22:28
  */
 
-function dump_html($html) {
-	global $_SERVER, $html_head;
 
-	$path = str_replace("/index.php", "", $_SERVER['SCRIPT_NAME']);
-	$head = isset($html_head) ? $html_head : "";
-
-	$src = array('%HEAD%', '%PATH%');
-	$dst = array($head, $path);
-
-	return str_replace($src, $dst, $html);
-}
-
-function addHtmlHeader($header) {
-	global $html_head;
-	$html_head .= $header;
-}
-
-ob_start("dump_html");
-error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
-ini_set('display_errors', '1');
-
-readfile("static/header.html");
+$time = microtime();
+$time = explode(' ', $time);
+$time = $time[1] + $time[0];
+$start = $time;
 
 include "init.php";
+include "db/Users.php";
+include "functions.php";
 
 // Build page content
+ob_start("dump_html");
+readfile("static/header.html");
 if ($pdo == null) {
-	echo "<p>Can't do anything without the DB server</p>";
+	echo "<p>Service is currently down for maintenance.</p>";
+	L("Unable to connect to database server (\$pdo==null).");
 } else {
-	// Desired page
-	$page = isset($_GET['page']) ? $_GET['page'] : null;
-
-	// Write menu
-	$menu = array();
-	$menu[''] = "Home";
-	$menu['translate'] = "Translate";
-	$menu['contexts'] = "Contexts";
-	$menu['screenshots'] = "Screenshots";
-	$menu['import'] = "Import";
-	$menu['export'] = "Export";
-	$menu['help'] = "Help";
-	echo '
-  <div id="menu">
-    <ul>';
-	foreach ($menu as $p => $title) {
-		$liClass = $p == $page ? ' class="active"' : '';
-		$url = $p == "" ? "" : $p . "/";
-		echo '<li' . $liClass . '><a href="%PATH%/' . $url . '">' . $title . '</a></li>';
+	// Try to identify the user
+	if(isset($_SESSION['userId'])) {
+		$user_menu = '<a href="%PATH%/account/logout.html">Log out</a>';
+		$db = new UsersDbAdapter();
+		$user = $db->getUser(intval($_SESSION['userId']));
+	} else {
+		$user = User::$ANONYMOUS;
+		// display the login form
+		$user_menu = <<<HTML
+<a href="javascript:$('#login_form').toggle(300);">Log in</a>
+<div id="login_form" style="display: none;">
+  <form method="post" action="%PATH%/account/login.html">
+    <input type="text" name="login" placeholder="Username" /><br />
+    <input type="password" name="password" placeholder="Password" /><br />
+    <input type="submit" value="Log in" />
+    <a href="%PATH%/account/register.html">register</a> /
+    <a href="%PATH%/account/forgot.html">forgot</a>
+  </form>
+</div>
+HTML;
 	}
-	echo '
-    </ul>
-  </div>
-';
 
-	// Write page contents
-	switch ($page) {
-		case 'contexts':
-		case 'screenshots':
-		case 'import':
-		case 'export':
-		case 'translate':
-			include "pages/$page.php";
-			break;
-
-		case 'strings':
-		case null:
-			include "pages/strings.php";
-			break;
-
-		case 'help':
-			echo file_get_contents("static/help.html");
-			break;
-
-		default:
-			echo "<div>Unknown page.</div>";
-			break;
+	if (isset($user) && is_object($user) && $user->id > 0) {
+		$user_menu = '[ <a href="%PATH%/account/">' . $user->getName() . '</a> ] ' . $user_menu;
 	}
+
+	writeContents();
 }
-
 readfile("static/footer.html");
 ob_end_flush();
+
+

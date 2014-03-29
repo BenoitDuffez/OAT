@@ -12,6 +12,7 @@ abstract class DbAdapter {
 	const TABLE_ACCOUNTS = "accounts";
 	const TABLE_LOGIN_ATTEMPTS = "login_attempts";
 	const TABLE_LINKS = "links";
+	const TABLE_USERS = "users";
 
 	abstract protected function onUpgrade($oldVersion, $newVersion);
 
@@ -28,8 +29,12 @@ abstract class DbAdapter {
 
 		$currentVersion = 0 + $this->getDbVersion($table);
 		if ($currentVersion < $version) {
+			L("Table $table needs an upgrade from $currentVersion to $version");
 			if ($this->onUpgrade($currentVersion, $version)) {
+				L("Table upgraded");
 				$this->setDbVersion($table, $version);
+			} else {
+				L("Table upgrade failed!");
 			}
 		}
 	}

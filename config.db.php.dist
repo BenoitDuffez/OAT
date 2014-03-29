@@ -6,4 +6,5 @@ $_db_pass = "correct horse battery staple"
 $_db_name = "translate";
 
 $_tprefix = "oat_";
+$_oat_env = "PROD"; // DEV/PROD
 
