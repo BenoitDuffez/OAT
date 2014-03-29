@@ -24,9 +24,11 @@ CREATE TABLE IF NOT EXISTS table (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 SQL;
 				$this->createTable($statement);
+				return true;
 			}
 		} catch (PDOException $e) {
 			L("Unable to upgrade strings database from $oldVersion to $newVersion", $e);
+			return false;
 		}
 	}
 

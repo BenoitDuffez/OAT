@@ -13,7 +13,13 @@ function dump_html($html) {
 	$src = array('%HEAD%', '%USER_MENU%', '%PATH%');
 	$dst = array($head, $user_menu, $path);
 
-	return str_replace($src, $dst, $html);
+	$time = microtime();
+	$time = explode(' ', $time);
+	$time = $time[1] + $time[0];
+	$finish = $time;
+	$total_time = round(($finish - $GLOBALS['start']), 4);
+
+	return str_replace($src, $dst, $html) . '<!-- Page generated in '.$total_time.' seconds. -->';
 }
 
 function addHtmlHeader($header) {
@@ -76,9 +82,9 @@ function writeContents() {
 				include "pages/$page.php";
 				break;
 
-			case 'strings':
+			case 'home_dashboard':
 			case null:
-				include "pages/strings.php";
+				include "pages/home_dashboard.php";
 				break;
 
 			default:

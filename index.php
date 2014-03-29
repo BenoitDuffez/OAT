@@ -6,6 +6,12 @@
  * Time: 22:28
  */
 
+
+$time = microtime();
+$time = explode(' ', $time);
+$time = $time[1] + $time[0];
+$start = $time;
+
 include "init.php";
 include "db/Users.php";
 include "functions.php";
@@ -39,7 +45,7 @@ if ($pdo == null) {
 HTML;
 	}
 
-	if (isset($user) && is_object($user)) {
+	if (isset($user) && is_object($user) && $user->id > 0) {
 		$user_menu = '[ <a href="%PATH%/account/">' . $user->getName() . '</a> ] ' . $user_menu;
 	}
 

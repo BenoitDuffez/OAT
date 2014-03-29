@@ -6,5 +6,5 @@ RewriteRule ^translate/([^/]+)/?$                index.php?page=translate&lang=$
 RewriteRule ^contexts/([^/]+)/?$                index.php?page=contexts&string=$1
 RewriteRule ^screenshots/img_([^/]+)$              	- 
 RewriteRule ^db/?.*$				/ [R=403,L]
-RewriteRule ^(translate|contexts|strings|import|export|screenshots|help|account)/?(.*)$          index.php?page=$1&args=$2
+RewriteRule ^(translate|contexts|home_dashboard|import|export|screenshots|help|account)/?(.*)$          index.php?page=$1&args=$2
 

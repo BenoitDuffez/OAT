@@ -9,6 +9,8 @@ abstract class DbAdapter {
 	const TABLE_STRINGS = "strings";
 	const TABLE_TRANSLATIONS = "translations";
 	const TABLE_SCREENSHOTS = "screenshots";
+	const TABLE_ACCOUNTS = "accounts";
+	const TABLE_LOGIN_ATTEMPTS = "login_attempts";
 	const TABLE_LINKS = "links";
 	const TABLE_USERS = "users";
 
@@ -27,14 +29,22 @@ abstract class DbAdapter {
 
 		$currentVersion = 0 + $this->getDbVersion($table);
 		if ($currentVersion < $version) {
+			L("Table $table needs an upgrade from $currentVersion to $version");
 			if ($this->onUpgrade($currentVersion, $version)) {
+				L("Table upgraded");
 				$this->setDbVersion($table, $version);
+			} else {
+				L("Table upgrade failed!");
 			}
 		}
 	}
 
-	protected function createTable($statement) {
-		$sql = str_replace("table", $this->tableName, $statement);
+	protected function createTable($statement, $tableName = "") {
+		if (strlen(trim($tableName)) == 0) {
+			$tableName = $this->tableName;
+		}
+
+		$sql = str_replace("table", $tableName, $statement);
 		try {
 			$this->pdo->exec($sql);
 		} catch (PDOException $e) {
